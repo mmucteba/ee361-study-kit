@@ -1,0 +1,1934 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="EE361 Chapter I: Introduction to Power Systems. Interactive lessons, worked examples and past exam questions.">
+<title>EE361 Chapter I Study Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global',scale:1.05},startup:{typeset:true}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
+<style>
+/* layout: course reader. sticky lesson rail on the left, one lesson at a time in a 720px reading column, interactive figures may widen to 860px. phase colours a/b/c carry meaning everywhere */
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --ink:#18212d; --ink2:#3e4a5b; --mut:#6a7585; --line:#e1e5eb; --soft:#eef1f5;
+  --accent:#0e7085; --accent-ink:#ffffff; --accent-soft:#e1f0f3;
+  --pa:#cf4436; --pb:#b98400; --pc:#2a66c8;
+  --good:#1d8550; --good-soft:#e3f4ea; --bad:#c23b3b; --bad-soft:#fbe9e9; --warn:#a85d00; --warn-soft:#fff3e2;
+  --f-body:"Lexend",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1419; --panel:#161c23; --ink:#e4e9ef; --ink2:#bcc6d2; --mut:#8e9aa8; --line:#28313c; --soft:#1d252e;
+  --accent:#4fb8cf; --accent-ink:#06222a; --accent-soft:#17323b;
+  --pa:#f0705f; --pb:#e3b43c; --pc:#6ea3f5;
+  --good:#58c48a; --good-soft:#163024; --bad:#f07b7b; --bad-soft:#3a1d1f; --warn:#f2a64e; --warn-soft:#33260f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1419; --panel:#161c23; --ink:#e4e9ef; --ink2:#bcc6d2; --mut:#8e9aa8; --line:#28313c; --soft:#1d252e;
+  --accent:#4fb8cf; --accent-ink:#06222a; --accent-soft:#17323b;
+  --pa:#f0705f; --pb:#e3b43c; --pc:#6ea3f5;
+  --good:#58c48a; --good-soft:#163024; --bad:#f07b7b; --bad-soft:#3a1d1f; --warn:#f2a64e; --warn-soft:#33260f; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-weight:300;font-size:17px;line-height:1.72;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--panel)}
+b,strong{font-weight:500}
+a{color:var(--accent);text-underline-offset:3px}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.m{font-family:var(--f-mono);font-size:.9em}
+
+/* shell */
+.shell{display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100%}
+.rail{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);padding:1.4rem 1rem 2rem max(1rem,env(safe-area-inset-left,0px))}
+.brand{font-weight:600;font-size:1.05rem;line-height:1.25;margin:0 .5rem .2rem}
+.brand small{display:block;font-weight:300;font-size:.78rem;color:var(--mut);margin-top:.2rem}
+.progress{margin:1rem .5rem 1.2rem}
+.progress .bar{height:6px;border-radius:3px;background:var(--soft);overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.progress span{font-size:.75rem;color:var(--mut)}
+.grp{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:1.1rem .5rem .35rem;font-weight:500}
+.rail a.nav{display:grid;grid-template-columns:1.6rem 1fr;gap:.4rem;align-items:start;padding:.42rem .5rem;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:.88rem;line-height:1.35}
+.rail a.nav:hover{background:var(--soft)}
+.rail a.nav.on{background:var(--accent-soft);color:var(--ink);font-weight:400}
+.rail a.nav .dot{width:1.3rem;height:1.3rem;border-radius:50%;border:1.5px solid var(--line);font-family:var(--f-mono);font-size:.66rem;display:grid;place-items:center;color:var(--mut)}
+.rail a.nav.done .dot{background:var(--good);border-color:var(--good);color:var(--panel)}
+.rail a.nav.on .dot{border-color:var(--accent);color:var(--accent)}
+.rail a.nav.done.on .dot{color:var(--panel)}
+
+.topbar{display:none;min-width:0}
+main{min-width:0;padding-block:2.4rem 4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page{max-width:760px;margin:0 auto}
+@media (max-width:920px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{display:none}
+  .topbar{display:flex;gap:.6rem;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line);padding-block:.55rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .topbar select{flex:1 1 0;width:0;min-width:0;font:inherit;font-size:.9rem;padding:.45rem .5rem;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+  .topbar .pct{font-family:var(--f-mono);font-size:.78rem;color:var(--mut)}
+  main{padding-block:1.4rem 3rem}
+}
+
+/* lesson typography */
+.crumb{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500}
+h1{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:.35rem 0 .7rem;text-wrap:balance}
+h2{font-size:1.35rem;font-weight:600;line-height:1.3;margin:2.8rem 0 .6rem;text-wrap:balance;display:flex;gap:.6rem;align-items:baseline}
+h2 .no{font-family:var(--f-mono);font-size:.85rem;color:var(--accent);font-weight:500}
+h3{font-size:1.05rem;font-weight:500;margin:1.6rem 0 .3rem}
+p{margin:.75rem 0}
+.lede{font-size:1.12rem;color:var(--ink2);max-width:62ch}
+.page ul,.page ol{padding-left:1.25rem}
+.page li{margin:.3rem 0}
+.src{font-size:.78rem;color:var(--mut);margin-top:.8rem}
+.mathblock{overflow-x:auto;overflow-y:hidden;margin:1rem 0;padding:.2rem 0}
+mjx-container[display="true"]{margin:.6em 0!important}
+
+.objectives{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;margin:1.4rem 0}
+.objectives h4{margin:0 0 .3rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:500}
+.objectives ul{margin:0}
+.idea{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;padding:.9rem 1.1rem;margin:1.4rem 0}
+.idea b{color:var(--accent)}
+.key{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.4rem 1rem;margin:1.2rem 0;overflow-x:auto}
+.key .lbl{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:500;margin-top:.6rem}
+
+/* figures */
+figure{margin:1.6rem 0}
+figure svg{display:block;max-width:100%;height:auto;margin:0 auto}
+figcaption{font-size:.85rem;color:var(--mut);margin-top:.6rem;line-height:1.55}
+.s-ink{fill:var(--ink)} .s-mut{fill:var(--mut)} .s-acc{fill:var(--accent)} .s-a{fill:var(--pa)} .s-b{fill:var(--pb)} .s-c{fill:var(--pc)}
+.k-ink{stroke:var(--ink)} .k-mut{stroke:var(--mut)} .k-line{stroke:var(--line)} .k-acc{stroke:var(--accent)} .k-a{stroke:var(--pa)} .k-b{stroke:var(--pb)} .k-c{stroke:var(--pc)}
+.f-soft{fill:var(--accent-soft)} .f-panel{fill:var(--panel)} .f-none{fill:none}
+figure svg text{font-family:var(--f-body);font-size:13px}
+
+/* interactive widget */
+.widget{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:1.8rem 0;overflow:hidden}
+.w-head{display:flex;align-items:center;gap:.6rem;padding:.8rem 1.1rem;border-bottom:1px solid var(--line)}
+.w-head .tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--accent-ink);background:var(--accent);border-radius:999px;padding:.12rem .55rem}
+.w-head .t{font-weight:500;font-size:.98rem}
+.w-body{padding:1rem 1.1rem}
+.w-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+@media (max-width:640px){.w-grid{grid-template-columns:1fr}}
+.w-body canvas{display:block;width:100%;border-radius:10px;background:var(--bg)}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem 1.2rem;margin-top:1rem}
+.ctrl{display:grid;gap:.15rem;font-size:.85rem;color:var(--ink2)}
+.ctrl .row{display:flex;justify-content:space-between;gap:.5rem}
+.ctrl output{font-family:var(--f-mono);color:var(--accent);font-size:.82rem}
+input[type=range]{width:100%;accent-color:var(--accent);margin:.2rem 0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink2);padding:.35rem .8rem;font-size:.83rem}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.btnrow{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:.8rem}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;margin-top:1rem}
+.readout div{background:var(--soft);border-radius:10px;padding:.5rem .7rem;min-width:0}
+.readout small{display:block;font-size:.72rem;color:var(--mut);line-height:1.3}
+.readout b{font-family:var(--f-mono);font-weight:500;font-size:.95rem;font-variant-numeric:tabular-nums}
+.notice{font-size:.88rem;color:var(--ink2);border-top:1px dashed var(--line);margin-top:1rem;padding-top:.7rem}
+.notice b{color:var(--ink)}
+.status{font-size:.85rem;font-weight:500;margin-top:.6rem}
+.status.good{color:var(--good)} .status.bad{color:var(--bad)} .status.warn{color:var(--warn)}
+
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:9px;padding:.42rem .9rem;font-size:.86rem;font-weight:500}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:.25rem .65rem;font-size:.8rem}
+.btn:disabled{opacity:.45;cursor:default}
+
+/* worked example */
+.worked{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:1.8rem 0;overflow:hidden}
+.worked .w-head .tag{background:var(--ink);color:var(--panel)}
+.worked .prob{padding:1rem 1.1rem;border-bottom:1px solid var(--line);background:var(--soft)}
+.worked ol.steps{list-style:none;padding:0 1.1rem;margin:0;counter-reset:st}
+.worked ol.steps>li{counter-increment:st;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.7rem;padding:.9rem 0;border-bottom:1px solid var(--line);margin:0}
+.worked ol.steps>li::before{content:counter(st);width:1.7rem;height:1.7rem;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:var(--f-mono);font-size:.8rem;display:grid;place-items:center;font-weight:500}
+.worked ol.steps>li>div{min-width:0;overflow-x:auto}
+.worked ol.steps>li[hidden]{display:none}
+.worked .ctl{padding:.8rem 1.1rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.worked .ctl small{color:var(--mut);font-size:.8rem}
+.why{font-size:.84rem;color:var(--mut);margin:.3rem 0 0}
+.ans{font-family:var(--f-mono);font-weight:500;background:var(--accent-soft);color:var(--ink);border-radius:5px;padding:.05rem .4rem;white-space:nowrap}
+
+/* check */
+.check{border:1.5px solid var(--accent);border-radius:16px;padding:1rem 1.1rem;margin:1.8rem 0;background:var(--panel)}
+.check .c-tag{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.check .q{font-weight:400;margin:.4rem 0 .8rem}
+.opts{display:grid;gap:.45rem}
+.opts button{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem;color:var(--ink);font-size:.92rem;font-weight:300;line-height:1.45}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button.right{border-color:var(--good);background:var(--good-soft)}
+.opts button.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opts button:disabled{cursor:default}
+.c-exp{margin-top:.8rem;font-size:.9rem;border-radius:10px;padding:.7rem .9rem;background:var(--soft)}
+.c-exp b.ok{color:var(--good)} .c-exp b.no{color:var(--bad)}
+
+.mistakes{background:var(--warn-soft);border-radius:14px;padding:.9rem 1.1rem;margin:1.6rem 0}
+.mistakes h4{margin:0 0 .3rem;color:var(--warn);font-size:.95rem;font-weight:500}
+.mistakes ul{margin:.2rem 0}
+.mistakes li{font-size:.92rem}
+.takeaways{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;margin:2.2rem 0 1rem}
+.takeaways h4{margin:0 0 .4rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:500}
+.takeaways ul{margin:0}
+.practice-links{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;font-size:.86rem;color:var(--mut)}
+.chip{display:inline-block;text-decoration:none;font-size:.78rem;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:.1rem .6rem;white-space:nowrap;font-weight:400}
+.chip:hover{background:var(--accent-soft)}
+.pager{display:grid;grid-template-columns:1fr auto 1fr;gap:.8rem;align-items:center;border-top:1px solid var(--line);margin-top:2.4rem;padding-top:1.2rem}
+.pager a{text-decoration:none;font-size:.88rem;color:var(--ink2);min-width:0}
+.pager a small{display:block;color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+.pager a.nx{text-align:right}
+@media (max-width:560px){.pager{grid-template-columns:1fr 1fr}.pager .mk{grid-column:1/-1;grid-row:1;justify-self:center}}
+
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-size:.84rem;font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto;margin:1rem 0;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.3rem .5rem}
+
+/* practice */
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin:1.8rem 0;overflow:hidden}
+.qcard .qh{padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
+.qcard .qh h3{margin:0;font-size:1.15rem;font-weight:600}
+.qcard .qh .meta{font-size:.78rem;color:var(--mut);margin-top:.2rem;word-break:break-word}
+.qcard .given{padding:.9rem 1.2rem;background:var(--soft);font-size:.95rem}
+.qcard .given ul{margin:.3rem 0}
+.part{padding:1rem 1.2rem;border-top:1px solid var(--line)}
+.part .pq{font-weight:400}
+.part .pq b{color:var(--accent);font-family:var(--f-mono);margin-right:.3rem}
+.ansrow{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-top:.5rem}
+.ansrow input{font:inherit;font-family:var(--f-mono);font-size:.9rem;width:9rem;padding:.35rem .55rem;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.ansrow .unit{font-size:.85rem;color:var(--mut)}
+.ansrow .fb{font-size:.85rem;font-weight:500}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+details.sol{margin-top:.6rem}
+details.sol>summary{cursor:pointer;font-size:.86rem;color:var(--accent);font-weight:500;list-style:none}
+details.sol>summary::-webkit-details-marker{display:none}
+details.sol>summary::before{content:"▸ ";}
+details.sol[open]>summary::before{content:"▾ ";}
+.solbody{margin-top:.5rem;padding:.7rem .9rem;border-radius:10px;background:var(--soft);font-size:.93rem;overflow-x:auto}
+.solbody p{margin:.4rem 0}
+.note{font-size:.88rem;border-left:3px solid var(--warn);padding:.2rem 0 .2rem .8rem;margin:.6rem 0;color:var(--ink2)}
+
+.sheet{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.sheet>div{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.9rem 1.1rem;min-width:0;overflow-x:auto}
+.sheet h4{margin:0 0 .2rem;font-weight:500}
+.sheet .when{font-size:.8rem;color:var(--mut);margin:0 0 .3rem}
+@media (max-width:640px){.sheet{grid-template-columns:1fr}}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1.2rem 0}
+.home-grid a{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem}
+.home-grid a:hover{border-color:var(--accent)}
+.home-grid small{display:block;color:var(--mut);font-size:.8rem;line-height:1.4;margin-top:.2rem}
+.home-grid .k{font-family:var(--f-mono);font-size:.75rem;color:var(--accent)}
+.home-grid b{display:block;font-weight:500;line-height:1.3;margin-top:.15rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="shell">
+<aside class="rail" id="rail" aria-label="Course contents">
+  <div class="brand">EE361 · Chapter I<small>Introduction to Power Systems</small></div>
+  <div class="progress"><div class="bar"><i id="pbar"></i></div><span id="ptext">0 of 11 lessons learned</span></div>
+  <nav id="railnav"></nav>
+</aside>
+<div class="topbar"><select id="topsel" aria-label="Go to lesson"></select><span class="pct" id="toppct">0/11</span></div>
+<main id="main">
+
+<!-- ================= HOME ================= -->
+<section class="page" data-page="home" data-title="Start here" data-group="Course">
+  <div class="crumb">EE361 Electromechanical Energy Conversion I</div>
+  <h1>Chapter I: Introduction to Power Systems</h1>
+  <p class="lede">A full walkthrough of the first chapter, in the same order as the course syllabus. Each lesson explains the idea, derives the formulas, lets you play with an interactive picture, works an example one step at a time, and ends with a quick self-check.</p>
+  <div class="objectives">
+    <h4>How to use this</h4>
+    <ul>
+      <li>Go lesson by lesson. Each one builds on the previous.</li>
+      <li>Move every slider in the <b>Explore</b> boxes. Predict what happens before you move it.</li>
+      <li>In worked examples, try the next step yourself, then press <b>Show next step</b>.</li>
+      <li>Answer the <b>Check yourself</b> question before moving on, then press <b>Mark as learned</b>.</li>
+      <li>Finish with the <a href="#practice">past exam questions</a>. You can type answers and the page checks them.</li>
+    </ul>
+  </div>
+  <h2>The chapter map</h2>
+  <p>The whole chapter builds one skill: given loads somewhere on a network, find the currents, voltages, losses and the compensation they need.</p>
+  <div class="home-grid" id="homegrid"></div>
+  <div class="idea"><b>Conventions used everywhere.</b> All AC voltages and currents are RMS unless a question says peak. "A 400 V three-phase system" means 400 V RMS line-to-line. Loads absorb power: lagging (inductive) loads have \(Q&gt;0\), leading (capacitive) loads have \(Q&lt;0\).</div>
+  <p class="src">Built from: syllabus Chapter I outline (EE361_syllabus_2026_ver_5, p.4), Keysan's LN1 and LN2 slides, Sen <i>Principles of Electric Machines and Power Electronics</i> Appendix B (pp.589–602), the official Chapter-1 problems, and the 2021, 2022 and 2025 midterms.</p>
+</section>
+
+<!-- ================= L1 ================= -->
+<section class="page" data-page="l1" data-title="Why power engineering, why AC" data-group="Introduction &amp; DC systems" data-sum="The grid, transformers, why we transmit at high voltage">
+  <div class="crumb">Introduction · Lesson 1</div>
+  <h1>Why power engineering, and why the grid is AC</h1>
+  <p class="lede">Before any formula: what this course is about, what a power system looks like, and the one physical fact that forced the whole world onto high-voltage AC.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Name the energy conversions EE361 studies and where each device sits in the grid.</li>
+    <li>Explain, with a formula, why transmission lines run at hundreds of kV.</li>
+    <li>Explain why that requires AC (transformers) and what DC lacked historically.</li>
+  </ul></div>
+
+  <h2><span class="no">1.1</span>What EE361 is about</h2>
+  <p>Electromechanical energy conversion means turning electrical energy into mechanical energy and back. A <b>motor</b> converts electrical to mechanical (your phone's vibration motor, a 30 MW ship propulsion motor). A <b>generator</b> converts mechanical to electrical (a 7.5 MW wind turbine, the 700 MW units at Itaipu with a 16 m rotor turning at 91 rpm). A <b>transformer</b> is not an electromechanical device, nothing moves, but it is the reason the grid works. Power electronics does static conversion with switches.</p>
+  <p>Course order: Chapter I gives you the circuit tools for power (this page). Chapter II magnetic circuits, III transformers, then machines and power electronics. Every later chapter uses Chapter I's phasors, complex power and three-phase relations, so this is the foundation.</p>
+
+  <h2><span class="no">1.2</span>The shape of a power system</h2>
+  <figure>
+    <svg viewBox="0 0 720 170" role="img" aria-label="Generation, step-up transformer, transmission at 154 to 400 kV, step-down transformers, industrial and domestic consumers">
+      <rect x="10" y="55" width="110" height="60" rx="10" class="f-soft k-acc" stroke-width="1.5"/>
+      <text x="65" y="82" text-anchor="middle" class="s-ink">Generator</text>
+      <text x="65" y="100" text-anchor="middle" class="s-mut">10–25 kV</text>
+      <line x1="120" y1="85" x2="150" y2="85" class="k-ink" stroke-width="2"/>
+      <circle cx="162" cy="85" r="12" class="f-none k-ink" stroke-width="2"/><circle cx="178" cy="85" r="12" class="f-none k-ink" stroke-width="2"/>
+      <text x="170" y="122" text-anchor="middle" class="s-mut">step-up</text>
+      <line x1="190" y1="85" x2="440" y2="85" class="k-a" stroke-width="4"/>
+      <text x="315" y="70" text-anchor="middle" class="s-ink">Transmission 154–400 kV</text>
+      <text x="315" y="108" text-anchor="middle" class="s-mut">hundreds of km, small current</text>
+      <circle cx="452" cy="85" r="12" class="f-none k-ink" stroke-width="2"/><circle cx="468" cy="85" r="12" class="f-none k-ink" stroke-width="2"/>
+      <text x="460" y="122" text-anchor="middle" class="s-mut">step-down</text>
+      <line x1="480" y1="85" x2="560" y2="85" class="k-ink" stroke-width="2"/>
+      <line x1="560" y1="85" x2="590" y2="45" class="k-ink" stroke-width="2"/><line x1="560" y1="85" x2="590" y2="125" class="k-ink" stroke-width="2"/>
+      <rect x="590" y="25" width="120" height="40" rx="8" class="f-panel k-line" stroke-width="1.5"/>
+      <text x="650" y="50" text-anchor="middle" class="s-ink">Industry 4–34.5 kV</text>
+      <rect x="590" y="105" width="120" height="40" rx="8" class="f-panel k-line" stroke-width="1.5"/>
+      <text x="650" y="130" text-anchor="middle" class="s-ink">Homes 230/400 V</text>
+    </svg>
+    <figcaption>Simplified grid (LN1 slide 31). Voltage is stepped up after the generator, carried at very high voltage, then stepped down near the users. Turkey's transmission system runs mostly at 154 kV and 400 kV.</figcaption>
+  </figure>
+
+  <h2><span class="no">1.3</span>Why high voltage: the I²R argument</h2>
+  <p>A line has resistance \(R\). The current that flows through it heats it at a rate</p>
+  <div class="mathblock">\[ P_{\text{loss}} = I^2 R . \]</div>
+  <p>For a fixed power to deliver, \(P = V I\) (DC, or AC at unity power factor), so \(I = P/V\). Substitute:</p>
+  <div class="mathblock">\[ P_{\text{loss}} = \left(\frac{P}{V}\right)^{2} R = \frac{P^{2}R}{V^{2}} . \]</div>
+  <div class="idea"><b>The key result.</b> Loss falls with the <i>square</i> of voltage. Raise the voltage 10 times, the current drops 10 times, and the heating drops 100 times. Same wire, same delivered power.</div>
+  <p>The alternative, a thicker wire with smaller \(R\), costs copper or aluminium on every kilometre. Raising voltage is far cheaper.</p>
+
+  <div class="widget" data-w="trans">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Send 100 MW down a three-phase line with R = 5 Ω per phase</span></div>
+    <div class="w-body">
+      <canvas id="cv-trans" data-h="170"></canvas>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Line-to-line voltage <output id="o-trans-v"></output></span><input type="range" id="trans-v" min="0" max="5" step="1" value="3"></label>
+      </div>
+      <div class="readout">
+        <div><small>Line current</small><b id="r-trans-i"></b></div>
+        <div><small>Line loss 3I²R</small><b id="r-trans-l"></b></div>
+        <div><small>Loss as % of delivered</small><b id="r-trans-p"></b></div>
+      </div>
+      <div class="status" id="s-trans"></div>
+      <div class="notice"><b>What to notice:</b> each step up in voltage cuts the loss by the square of the ratio. At generator voltage the line would burn more than it delivers, which is why no grid tries it.</div>
+    </div>
+  </div>
+
+  <h2><span class="no">1.4</span>Why that forces AC</h2>
+  <p>Edison's early grids were DC. LN1 lists their problems:</p>
+  <ul>
+    <li>Transformers do not work with DC. They need a <i>changing</i> magnetic flux (Faraday's law, Chapter II).</li>
+    <li>So the DC voltage could not be raised or lowered (power electronics did not exist yet).</li>
+    <li>So transmission had to happen at low voltage, which by the formula above is very inefficient. DC plants had to sit within about a mile of their users.</li>
+  </ul>
+  <p>AC with transformers fixes all three: step up for transmission, thinner and cheaper cables, long distances, and better overall efficiency even after paying the transformers' own losses. Today HVDC exists for special long links, made possible by power electronics, but the grid you use is AC.</p>
+  <p>That is why the rest of this chapter is about AC circuits: sinusoids, phasors, complex power, and three-phase systems.</p>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A line delivers the same power at 154 kV instead of 34.5 kV. Roughly how does its I²R loss change?</p>
+    <div class="opts">
+      <button>It drops by about 4.5 times</button>
+      <button data-ok>It drops by about 20 times</button>
+      <button>It stays the same, because the power is the same</button>
+      <button>It increases, because higher voltage pushes more current</button>
+    </div>
+    <div class="c-exp" hidden>Loss scales as \(1/V^2\). The voltage ratio is \(154/34.5 = 4.46\), so the loss ratio is \(4.46^2 \approx 19.9\). Current falls 4.5 times, loss falls about 20 times.</div>
+  </div>
+
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Motors and generators convert energy; transformers change voltage level; together they make the grid.</li>
+    <li>\(P_{\text{loss}} = P^2R/V^2\): high voltage is the cheapest way to cut transmission loss.</li>
+    <li>Transformers need AC, so the grid is AC.</li>
+  </ul></div>
+  <p class="src">Lecture: LN1 slides 10–41 (PDF pp.10–70).</p>
+</section>
+
+<!-- ================= L2 ================= -->
+<section class="page" data-page="l2" data-title="Power and energy (DC systems)" data-group="Introduction &amp; DC systems" data-sum="W vs kWh, energy as area, cable loss and power balance">
+  <div class="crumb">DC systems · Lesson 2</div>
+  <h1>Power and energy</h1>
+  <p class="lede">The two words people mix up most. Power is how fast energy moves. Energy is how much moved. Bills charge energy, cables and machines are rated by power.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Compute energy from a power profile, including time-varying loads.</li>
+    <li>Convert between J, Wh and kWh, and compare energy across forms (food, lifting, batteries).</li>
+    <li>Write the power balance of a source feeding a load through a cable.</li>
+  </ul></div>
+
+  <h2><span class="no">2.1</span>Power is a rate, energy is an amount</h2>
+  <p>Voltage is energy per charge (J/C). Current is charge per second (C/s). Their product is energy per second:</p>
+  <div class="mathblock">\[ p(t) = v(t)\,i(t)\quad[\text{W} = \text{J/s}] \]</div>
+  <p>Energy is power accumulated over time, the area under the power curve:</p>
+  <div class="mathblock">\[ W = \int_{t_1}^{t_2} p(t)\,dt = \int_{t_1}^{t_2} v(t)\,i(t)\,dt \quad [\text{J} = \text{W·s}] \]</div>
+  <p>For constant power this is just \(W = P\,\Delta t\). For a piecewise-constant profile, add rectangles.</p>
+  <div class="key"><div class="lbl">Unit you will use most</div>
+    <div class="mathblock">\[ 1\ \text{kWh} = 1000\ \text{W} \times 3600\ \text{s} = 3.6\ \text{MJ} \]</div></div>
+
+  <div class="widget" data-w="energy">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Energy is the area under the power curve</span></div>
+    <div class="w-body">
+      <canvas id="cv-energy" data-h="210"></canvas>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">00–06 h <output id="o-e0"></output></span><input type="range" id="e0" min="0" max="3" step="0.1" value="0.3"></label>
+        <label class="ctrl"><span class="row">06–12 h <output id="o-e1"></output></span><input type="range" id="e1" min="0" max="3" step="0.1" value="2"></label>
+        <label class="ctrl"><span class="row">12–18 h <output id="o-e2"></output></span><input type="range" id="e2" min="0" max="3" step="0.1" value="1.2"></label>
+        <label class="ctrl"><span class="row">18–24 h <output id="o-e3"></output></span><input type="range" id="e3" min="0" max="3" step="0.1" value="2.6"></label>
+      </div>
+      <div class="readout">
+        <div><small>Energy in the day</small><b id="r-e-tot"></b></div>
+        <div><small>Same energy in MJ</small><b id="r-e-mj"></b></div>
+        <div><small>Average power</small><b id="r-e-avg"></b></div>
+        <div><small>Peak power</small><b id="r-e-pk"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> the average power is total energy divided by 24 h. It is not the plain average of the four slider values unless the blocks are equally long (here they are; try thinking about unequal blocks). The peak sets the cable and breaker size; the area sets the bill.</div>
+    </div>
+  </div>
+
+  <h2><span class="no">2.2</span>Energy in everyday forms</h2>
+  <p>LN1 compares energy across forms. The point is common units, not memorising numbers:</p>
+  <div class="tbl"><table>
+    <tr><th>Thing</th><th>Calculation</th><th class="n">Energy</th></tr>
+    <tr><td>Kettle, 2 kW for 1 minute</td><td>\(2\ \text{kW}\times\tfrac{1}{60}\ \text{h}\)</td><td class="n">0.033 kWh = 120 kJ</td></tr>
+    <tr><td>Lifting 100 kg by h metres</td><td>\(mgh = 120\,000 \Rightarrow h = 122\ \text{m}\)</td><td class="n">same 120 kJ</td></tr>
+    <tr><td>A METU cafeteria lunch, ≈ 850 kcal</td><td>\(850 \times 4184\ \text{J}\)</td><td class="n">3.56 MJ ≈ 1 kWh</td></tr>
+    <tr><td>Car battery 12 V, 80 Ah</td><td>\(12 \times 80 = 960\ \text{Wh}\)</td><td class="n">≈ 1 kWh</td></tr>
+  </table></div>
+  <p>One minute of a kettle equals lifting 100 kg up a 40-storey building. A healthy person sustains only about 75 W, so electricity is very cheap muscle.</p>
+  <p>Note on batteries: Ah is <i>charge</i>, not energy. Multiplying by the nominal voltage gives an energy estimate.</p>
+
+  <h2><span class="no">2.3</span>Source, cable, load: the power balance</h2>
+  <figure>
+    <svg viewBox="0 0 620 160" role="img" aria-label="DC source, cable resistance, load, same current I">
+      <circle cx="60" cy="80" r="26" class="f-panel k-ink" stroke-width="2"/>
+      <text x="60" y="76" text-anchor="middle" class="s-ink">+</text><text x="60" y="94" text-anchor="middle" class="s-ink">−</text>
+      <text x="60" y="128" text-anchor="middle" class="s-mut">V_s</text>
+      <line x1="60" y1="54" x2="60" y2="30" class="k-ink" stroke-width="2"/><line x1="60" y1="30" x2="200" y2="30" class="k-ink" stroke-width="2"/>
+      <path d="M200,30 l10,-10 l15,20 l15,-20 l15,20 l15,-20 l15,20 l10,-10" class="f-none k-acc" stroke-width="2.2"/>
+      <text x="245" y="60" text-anchor="middle" class="s-acc">R_line (loop)</text>
+      <line x1="295" y1="30" x2="440" y2="30" class="k-ink" stroke-width="2"/>
+      <rect x="425" y="50" width="30" height="60" rx="4" class="f-soft k-a" stroke-width="2"/>
+      <line x1="440" y1="30" x2="440" y2="50" class="k-ink" stroke-width="2"/><line x1="440" y1="110" x2="440" y2="135" class="k-ink" stroke-width="2"/>
+      <line x1="60" y1="106" x2="60" y2="135" class="k-ink" stroke-width="2"/><line x1="60" y1="135" x2="440" y2="135" class="k-ink" stroke-width="2"/>
+      <text x="470" y="78" class="s-a">load</text><text x="470" y="96" class="s-mut">V_L, P_L</text>
+      <text x="130" y="22" class="s-c">I →</text>
+    </svg>
+    <figcaption>The same current flows through source, cable and load (series loop). The cable's resistance is the loop value, outgoing plus return.</figcaption>
+  </figure>
+  <p>KVL and power conservation give the two working equations of the chapter, here in their simplest DC form:</p>
+  <div class="mathblock">\[ V_s = V_L + I R_{\text{line}}, \qquad P_s = P_L + I^2 R_{\text{line}} . \]</div>
+  <p>Efficiency of delivery is \(\eta = P_L/P_s\). For AC we will keep exactly these ideas but with phasors and complex power (Lessons 4–6).</p>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Same 10 kW, two voltages</span></div>
+    <div class="prob">Deliver 10 kW to a load through a DC cable with loop resistance 2 Ω. Compare receiving voltage 1000 V with 10 000 V.</div>
+    <ol class="steps">
+      <li><div>Current at the load: \(I = P/V\). At 1 kV, \(I = 10\,000/1000 = \) <span class="ans">10 A</span>. At 10 kV, <span class="ans">1 A</span>.</div></li>
+      <li><div>Cable heat \(I^2R\): \(10^2 \times 2 = \) <span class="ans">200 W</span> versus \(1^2\times 2 =\) <span class="ans">2 W</span>.<p class="why">Ten times the voltage, one hundredth of the loss.</p></div></li>
+      <li><div>Source voltage \(V_s = V_L + IR\): \(1000 + 20 = \) <span class="ans">1020 V</span> versus \(10\,000 + 2 = \) <span class="ans">10 002 V</span>.</div></li>
+      <li><div>Power balance check: \(10\,000 + 200 = 10\,200\ \text{W} = 1020 \times 10\) ✓. Efficiency 98.0 % versus 99.98 %.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A motor runs at 2 kW for 15 minutes, then 0.5 kW for 45 minutes. What is its average power over the hour?</p>
+    <div class="opts">
+      <button>1.25 kW, the average of 2 and 0.5</button>
+      <button data-ok>0.875 kW</button>
+      <button>0.5 kW, the power it spends most time at</button>
+      <button>0.875 kWh</button>
+    </div>
+    <div class="c-exp" hidden>Energy \(= 2\times0.25 + 0.5\times0.75 = 0.5 + 0.375 = 0.875\ \text{kWh}\). Divide by 1 h: \(0.875\ \text{kW}\). Average power must be time-weighted. The last option has the right number but the wrong unit: kWh is energy, not power.</div>
+  </div>
+
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Mixing kW (power) with kWh (energy). If power is in kW, time must be in hours to get kWh.</li>
+    <li>Doubling a cable resistance that is already given as the loop value.</li>
+    <li>Calling a motor's rated 4 kW the cable loss. The rating is the load; the loss is \(I^2R\) in the cable.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>\(W = \int p\,dt\): energy is the area under power.</li>
+    <li>1 kWh = 3.6 MJ.</li>
+    <li>\(P_s = P_L + I^2R\) and \(V_s = V_L + IR\) for a series cable.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q1">2025 Q1(b)</a></div>
+  <p class="src">Lecture: LN1 slides 16–21 (PDF pp.25–37).</p>
+</section>
+
+<!-- ================= L3 ================= -->
+<section class="page" data-page="l3" data-title="Sinusoids and RMS values" data-group="Single-phase AC systems" data-sum="Amplitude, frequency, phase; why RMS = peak/√2">
+  <div class="crumb">Single-phase AC · Lesson 3</div>
+  <h1>Sinusoids and RMS values</h1>
+  <p class="lede">AC voltage swings positive and negative 50 times a second, so its average is zero. Yet it heats your kettle. RMS is the number that tells you how much.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Read amplitude, angular frequency, period and phase from \(v(t) = V_m\cos(\omega t+\theta)\).</li>
+    <li>Derive \(V_{\text{rms}} = V_m/\sqrt2\) and explain what RMS physically means.</li>
+    <li>Say which waveform leads or lags and convert a phase angle into a time delay.</li>
+  </ul></div>
+
+  <h2><span class="no">3.1</span>Anatomy of a sinusoid</h2>
+  <div class="mathblock">\[ v(t) = V_m \cos(\omega t + \theta_v) \]</div>
+  <ul>
+    <li>\(V_m\): peak (maximum) value, volts.</li>
+    <li>\(\omega = 2\pi f\): angular frequency, rad/s. Turkey and Europe: \(f = 50\) Hz, so \(\omega = 314.16\) rad/s.</li>
+    <li>\(T = 1/f\): period. At 50 Hz, \(T = 20\) ms.</li>
+    <li>\(\theta_v\): phase angle, where the waveform is in its cycle at \(t=0\).</li>
+  </ul>
+  <p>Sen writes sine instead of cosine. It does not matter, as long as you use one convention for every quantity in a problem.</p>
+
+  <h2><span class="no">3.2</span>RMS: the heating-equivalent value</h2>
+  <p>Put a sinusoidal current through a resistor. The instantaneous heating is \(p = i^2R\), which is never negative: heat is produced on both half-cycles. Ask: <i>which DC current \(I\) would produce the same average heat?</i></p>
+  <div class="mathblock">\[ I^2 R = \frac{1}{T}\int_0^T i^2(t)\,R\,dt \quad\Longrightarrow\quad I_{\text{rms}} = \sqrt{\frac{1}{T}\int_0^T i^2(t)\,dt} \]</div>
+  <p>The name says the recipe: <b>R</b>oot of the <b>M</b>ean of the <b>S</b>quare. For a sinusoid, \(\cos^2\) averages to exactly \(1/2\) over a cycle (because \(\cos^2 x = \tfrac12 + \tfrac12\cos 2x\)), so</p>
+  <div class="mathblock">\[ I_{\text{rms}} = \sqrt{\tfrac12 I_m^2} = \frac{I_m}{\sqrt2} \approx 0.707\,I_m . \]</div>
+
+  <div class="widget" data-w="rms">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Square it, average it, take the root</span></div>
+    <div class="w-body">
+      <canvas id="cv-rms" data-h="260"></canvas>
+      <div class="btnrow"><div class="seg" id="rms-shape"><button data-v="sin" class="on">Sine</button><button data-v="sq">Square</button><button data-v="tri">Triangle</button></div></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row"><span>Peak value V<sub>m</sub></span><output id="o-rms-a"></output></span><input type="range" id="rms-a" min="50" max="400" step="5" value="325"></label>
+      </div>
+      <div class="readout">
+        <div><small>Mean of v</small><b id="r-rms-mean"></b></div>
+        <div><small>Mean of v²</small><b id="r-rms-ms"></b></div>
+        <div><small>RMS = √(mean of v²)</small><b id="r-rms-rms"></b></div>
+        <div><small>RMS / peak</small><b id="r-rms-ratio"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> the top plot averages to zero, but the squared plot (bottom) is always positive. Its mean is the shaded level. Set the peak to 325 V: the RMS is 230 V, Turkey's mains. Switch the shape: a square wave's RMS equals its peak, a triangle's is peak/√3. The √2 belongs to sinusoids only.</div>
+    </div>
+  </div>
+  <p>Every AC number on a nameplate or in an exam ("230 V", "20 A") is RMS. Mains peak is \(230\sqrt2 = 325\) V. Average resistor heating is \(P = I_{\text{rms}}^2 R\), with no extra factor.</p>
+
+  <h2><span class="no">3.3</span>Phase: who comes first</h2>
+  <p>Two sinusoids of the same frequency differ only by amplitude and phase. With voltage as reference,</p>
+  <div class="mathblock">\[ v = \sqrt2\,V\cos\omega t, \qquad i = \sqrt2\,I\cos(\omega t - \varphi) . \]</div>
+  <p>If \(\varphi&gt;0\) the current reaches each peak <i>later</i>: the current <b>lags</b>. Inductive loads (motors) do this. If \(\varphi&lt;0\) it <b>leads</b>, like capacitors. The time shift is</p>
+  <div class="mathblock">\[ \Delta t = \frac{\varphi}{\omega} = \frac{\varphi^{\circ}}{360^{\circ}}\,T . \]</div>
+  <p>Example: 30° lag at 50 Hz is \(\tfrac{30}{360}\times 20\ \text{ms} = 1.67\) ms. You can see this live in the next lesson's rotating phasor.</p>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Read everything off two waveforms</span></div>
+    <div class="prob">\(v(t) = 200\sqrt2\cos(100\pi t)\) V and \(i(t) = 10\sqrt2\cos(100\pi t - \pi/6)\) A. Find f, T, peaks, RMS values, the phase relation and the heat in a 0.4 Ω cable carrying i.</div>
+    <ol class="steps">
+      <li><div>\(\omega = 100\pi\) rad/s, so \(f = \omega/2\pi = \) <span class="ans">50 Hz</span>, \(T = \) <span class="ans">20 ms</span>.</div></li>
+      <li><div>Peaks: \(V_m = 200\sqrt2 = \) <span class="ans">282.8 V</span>, \(I_m = 10\sqrt2 = \) <span class="ans">14.14 A</span>. RMS: divide by √2, <span class="ans">200 V</span> and <span class="ans">10 A</span>.<p class="why">Questions write "200 V" meaning this RMS value.</p></div></li>
+      <li><div>Phase: \(\varphi = \pi/6 = 30^\circ\), positive, so the current <span class="ans">lags by 30° = 1.67 ms</span>.</div></li>
+      <li><div>Cable heat: \(I_{\text{rms}}^2R = 10^2\times0.4 = \) <span class="ans">40 W</span> average. (Peak instantaneous heat is \(I_m^2R = 80\) W, not what anyone asks for.)</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A 50 Hz current lags its voltage by 45°. By how much time does the current peak come after the voltage peak?</p>
+    <div class="opts">
+      <button>0.9 ms</button>
+      <button data-ok>2.5 ms</button>
+      <button>5 ms</button>
+      <button>45 ms</button>
+    </div>
+    <div class="c-exp" hidden>\(\Delta t = (45/360)\times 20\ \text{ms} = 2.5\ \text{ms}\). A quarter period (90°) would be 5 ms.</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Using peak current in \(I^2R\). It doubles the loss.</li>
+    <li>Confusing √2 (peak ↔ RMS) with √3 (line ↔ phase, Lesson 8).</li>
+    <li>Deciding lag or lead from the sign of one angle alone. Compare the two waveforms' angles.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>RMS = the DC value with the same heating. For a sinusoid, \(V_{\text{rms}} = V_m/\sqrt2\).</li>
+    <li>Lagging current peaks later: inductive. Leading: capacitive.</li>
+    <li>\(\Delta t = (\varphi/360^\circ)\,T\).</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q1">2025 Q1</a></div>
+  <p class="src">Sen Appendix B.1, eq. B.1–B.2 (pp.589–590). LN2 slides 22–23 (230 V mains, 325 V peak).</p>
+</section>
+
+<!-- ================= L4 ================= -->
+<section class="page" data-page="l4" data-title="Phasors and impedance" data-group="Single-phase AC systems" data-sum="Rotating arrows, complex numbers, V = Z·I">
+  <div class="crumb">Single-phase AC · Lesson 4</div>
+  <h1>Phasor representation and phasor diagrams</h1>
+  <p class="lede">Solving circuits with cosines and derivatives is painful. A phasor turns each sinusoid into one complex number, and calculus into algebra.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Turn a sinusoid into an RMS phasor and back.</li>
+    <li>Move between rectangular and polar form, and know which form to use for which operation.</li>
+    <li>Use impedance \(Z = R + jX\) and \(V = ZI\), and read lag or lead from the sign of X.</li>
+  </ul></div>
+
+  <h2><span class="no">4.1</span>A sinusoid is the shadow of a rotating arrow</h2>
+  <p>Picture an arrow of length \(\sqrt2 V\) rotating counter-clockwise at \(\omega\) rad/s. Its projection on one axis traces exactly \(\sqrt2V\cos(\omega t+\theta)\). Every quantity in a single-frequency circuit rotates at the same speed, so the rotation carries no information. Freeze the picture at \(t=0\) and keep only length and angle. That frozen arrow is the <b>phasor</b>:</p>
+  <div class="mathblock">\[ v(t) = \sqrt2\,V\cos(\omega t + \theta) \quad\longleftrightarrow\quad \mathbf{V} = V\angle\theta . \]</div>
+  <p>In power engineering the phasor length is the <b>RMS</b> value (Sen eq. B.3–B.4). The frequency is known separately.</p>
+
+  <div class="widget" data-w="phasor">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Rotating phasors and the waveforms they draw</span></div>
+    <div class="w-body">
+      <canvas id="cv-phasor" data-h="250"></canvas>
+      <div class="btnrow"><button class="btn sm" id="ph-play">Pause</button><span class="m" style="color:var(--mut)" id="ph-txt"></span></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Current phase relative to V <output id="o-ph-phi"></output></span><input type="range" id="ph-phi" min="-90" max="90" step="5" value="30"></label>
+        <label class="ctrl"><span class="row">Current size <output id="o-ph-i"></output></span><input type="range" id="ph-i" min="0.2" max="1" step="0.05" value="0.6"></label>
+      </div>
+      <div class="notice"><b>What to notice:</b> both arrows rotate together, so the angle between them never changes. That fixed angle is all a phasor diagram needs. When the blue current arrow is behind the red voltage arrow (clockwise from it), its waveform peaks later: lagging.</div>
+    </div>
+  </div>
+
+  <h2><span class="no">4.2</span>Complex numbers you actually need</h2>
+  <p>With \(j^2 = -1\) (engineers use j, because i is current), the same phasor has two forms:</p>
+  <div class="mathblock">\[ a + jb \;=\; M\angle\theta, \qquad M = \sqrt{a^2+b^2},\quad \theta = \operatorname{atan2}(b,a),\quad a = M\cos\theta,\ b = M\sin\theta . \]</div>
+  <div class="tbl"><table>
+    <tr><th>Operation</th><th>Use</th><th>Rule</th></tr>
+    <tr><td>Add, subtract (KVL, KCL)</td><td>Rectangular</td><td>add real parts and imaginary parts separately</td></tr>
+    <tr><td>Multiply, divide (V = ZI)</td><td>Polar</td><td>multiply or divide magnitudes, add or subtract angles</td></tr>
+    <tr><td>Conjugate \(\mathbf I^*\)</td><td>Either</td><td>flip the sign of the angle (or of the imaginary part)</td></tr>
+    <tr><td>Multiply by j</td><td>Polar</td><td>rotate by +90°</td></tr>
+  </table></div>
+  <div class="idea"><b>Magnitudes do not add.</b> \(100\angle0^\circ + 100\angle90^\circ = 100 + j100 = 141.4\angle45^\circ\), not 200. This one fact explains most "wrong source voltage" answers.</div>
+
+  <h2><span class="no">4.3</span>Impedance: Ohm's law for AC</h2>
+  <p>Differentiating a sinusoid rotates it by 90° and scales it by ω. That is why inductors and capacitors become imaginary numbers:</p>
+  <div class="mathblock">\[ Z_R = R, \qquad Z_L = j\omega L, \qquad Z_C = \frac{1}{j\omega C} = -\frac{j}{\omega C}, \qquad \mathbf V = Z\,\mathbf I . \]</div>
+  <p>A general load is \(Z = R + jX = |Z|\angle\theta\), with \(\theta = \tan^{-1}(X/R)\) (Sen B.5–B.7). Then</p>
+  <div class="mathblock">\[ \mathbf I = \frac{\mathbf V}{Z} = \frac{V\angle 0}{|Z|\angle\theta} = \frac{V}{|Z|}\angle{-\theta} . \]</div>
+  <p>So the current lags the voltage by exactly the impedance angle. \(X&gt;0\) (inductive): lags. \(X&lt;0\) (capacitive): leads. \(X=0\): in phase. KVL, KCL, series and parallel rules all keep their usual form with complex numbers.</p>
+
+  <div class="widget" data-w="imp">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Impedance sets the current's size and angle (V = 230∠0° V)</span></div>
+    <div class="w-body">
+      <canvas id="cv-imp" data-h="230"></canvas>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Resistance R <output id="o-imp-r"></output></span><input type="range" id="imp-r" min="0" max="20" step="0.5" value="16"></label>
+        <label class="ctrl"><span class="row">Reactance X <output id="o-imp-x"></output></span><input type="range" id="imp-x" min="-20" max="20" step="0.5" value="12"></label>
+      </div>
+      <div class="readout">
+        <div><small>Z (polar)</small><b id="r-imp-z"></b></div>
+        <div><small>I = V/Z</small><b id="r-imp-i"></b></div>
+        <div><small>Behaviour</small><b id="r-imp-k"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> the current arrow mirrors the impedance angle below the axis. Make X negative and the current swings above the voltage: leading. Set R = 0 and the angle hits ±90°, a pure reactance.</div>
+    </div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Sen Example B.1: series R, L, C on 120 V</span></div>
+    <div class="prob">\(\mathbf V = 120\angle0^\circ\) V feeds a series load \(8 + j10 - j4\ \Omega\). Find \(\mathbf I\) and say whether it lags or leads.</div>
+    <ol class="steps">
+      <li><div>Series impedances add in rectangular: \(Z = 8 + j(10-4) = 8 + j6\ \Omega\).</div></li>
+      <li><div>To polar: \(|Z| = \sqrt{8^2+6^2} = 10\), \(\theta = \tan^{-1}(6/8) = 36.87^\circ\). So \(Z = 10\angle36.87^\circ\ \Omega\).</div></li>
+      <li><div>Divide in polar: \(\mathbf I = \dfrac{120\angle0^\circ}{10\angle36.87^\circ} = \) <span class="ans">12∠−36.87° A</span>.</div></li>
+      <li><div>Rectangular: \(12\cos(-36.87^\circ) + j12\sin(-36.87^\circ) = \) <span class="ans">9.6 − j7.2 A</span>. Net X is positive, so the current <b>lags</b> by 36.87°.</div></li>
+      <li><div>Back to time domain: \(i(t) = 12\sqrt2\cos(\omega t - 36.87^\circ)\) A = \(16.97\cos(\omega t - 0.6435)\) A.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">\(\mathbf V_1 = 100\angle 0^\circ\) V and \(\mathbf V_2 = 100\angle 90^\circ\) V are in series. What is the magnitude of the total?</p>
+    <div class="opts">
+      <button>200 V</button>
+      <button>0 V</button>
+      <button data-ok>141.4 V</button>
+      <button>100 V</button>
+    </div>
+    <div class="c-exp" hidden>Convert and add: \(100 + j100\), magnitude \(\sqrt{100^2+100^2} = 141.4\) V at 45°. Magnitudes only add when the phasors point the same way.</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Adding magnitudes of phasors that point in different directions.</li>
+    <li>Using \(\tan^{-1}(b/a)\) without checking the quadrant; use atan2 or draw it.</li>
+    <li>Writing \(Z_C = j\omega C\). The capacitor's reactance is negative: \(-j/(\omega C)\).</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Phasor = RMS length + angle; all quantities rotate together so only relative angles matter.</li>
+    <li>Add in rectangular, multiply/divide in polar.</li>
+    <li>\(\mathbf I = \mathbf V/Z\): current lags by the impedance angle. X &gt; 0 lag, X &lt; 0 lead.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q1">2025 Q1(e)</a><a class="chip" href="#practice" data-q="q5">Sample Q2</a></div>
+  <p class="src">Sen Appendix B.1, eq. B.3–B.8 and Example B.1 (pp.589–602).</p>
+</section>
+
+<!-- ================= L5 ================= -->
+<section class="page" data-page="l5" data-title="Complex power and power factor" data-group="Single-phase AC systems" data-sum="P, Q, S = V·I*, PF and correcting it">
+  <div class="crumb">Single-phase AC · Lesson 5</div>
+  <h1>Complex power and power factor correction</h1>
+  <p class="lede">An inductive load draws more current than its useful power needs. This lesson shows where the extra goes, how to measure it with P, Q and S, and how a capacitor gives it back.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Derive \(P = VI\cos\varphi\) from instantaneous power and explain reactive power physically.</li>
+    <li>Use \(\mathbf S = \mathbf V\mathbf I^* = P + jQ\) and the power triangle, with correct signs.</li>
+    <li>Size a capacitor to raise the power factor, and say what it changes and what it does not.</li>
+  </ul></div>
+
+  <h2><span class="no">5.1</span>Instantaneous power has two parts</h2>
+  <p>Take \(v = \sqrt2V\cos\omega t\) and \(i = \sqrt2I\cos(\omega t-\varphi)\). Multiply and use \(\cos A\cos B = \tfrac12[\cos(A-B)+\cos(A+B)]\):</p>
+  <div class="mathblock">\[ p(t) = v\,i = \underbrace{VI\cos\varphi}_{\text{constant}} \;+\; \underbrace{VI\cos(2\omega t - \varphi)}_{\text{averages to zero}} . \]</div>
+  <p>Power pulses at <b>twice</b> the supply frequency. Its average is the constant part, the <b>real power</b>:</p>
+  <div class="mathblock">\[ P = VI\cos\varphi \quad [\text{W}] . \]</div>
+  <p>Expand the second term further (Sen eq. B.10) and one piece, \(-VI\sin\varphi\sin2\omega t\), is pure back-and-forth: energy stored in the load's magnetic or electric field each quarter-cycle and returned the next. Its peak is the <b>reactive power</b>:</p>
+  <div class="mathblock">\[ Q = VI\sin\varphi \quad [\text{var}] . \]</div>
+  <p>Q does no net work, but the current that carries it still flows through every wire and still heats them.</p>
+
+  <div class="widget" data-w="power">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">v, i and p(t) for 230 V, 10 A</span></div>
+    <div class="w-body">
+      <div class="w-grid"><canvas id="cv-power" data-h="240"></canvas><canvas id="cv-ptri" data-h="240"></canvas></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Angle φ (current behind voltage) <output id="o-pw-phi"></output></span><input type="range" id="pw-phi" min="-90" max="90" step="1" value="37"></label>
+      </div>
+      <div class="readout">
+        <div><small>P = VI cos φ</small><b id="r-pw-p"></b></div>
+        <div><small>Q = VI sin φ</small><b id="r-pw-q"></b></div>
+        <div><small>|S| = VI</small><b id="r-pw-s"></b></div>
+        <div><small>Power factor</small><b id="r-pw-pf"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> at φ = 0 the power curve never dips below zero. As φ grows, red-shaded parts appear where p &lt; 0: the load is pushing energy back to the source. At φ = ±90° the average is zero: all exchange, no work. The current (and |S|) never changed, only the useful part did.</div>
+    </div>
+  </div>
+
+  <h2><span class="no">5.2</span>Complex power and the power triangle</h2>
+  <p>Package P and Q into one complex number using phasors:</p>
+  <div class="mathblock">\[ \mathbf S = \mathbf V\,\mathbf I^* = VI\angle(\theta_v-\theta_i) = VI\cos\varphi + jVI\sin\varphi = P + jQ . \]</div>
+  <p>The conjugate is there so that inductive loads come out with \(Q&gt;0\) (Sen B.14). The magnitude \(|\mathbf S| = VI = \sqrt{P^2+Q^2}\) is the <b>apparent power</b> in VA, what cables, transformers and generators must be rated for. The <b>power factor</b> is</p>
+  <div class="mathblock">\[ \text{PF} = \frac{P}{|\mathbf S|} = \cos\varphi . \]</div>
+  <div class="tbl"><table>
+    <tr><th>Load</th><th>Current vs voltage</th><th>Sign of Q</th><th>PF label</th></tr>
+    <tr><td>Resistive</td><td>in phase</td><td>0</td><td>unity</td></tr>
+    <tr><td>Inductive (motors)</td><td>lags</td><td>Q &gt; 0 (absorbs)</td><td>lagging</td></tr>
+    <tr><td>Capacitive</td><td>leads</td><td>Q &lt; 0 (supplies)</td><td>leading</td></tr>
+  </table></div>
+  <div class="idea"><b>Why utilities care about PF.</b> For the same useful power at the same voltage, \(I = P/(V\cdot\text{PF})\). PF 0.6 instead of 1 means 67 % more current and \(1/0.6^2 = 2.8\) times the cable heating, for nothing.</div>
+  <div class="key"><div class="lbl">Recipes</div>
+    <div class="mathblock">\[ \text{Given } P,\ \text{PF}:\quad |S| = \frac{P}{\text{PF}},\quad Q = \pm P\tan(\cos^{-1}\text{PF}) \qquad \text{Given } |S|,\ \text{PF}:\quad P = |S|\,\text{PF},\quad |Q| = |S|\sqrt{1-\text{PF}^2} \]</div></div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">2025 MT1 Q1(a): a 4 kW motor</span></div>
+    <div class="prob">Single-phase motor, 4 kW, PF 0.8 lagging, terminal voltage 200 V. Find the current and the complex power.</div>
+    <ol class="steps">
+      <li><div>\(|S| = P/\text{PF} = 4000/0.8 = \) <span class="ans">5000 VA</span>.</div></li>
+      <li><div>\(|I| = |S|/V = 5000/200 = \) <span class="ans">25 A</span>. Same as \(P/(V\,\text{PF})\).</div></li>
+      <li><div>\(\varphi = \cos^{-1}0.8 = 36.87^\circ\); \(\tan\varphi = 0.75\) so \(Q = 4000\times0.75 = \) <span class="ans">+3000 var</span> (lagging, positive).</div></li>
+      <li><div>With \(\mathbf V = 200\angle0^\circ\): \(\mathbf I = 25\angle{-36.87^\circ} = 20 - j15\) A.<p class="why">Lagging current sits below the voltage on the phasor diagram.</p></div></li>
+      <li><div>Check with the definition: \(\mathbf S = \mathbf V\mathbf I^* = 200(20 + j15) = \) <span class="ans">4000 + j3000 VA</span> ✓</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <h2><span class="no">5.3</span>Power factor correction (single-phase)</h2>
+  <p>A capacitor draws a current that <i>leads</i> by 90°, so it absorbs negative Q. Put it in parallel with an inductive load and the two reactive powers cancel locally: the load still gets its Q, but now from the capacitor next to it instead of from the far-away source.</p>
+  <div class="mathblock">\[ Q_C = P\left(\tan\varphi_{\text{old}} - \tan\varphi_{\text{new}}\right), \qquad Q_C = \omega C V^2 \;\Rightarrow\; C = \frac{Q_C}{\omega V^2} . \]</div>
+  <p>What changes: source Q, |S|, current, cable loss. What does <b>not</b> change: the load's P and its own Q. An ideal capacitor uses no real power.</p>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Correct a 4 kW, 0.8 lag load on 230 V, 50 Hz to 0.95 lag</span></div>
+    <div class="prob">Find the capacitor and the current before and after.</div>
+    <ol class="steps">
+      <li><div>Old Q: \(4000\tan(36.87^\circ) = 3000\) var. Target Q: \(4000\tan(\cos^{-1}0.95) = 4000\times0.3287 = 1314.7\) var.</div></li>
+      <li><div>Capacitor supplies the difference: \(Q_C = 3000 - 1314.7 = \) <span class="ans">1685 var</span>.</div></li>
+      <li><div>\(C = Q_C/(\omega V^2) = 1685/(314.16\times230^2) = \) <span class="ans">101.4 µF</span>.</div></li>
+      <li><div>Current: before \(4000/(230\times0.8) = 21.7\) A; after \(4000/(230\times0.95) = \) <span class="ans">18.3 A</span>. 16 % less current, 29 % less cable heat.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A load's PF is 0.8. Which statement is true?</p>
+    <div class="opts">
+      <button>20 % of the input power is lost as heat in the load.</button>
+      <button>The load must be lagging.</button>
+      <button data-ok>It draws 25 % more current than a unity-PF load of the same P and V.</button>
+      <button>Its reactive power is 0.2 times its real power.</button>
+    </div>
+    <div class="c-exp" hidden>\(I = P/(V\,\text{PF})\), so \(1/0.8 = 1.25\). PF is not efficiency (option 1). PF 0.8 can be leading or lagging, since cos is even (option 2). \(Q/P = \tan(\cos^{-1}0.8) = 0.75\) (option 4).</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Forgetting the conjugate in \(\mathbf S = \mathbf V\mathbf I^*\). Q flips sign.</li>
+    <li>Treating PF as efficiency.</li>
+    <li>Adding |S| values of different loads. Add P and Q separately, then take the magnitude.</li>
+    <li>"Supplies/injects reactive power" for a load means Q &lt; 0.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>\(\mathbf S = \mathbf V\mathbf I^* = P + jQ\), \(|S| = VI\), PF = P/|S| = cos φ.</li>
+    <li>Lagging (inductive) Q &gt; 0; leading (capacitive) Q &lt; 0.</li>
+    <li>A shunt capacitor supplies Q locally: same P, less current, less loss.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q1">2025 Q1(a),(d)</a><a class="chip" href="#practice" data-q="q6">2021 Q1</a></div>
+  <p class="src">Sen Appendix B.1, eq. B.9–B.14, Fig. B.2 (pp.590–592).</p>
+</section>
+
+<!-- ================= L6 ================= -->
+<section class="page" data-page="l6" data-title="Single-phase line: source power and regulation" data-group="Single-phase AC systems" data-sum="Cable S = |I|²Z, V_s = V_L + I·Z, voltage regulation">
+  <div class="crumb">Single-phase AC · Lesson 6</div>
+  <h1>A load at the end of a cable</h1>
+  <p class="lede">Everything so far, combined: the source has to supply the load plus the cable, and its voltage has to be higher by a phasor drop. This is exactly 2025 MT1 Q1.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Find the cable's real and reactive power, and the energy it wastes.</li>
+    <li>Find the source P, Q and PF from a complex power balance.</li>
+    <li>Find the source voltage by phasor KVL and compute voltage regulation.</li>
+  </ul></div>
+
+  <h2><span class="no">6.1</span>The cable absorbs \(|I|^2 Z\)</h2>
+  <p>The cable is a series impedance \(Z_c = R + jX\) carrying the load current. The voltage across it is \(\mathbf I Z_c\), so its complex power is</p>
+  <div class="mathblock">\[ \mathbf S_c = (\mathbf I Z_c)\,\mathbf I^* = |\mathbf I|^2 Z_c = |I|^2 R + j\,|I|^2 X . \]</div>
+  <p>The real part is heat. Note \(|\mathbf I|^2\) is the squared RMS magnitude, never the square of the complex phasor.</p>
+
+  <h2><span class="no">6.2</span>Power balance and phasor KVL</h2>
+  <div class="mathblock">\[ \mathbf S_s = \mathbf S_L + \mathbf S_c, \qquad \mathbf V_s = \mathbf V_L + \mathbf I Z_c . \]</div>
+  <p>The source PF uses source P and Q, so it differs from the load PF. Voltage regulation compares magnitudes:</p>
+  <div class="mathblock">\[ \text{VR}\% = \frac{|\mathbf V_s| - |\mathbf V_L|}{|\mathbf V_L|}\times100 . \]</div>
+
+  <div class="widget" data-w="cable">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Phasor KVL along a cable (V<sub>L</sub> = 230∠0° V)</span></div>
+    <div class="w-body">
+      <canvas id="cv-cable" data-h="270"></canvas>
+      <div class="btnrow"><div class="seg" id="cb-type"><button data-v="lag" class="on">Lagging load</button><button data-v="lead">Leading load</button></div></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Load power P <output id="o-cb-p"></output></span><input type="range" id="cb-p" min="1" max="10" step="0.5" value="5"></label>
+        <label class="ctrl"><span class="row">Load PF <output id="o-cb-pf"></output></span><input type="range" id="cb-pf" min="0.5" max="1" step="0.01" value="0.8"></label>
+        <label class="ctrl"><span class="row">Cable R <output id="o-cb-r"></output></span><input type="range" id="cb-r" min="0" max="1.5" step="0.05" value="0.4"></label>
+        <label class="ctrl"><span class="row">Cable X <output id="o-cb-x"></output></span><input type="range" id="cb-x" min="0" max="1.5" step="0.05" value="0.3"></label>
+      </div>
+      <div class="readout">
+        <div><small>Current |I|</small><b id="r-cb-i"></b></div>
+        <div><small>Source voltage |V<sub>s</sub>|</small><b id="r-cb-vs"></b></div>
+        <div><small>Regulation</small><b id="r-cb-vr"></b></div>
+        <div><small>Cable loss</small><b id="r-cb-l"></b></div>
+        <div><small>Source PF</small><b id="r-cb-pf"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> the drop is two pieces, \(I R\) parallel to the current and \(jIX\) at 90° to it. With a lagging load both pieces push V<sub>s</sub> longer. Switch to a leading load with large X: the drop can point back and V<sub>s</sub> becomes shorter than V<sub>L</sub>, negative regulation.</div>
+    </div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">2025 MT1 Q1(b)–(f), corrected data</span></div>
+    <div class="prob">4 kW motor, PF 0.8 lag, runs 10 h a day through a cable of loop impedance \(0.4 + j0.1\ \Omega\). The paper says "assume 20 A" after part (a); the official key then uses \(V_L = 250\) V so that 4 kW and PF 0.8 still hold (\(250\times20\times0.8 = 4000\)).</div>
+    <ol class="steps">
+      <li><div>Reference \(\mathbf V_L = 250\angle0^\circ\). Current \(\mathbf I = 20\angle{-36.87^\circ} = 16 - j12\) A. Load \(\mathbf S_L = 4000 + j3000\) VA.</div></li>
+      <li><div>Cable: \(\mathbf S_c = 20^2(0.4 + j0.1) = \) <span class="ans">160 + j40 VA</span>. Energy lost per day \(0.16\ \text{kW}\times10\ \text{h} = \) <span class="ans">1.6 kWh</span>.</div></li>
+      <li><div>Source: \(\mathbf S_s = 4160 + j3040\) VA, i.e. <span class="ans">P = 4.16 kW, Q = 3.04 kvar</span>.</div></li>
+      <li><div>\(|\mathbf S_s| = \sqrt{4160^2+3040^2} = 5152.4\) VA; PF \(= 4160/5152.4 = \) <span class="ans">0.807 lagging</span>.</div></li>
+      <li><div>Drop: \(\mathbf IZ_c = (16 - j12)(0.4 + j0.1) = 6.4 + j1.6 - j4.8 + 1.2 = 7.6 - j3.2\) V.</div></li>
+      <li><div>\(\mathbf V_s = 257.6 - j3.2\) V, \(|\mathbf V_s| = \) <span class="ans">257.62 V</span>. Check: \(|S_s|/|I| = 5152.4/20 = 257.62\) ✓</div></li>
+      <li><div>\(\text{VR} = (257.62 - 250)/250 = \) <span class="ans">3.05 %</span>.<p class="why">The drop magnitude is 8.25 V, but |V<sub>s</sub>| rose only 7.62 V because the drop is not in line with V<sub>L</sub>.</p></div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A cable carries 20 A RMS and has \(Z_c = 0.4 + j0.1\ \Omega\). What reactive power does the cable absorb?</p>
+    <div class="opts">
+      <button>2 var</button>
+      <button data-ok>40 var</button>
+      <button>160 var</button>
+      <button>0 var, cables only produce heat</button>
+    </div>
+    <div class="c-exp" hidden>\(Q_c = |I|^2X = 400\times0.1 = 40\) var. The 160 is the real (heat) part, \(|I|^2R\).</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>\(|V_s| = |V_L| + |IZ_c|\). Add as phasors.</li>
+    <li>Squaring the complex current. Use \(|I|^2\).</li>
+    <li>Reporting the load PF as the source PF.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Sequence: reference V<sub>L</sub> → I (size and angle) → \(S_c = |I|^2Z_c\) → \(S_s = S_L + S_c\) → \(V_s = V_L + IZ_c\) → VR.</li>
+    <li>Cross-check \(|V_s| = |S_s|/|I|\).</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q1">2025 Q1 full</a></div>
+  <p class="src">2025 MT1 Q1 and supplied key (EE361_2025f_MT1_Q1_Q2_Sol.pdf pp.2–3).</p>
+</section>
+
+<!-- ================= L7 ================= -->
+<section class="page" data-page="l7" data-title="Balanced three-phase systems" data-group="Three-phase AC systems" data-sum="Three sinusoids 120° apart, zero neutral current, constant power">
+  <div class="crumb">Three-phase AC · Lesson 7</div>
+  <h1>Balanced three-phase systems</h1>
+  <p class="lede">Almost all the world's electricity is generated, transmitted and used as three phases. Three sinusoids 120° apart turn out to have some almost magical properties.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Write the three phase voltages of a balanced abc system in time and phasor form.</li>
+    <li>Show why balanced currents cancel in the neutral.</li>
+    <li>Show why total three-phase power is constant, and list why we use three phases.</li>
+  </ul></div>
+
+  <h2><span class="no">7.1</span>Where three phases come from</h2>
+  <p>A synchronous generator has three identical stator windings placed 120° apart around the machine. A DC-excited rotor spins past them and induces three equal sinusoids, each 120° behind the previous one (Sen Fig. B.3):</p>
+  <div class="mathblock">\[ v_a = \sqrt2V_p\cos\omega t,\quad v_b = \sqrt2V_p\cos(\omega t - 120^\circ),\quad v_c = \sqrt2V_p\cos(\omega t + 120^\circ) \]</div>
+  <div class="mathblock">\[ \mathbf V_a = V_p\angle0^\circ,\qquad \mathbf V_b = V_p\angle{-120^\circ},\qquad \mathbf V_c = V_p\angle{+120^\circ} . \]</div>
+  <p>The phases peak in the order a, b, c: <b>positive sequence</b>. <b>Balanced</b> means equal magnitudes and exactly 120° spacing.</p>
+
+  <div class="widget" data-w="tph">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Three phase currents, their sum, and total power</span></div>
+    <div class="w-body">
+      <div class="w-grid"><canvas id="cv-tph-a" data-h="250"></canvas><canvas id="cv-tph-b" data-h="250"></canvas></div>
+      <div class="btnrow"><button class="btn sm" id="tph-play">Pause</button></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Phase c current size (1 = balanced) <output id="o-tph-c"></output></span><input type="range" id="tph-c" min="0" max="1.6" step="0.05" value="1"></label>
+        <label class="ctrl"><span class="row">Load angle φ <output id="o-tph-phi"></output></span><input type="range" id="tph-phi" min="0" max="80" step="1" value="30"></label>
+      </div>
+      <div class="readout">
+        <div><small>Neutral current |I<sub>n</sub>| / I</small><b id="r-tph-n"></b></div>
+        <div><small>Total power ripple</small><b id="r-tph-r"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> left, the three current arrows chained tip-to-tail close back to the origin: their sum is zero, so the neutral carries nothing. Right top, the dashed sum waveform is flat at zero. Right bottom, each phase's power pulses but the black total is a flat line. Now unbalance phase c and watch both properties break.</div>
+    </div>
+  </div>
+
+  <h2><span class="no">7.2</span>Property 1: the neutral current vanishes</h2>
+  <p>With identical loads, the three currents are equal in size and 120° apart. Add them as phasors:</p>
+  <div class="mathblock">\[ \mathbf I_n = \mathbf I_a + \mathbf I_b + \mathbf I_c = I\left(1 + \angle{-120^\circ} + \angle{120^\circ}\right) = I\left(1 - \tfrac12 - \tfrac12 + j\left(-\tfrac{\sqrt3}{2}+\tfrac{\sqrt3}{2}\right)\right) = 0 . \]</div>
+  <p>So the return conductor can be thin or absent. Three wires do the job of three separate single-phase circuits that would need six.</p>
+
+  <h2><span class="no">7.3</span>Property 2: total power is constant</h2>
+  <p>Each phase's power pulses at \(2\omega\) (Lesson 5). But the three pulsing parts are spaced \(2\times120^\circ = 240^\circ\) apart and cancel just like the currents:</p>
+  <div class="mathblock">\[ p_{3\phi}(t) = p_a + p_b + p_c = 3V_pI_p\cos\varphi \quad\text{(constant, Sen B.36).} \]</div>
+  <p>For a motor this means constant shaft torque with no supply-driven vibration. A single-phase motor sees torque pulsing 100 times a second.</p>
+
+  <h2><span class="no">7.4</span>Why three, not two or five?</h2>
+  <ul>
+    <li><b>More power per wire.</b> Single-phase: 2 wires carry \(VI\). Three-phase: 3 wires carry \(3VI\). Twice the power per conductor.</li>
+    <li><b>Constant power</b>, as shown above.</li>
+    <li><b>Rotating magnetic field</b>: three windings 120° apart with these currents make a field that spins smoothly, the basis of induction motors (EE362).</li>
+    <li>Three is the smallest number that gives all of this. More phases add wires and cost with little gain.</li>
+  </ul>
+  <p>In Turkey the standard is now 230 V line-to-neutral (it used to be 220 V). Its peak is 325 V, and line-to-line it is \(230\sqrt3 = 400\) V. Why √3? Next lesson.</p>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">In a balanced three-phase system, what is the frequency of the ripple in the total instantaneous power?</p>
+    <div class="opts">
+      <button>50 Hz</button>
+      <button>100 Hz</button>
+      <button>150 Hz</button>
+      <button data-ok>There is no ripple; the total is constant</button>
+    </div>
+    <div class="c-exp" hidden>Each phase pulses at 100 Hz, but the three pulses are 240° apart and sum to zero. Only the average \(3V_pI_p\cos\varphi\) remains.</div>
+  </div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Balanced: equal magnitudes, 120° apart, sequence abc.</li>
+    <li>Balanced currents sum to zero → no neutral current.</li>
+    <li>Total instantaneous power is constant, \(3V_pI_p\cos\varphi\).</li>
+  </ul></div>
+  <p class="src">LN2 slides 12–18 (PDF pp.15–25). Sen Appendix B.2, B.3 eq. B.15–B.17, B.36, B.43 (pp.592–597).</p>
+</section>
+
+<!-- ================= L8 ================= -->
+<section class="page" data-page="l8" data-title="Y and Δ: line and phase quantities" data-group="Three-phase AC systems" data-sum="√3 and 30°, derived and drawn">
+  <div class="crumb">Three-phase AC · Lesson 8</div>
+  <h1>Y and Δ connections: line and phase quantities</h1>
+  <p class="lede">There are two ways to wire three windings or three loads. Each gives a different relation between what you measure on the lines and what each element actually sees.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Define line and phase voltage and current, for both connections.</li>
+    <li>Derive \(V_{LL} = \sqrt3V_{ph}\) at +30° (Y) and \(I_L = \sqrt3I_{ph}\) at −30° (Δ) from the phasor diagram.</li>
+    <li>Draw both phasor diagrams that exams ask for.</li>
+  </ul></div>
+
+  <h2><span class="no">8.1</span>Four quantities, two connections</h2>
+  <figure>
+    <svg viewBox="0 0 700 240" role="img" aria-label="Y connection with common neutral and Delta connection with branches between lines">
+      <text x="160" y="22" text-anchor="middle" class="s-ink" font-weight="500">Y (star)</text>
+      <circle cx="160" cy="135" r="5" class="s-ink"/><text x="172" y="150" class="s-mut">n</text>
+      <line x1="160" y1="135" x2="160" y2="65" class="k-a" stroke-width="3"/><line x1="160" y1="135" x2="100" y2="185" class="k-b" stroke-width="3"/><line x1="160" y1="135" x2="220" y2="185" class="k-c" stroke-width="3"/>
+      <rect x="152" y="80" width="16" height="34" rx="3" class="f-panel k-a" stroke-width="2"/>
+      <line x1="160" y1="65" x2="160" y2="40" class="k-ink" stroke-width="2"/><text x="168" y="44" class="s-ink">a</text>
+      <line x1="100" y1="185" x2="70" y2="210" class="k-ink" stroke-width="2"/><text x="56" y="222" class="s-ink">b</text>
+      <line x1="220" y1="185" x2="250" y2="210" class="k-ink" stroke-width="2"/><text x="256" y="222" class="s-ink">c</text>
+      <text x="196" y="100" class="s-a">V_an (phase)</text>
+      <text x="40" y="120" class="s-mut">V_ab (line) is</text><text x="40" y="136" class="s-mut">across 2 branches</text>
+      <text x="160" y="236" text-anchor="middle" class="s-ink">I_line = I_phase</text>
+
+      <text x="520" y="22" text-anchor="middle" class="s-ink" font-weight="500">Δ (delta)</text>
+      <polygon points="520,60 450,180 590,180" class="f-none k-line" stroke-width="1"/>
+      <line x1="520" y1="60" x2="450" y2="180" class="k-a" stroke-width="3"/><line x1="450" y1="180" x2="590" y2="180" class="k-b" stroke-width="3"/><line x1="590" y1="180" x2="520" y2="60" class="k-c" stroke-width="3"/>
+      <line x1="520" y1="60" x2="520" y2="36" class="k-ink" stroke-width="2"/><text x="528" y="42" class="s-ink">a</text>
+      <line x1="450" y1="180" x2="425" y2="205" class="k-ink" stroke-width="2"/><text x="410" y="220" class="s-ink">b</text>
+      <line x1="590" y1="180" x2="615" y2="205" class="k-ink" stroke-width="2"/><text x="620" y="220" class="s-ink">c</text>
+      <text x="420" y="110" class="s-a">I_ab</text><text x="510" y="200" class="s-b">I_bc</text><text x="572" y="110" class="s-c">I_ca</text>
+      <text x="520" y="236" text-anchor="middle" class="s-ink">V_phase = V_line</text>
+    </svg>
+    <figcaption>Phase quantities belong to one element (winding or load branch). Line quantities are what you measure on the lines: voltage between two lines, current in one line.</figcaption>
+  </figure>
+
+  <h2><span class="no">8.2</span>Y: line voltage is √3 bigger and 30° ahead</h2>
+  <p>In Y each line feeds exactly one branch, so \(I_L = I_{ph}\). A line voltage spans two branches (LN2 slide 21):</p>
+  <div class="mathblock">\[ \mathbf V_{ab} = \mathbf V_{an} + \mathbf V_{nb} = \mathbf V_{an} - \mathbf V_{bn} = V_p\left[1 - \left(-\tfrac12 - j\tfrac{\sqrt3}{2}\right)\right] = V_p\left(\tfrac32 + j\tfrac{\sqrt3}{2}\right) = \sqrt3\,V_p\angle30^\circ . \]</div>
+  <p>Magnitude \(V_p\sqrt{9/4 + 3/4} = \sqrt3V_p\), angle \(\tan^{-1}\!\big((\sqrt3/2)/(3/2)\big) = 30^\circ\). The other two follow by symmetry: \(\mathbf V_{bc} = \sqrt3V_p\angle{-90^\circ}\), \(\mathbf V_{ca} = \sqrt3V_p\angle150^\circ\).</p>
+
+  <h2><span class="no">8.3</span>Δ: line current is √3 bigger and 30° behind</h2>
+  <p>In Δ each branch sits directly between two lines, so \(V_{ph} = V_{LL}\). But each line node joins two branches. KCL at node a:</p>
+  <div class="mathblock">\[ \mathbf I_a = \mathbf I_{ab} - \mathbf I_{ca} = I_p\angle{-\varphi}\,\big(1 - 1\angle120^\circ\big) = \sqrt3\,I_p\angle(-\varphi - 30^\circ) . \]</div>
+  <p>Same geometry as the Y voltages, mirrored: the line current is √3 longer and 30° behind its branch current (Sen B.52).</p>
+
+  <div class="widget" data-w="yd">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Build the line phasors yourself</span></div>
+    <div class="w-body">
+      <canvas id="cv-yd" data-h="330"></canvas>
+      <div class="btnrow">
+        <div class="seg" id="yd-mode"><button data-v="y" class="on">Y: voltages</button><button data-v="d">Δ: currents</button></div>
+        <button class="btn sm ghost" id="yd-step">Next step</button><button class="btn sm ghost" id="yd-reset">Restart</button>
+      </div>
+      <div class="status" id="yd-txt"></div>
+      <div class="notice"><b>What to notice:</b> each line phasor is one phase phasor minus the next. Drawn tip-to-tail, the two phase arrows and the result form a triangle with angles 30°, 30°, 120°. That triangle is where both √3 and 30° come from.</div>
+    </div>
+  </div>
+
+  <div class="tbl"><table>
+    <tr><th>Connection</th><th>Phase voltage</th><th>Line current</th><th>Shift</th></tr>
+    <tr><td><b>Y</b></td><td>\(V_{ph} = V_{LL}/\sqrt3\)</td><td>\(I_L = I_{ph}\)</td><td>\(\mathbf V_{ab}\) leads \(\mathbf V_{an}\) by 30°</td></tr>
+    <tr><td><b>Δ</b></td><td>\(V_{ph} = V_{LL}\)</td><td>\(I_L = \sqrt3I_{ph}\)</td><td>\(\mathbf I_a\) lags \(\mathbf I_{ab}\) by 30°</td></tr>
+  </table></div>
+  <p>Grid example (LN2 slides 22–23): 230 V phase → \(230\sqrt3 = 400\) V line. Old standard 220 V → 380 V.</p>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">2025 MT1 Q2: three 5 kVA loads in Y, then in Δ, on 400 V</span></div>
+    <div class="prob">Three identical single-phase loads, each 5 kVA at unity PF, form a balanced load on a 400 V system. Following the key, each load keeps its 5 kVA in both connections.</div>
+    <ol class="steps">
+      <li><div><b>Y.</b> \(V_{ph} = 400/\sqrt3 = \) <span class="ans">230.94 V</span>, \(V_{LL} = 400\) V.</div></li>
+      <li><div>\(I_{ph} = 5000/230.94 = \) <span class="ans">21.65 A</span> \(= I_L\).</div></li>
+      <li><div>Total \(|S| = 15\) kVA, \(P = 15\) kW (unity PF). Check \(\sqrt3\times400\times21.65 = 15\,000\) ✓</div></li>
+      <li><div><b>Δ.</b> \(V_{ph} = V_{LL} = \) <span class="ans">400 V</span>. \(I_{ph} = 5000/400 = \) <span class="ans">12.5 A</span>, \(I_L = \sqrt3\times12.5 = \) <span class="ans">21.65 A</span>.</div></li>
+      <li><div>Again 15 kVA, 15 kW. Phasor diagrams: exactly the two modes of the Explore box above (V<sub>an</sub> at 0° for Y; V<sub>ab</sub> at 0° for Δ so \(\mathbf I_a = 21.65\angle{-30^\circ}\)).</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A balanced Δ load draws 30 A in each line. What current flows in each branch?</p>
+    <div class="opts">
+      <button>30 A</button>
+      <button>52 A</button>
+      <button data-ok>17.3 A</button>
+      <button>10 A</button>
+    </div>
+    <div class="c-exp" hidden>In Δ, \(I_L = \sqrt3I_{ph}\), so \(I_{ph} = 30/\sqrt3 = 17.3\) A.</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>"400 V system" means 400 V line-to-line, not per phase.</li>
+    <li>The power-factor angle is between a branch voltage and its own branch current. The 30° shifts are geometry, not PF.</li>
+    <li>Applying √3 to current in Y, or to voltage in Δ.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Y: \(V_{LL} = \sqrt3V_{ph}\angle{+30^\circ}\), \(I_L = I_{ph}\).</li>
+    <li>Δ: \(V_{LL} = V_{ph}\), \(I_L = \sqrt3I_{ph}\angle{-30^\circ}\).</li>
+    <li>Both come from subtracting two phasors 120° apart.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q2">2025 Q2</a><a class="chip" href="#practice" data-q="q7">2022 Q1(a)</a></div>
+  <p class="src">LN2 slides 19–26 (PDF pp.26–39). Sen B.2.1, B.2.2, B.3 eq. B.21–B.27, B.49–B.55.</p>
+</section>
+
+<!-- ================= L9 ================= -->
+<section class="page" data-page="l9" data-title="Three-phase power calculations" data-group="Three-phase AC systems" data-sum="S = 3V_ph I_ph = √3 V_LL I_L, Δ–Y transform">
+  <div class="crumb">Three-phase AC · Lesson 9</div>
+  <h1>Three-phase power calculations</h1>
+  <p class="lede">Power formulas that work for either connection, and a trick to turn any Δ load into an equivalent Y.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Compute P, Q, |S| of a balanced load from phase or line quantities.</li>
+    <li>Convert a Δ load to its equivalent Y, \(Z_Y = Z_\Delta/3\).</li>
+    <li>Tell "same kVA in a new connection" apart from "same impedance in a new connection".</li>
+  </ul></div>
+
+  <h2><span class="no">9.1</span>One formula for both connections</h2>
+  <p>Three identical branches, each with phase quantities \(V_p, I_p\) and angle φ:</p>
+  <div class="mathblock">\[ P_{3\phi} = 3V_pI_p\cos\varphi, \qquad Q_{3\phi} = 3V_pI_p\sin\varphi, \qquad |S_{3\phi}| = 3V_pI_p . \]</div>
+  <p>In Y, \(V_p = V_L/\sqrt3\) and \(I_p = I_L\). In Δ, \(V_p = V_L\) and \(I_p = I_L/\sqrt3\). Either way \(3V_pI_p = \sqrt3V_LI_L\):</p>
+  <div class="mathblock">\[ |S_{3\phi}| = \sqrt3\,V_{LL}\,I_L, \qquad P_{3\phi} = \sqrt3\,V_{LL}I_L\cos\varphi, \qquad Q_{3\phi} = \sqrt3\,V_{LL}I_L\sin\varphi . \]</div>
+  <div class="idea"><b>φ is still the branch angle</b>, the impedance angle, not the angle between \(V_{LL}\) and \(I_L\) (that one is off by 30°). The fastest current formula you will use: \(I_L = \dfrac{|S_{3\phi}|}{\sqrt3V_{LL}} = \dfrac{P}{\sqrt3V_{LL}\,\text{PF}}\).</div>
+
+  <h2><span class="no">9.2</span>Δ to Y: \(Z_Y = Z_\Delta/3\)</h2>
+  <p>Find what Y load draws the same line current. For the Δ load, using \(\mathbf V_a + \mathbf V_b + \mathbf V_c = 0\) (Sen B.59):</p>
+  <div class="mathblock">\[ \mathbf I_a = \mathbf I_{ab} - \mathbf I_{ca} = \frac{(\mathbf V_a - \mathbf V_b) - (\mathbf V_c - \mathbf V_a)}{Z_\Delta} = \frac{3\mathbf V_a - (\mathbf V_a + \mathbf V_b + \mathbf V_c)}{Z_\Delta} = \frac{\mathbf V_a}{Z_\Delta/3} . \]</div>
+  <p>A Y load gives \(\mathbf I_a = \mathbf V_a/Z_Y\). Equal currents require \(Z_Y = Z_\Delta/3\). This is the door to the per-phase method of the next lesson: every balanced circuit can be drawn as Y.</p>
+
+  <h2><span class="no">9.3</span>Reconnecting the same impedances</h2>
+  <p>2025 Q2 held each load at 5 kVA, so total power did not change. A different (and very common) question: take three <i>fixed</i> impedances and move them from Y to Δ on the same supply. Each now sees √3 more voltage, so \(V^2/Z\) gives 3 times the power.</p>
+
+  <div class="widget" data-w="recon">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Same three impedances, Y versus Δ, on 400 V</span></div>
+    <div class="w-body">
+      <canvas id="cv-recon" data-h="180"></canvas>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">|Z| per branch <output id="o-rc-z"></output></span><input type="range" id="rc-z" min="5" max="40" step="0.5" value="15"></label>
+        <label class="ctrl"><span class="row">Impedance angle <output id="o-rc-a"></output></span><input type="range" id="rc-a" min="0" max="80" step="1" value="37"></label>
+      </div>
+      <div class="tbl" style="margin-bottom:0"><table id="rc-tbl"></table></div>
+      <div class="notice"><b>What to notice:</b> every Δ number for power and line current is exactly 3 times the Y number. That is \(Z_Y = Z_\Delta/3\) seen from the other side: a Δ of Z behaves like a Y of Z/3.</div>
+    </div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Fixed Z = 12 + j9 Ω, 400 V, Y versus Δ</span></div>
+    <div class="prob">Three impedances \(12 + j9 = 15\angle36.87^\circ\ \Omega\). Find the total power in Y and in Δ.</div>
+    <ol class="steps">
+      <li><div>Y: branch voltage \(400/\sqrt3 = 230.94\) V, branch current \(230.94/15 = 15.40\) A = line current.</div></li>
+      <li><div>\(P_Y = 3\times15.40^2\times12 = \) <span class="ans">8.53 kW</span>, \(Q_Y = 3\times15.40^2\times9 = 6.4\) kvar.</div></li>
+      <li><div>Δ: branch voltage 400 V, branch current \(400/15 = 26.67\) A, line current \(\sqrt3\times26.67 = 46.19\) A.</div></li>
+      <li><div>\(P_\Delta = 3\times26.67^2\times12 = \) <span class="ans">25.6 kW</span> = \(3P_Y\) ✓. Line current also tripled.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A balanced load takes 30 kW at 0.8 PF lagging from a 400 V line. What is the line current?</p>
+    <div class="opts">
+      <button>93.8 A</button>
+      <button data-ok>54.1 A</button>
+      <button>31.3 A</button>
+      <button>43.3 A</button>
+    </div>
+    <div class="c-exp" hidden>\(I_L = P/(\sqrt3V_{LL}\text{PF}) = 30\,000/(1.732\times400\times0.8) = 54.1\) A. Forgetting √3 gives 93.8 A; forgetting PF gives 43.3 A.</div>
+  </div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>\(|S| = 3V_pI_p = \sqrt3V_{LL}I_L\) for both connections, with φ the branch angle.</li>
+    <li>\(Z_Y = Z_\Delta/3\).</li>
+    <li>Same Z moved Y → Δ: power and line current × 3.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q2">2025 Q2(c),(g)</a><a class="chip" href="#practice" data-q="q6">2021 Q1</a></div>
+  <p class="src">LN2 slides 27–28 (PDF pp.40–43). Sen B.3–B.4, eq. B.37–B.42, B.56–B.61.</p>
+</section>
+
+<!-- ================= L10 ================= -->
+<section class="page" data-page="l10" data-title="Per-phase equivalent and line model" data-group="Three-phase AC systems" data-sum="Solve one phase, line drop, losses, regulation, two-bus systems">
+  <div class="crumb">Three-phase AC · Lesson 10</div>
+  <h1>Per-phase equivalent circuit, line model and voltage regulation</h1>
+  <p class="lede">A balanced three-phase network is three copies of the same circuit shifted by 120°. Solve one copy, then multiply. This is the method behind every feeder question.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Draw the per-phase equivalent of any balanced system (Δ sources and loads included).</li>
+    <li>Find line current, sending-end voltage, line losses and regulation.</li>
+    <li>Walk a multi-bus system with generator injections using KCL.</li>
+  </ul></div>
+
+  <h2><span class="no">10.1</span>Building the per-phase circuit</h2>
+  <ol>
+    <li>Represent every source as an equivalent Y: \(\mathbf V_a = \dfrac{V_{LL}}{\sqrt3}\angle{-30^\circ}\) relative to \(\mathbf V_{ab}\) (Sen B.62). Usually just take \(V_{LL}/\sqrt3\angle0^\circ\) as reference.</li>
+    <li>Represent every Δ load by its Y equivalent \(Z_\Delta/3\), or simply by its total \(P + jQ\).</li>
+    <li>Keep the line impedance <b>per phase</b> as given (Ω/phase). No loop doubling here.</li>
+    <li>Connect all neutrals with an ideal wire. It carries no current in a balanced system.</li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 640 180" role="img" aria-label="Per-phase circuit: sending bus, line impedance, receiving bus with load and capacitor, neutral return">
+      <line x1="70" y1="40" x2="70" y2="140" class="k-ink" stroke-width="5"/><text x="70" y="28" text-anchor="middle" class="s-ink" font-weight="500">Sending bus</text>
+      <line x1="70" y1="70" x2="210" y2="70" class="k-ink" stroke-width="2"/>
+      <rect x="210" y="58" width="120" height="24" rx="4" class="f-soft k-acc" stroke-width="2"/><text x="270" y="50" text-anchor="middle" class="s-acc">Z_line = R + jX per phase</text>
+      <line x1="330" y1="70" x2="420" y2="70" class="k-ink" stroke-width="2"/>
+      <line x1="420" y1="40" x2="420" y2="140" class="k-ink" stroke-width="5"/><text x="420" y="28" text-anchor="middle" class="s-ink" font-weight="500">Receiving bus</text>
+      <line x1="420" y1="80" x2="490" y2="80" class="k-ink" stroke-width="2"/><rect x="490" y="68" width="40" height="24" rx="4" class="f-soft k-a" stroke-width="2"/><text x="540" y="85" class="s-a">load S/3</text>
+      <line x1="420" y1="120" x2="490" y2="120" class="k-ink" stroke-width="2"/><line x1="490" y1="108" x2="490" y2="132" class="k-c" stroke-width="3"/><line x1="500" y1="108" x2="500" y2="132" class="k-c" stroke-width="3"/><text x="512" y="125" class="s-c">capacitors</text>
+      <text x="140" y="96" class="s-c">I →</text>
+      <text x="70" y="165" text-anchor="middle" class="s-mut">V_s = ?</text><text x="420" y="165" text-anchor="middle" class="s-mut">V_r = V_LL/√3 ∠0°</text>
+      <text x="245" y="165" text-anchor="middle" class="s-mut">V_s = V_r + Z_line·I</text>
+    </svg>
+    <figcaption>One phase of a feeder. Everything is line-to-neutral here; convert back with ×√3 for voltages and ×3 for powers.</figcaption>
+  </figure>
+
+  <h2><span class="no">10.2</span>The working equations</h2>
+  <div class="mathblock">\[ \mathbf I = \left(\frac{\mathbf S_{3\phi}}{3\mathbf V_r}\right)^{*} = \frac{P - jQ}{3V_r}, \qquad \mathbf V_s = \mathbf V_r + Z_{\text{line}}\mathbf I, \qquad V_{s,LL} = \sqrt3|\mathbf V_s| \]</div>
+  <div class="mathblock">\[ P_{\text{loss}} = 3|I|^2R, \qquad \mathbf S_s = \mathbf S_r + 3|I|^2Z_{\text{line}}, \qquad \text{VR}\% = \frac{V_{s,LL}-V_{r,LL}}{V_{r,LL}}\times100 . \]</div>
+  <p>Q at the receiving bus is the <b>net</b> Q: load minus any capacitors there. That is how compensation reduces the line current.</p>
+
+  <div class="widget" data-w="feeder">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Feeder phasor diagram, one phase (V<sub>r</sub> = 400 V line-to-line)</span></div>
+    <div class="w-body">
+      <canvas id="cv-feeder" data-h="280"></canvas>
+      <div class="btnrow"><div class="seg" id="fd-type"><button data-v="lag" class="on">Lagging load</button><button data-v="lead">Leading load</button></div></div>
+      <div class="ctrls">
+        <label class="ctrl"><span class="row">Load P (3φ) <output id="o-fd-p"></output></span><input type="range" id="fd-p" min="50" max="400" step="10" value="300"></label>
+        <label class="ctrl"><span class="row">Load PF <output id="o-fd-pf"></output></span><input type="range" id="fd-pf" min="0.5" max="1" step="0.01" value="0.8"></label>
+        <label class="ctrl"><span class="row">Line R per phase <output id="o-fd-r"></output></span><input type="range" id="fd-r" min="0" max="0.1" step="0.005" value="0.05"></label>
+        <label class="ctrl"><span class="row">Line X per phase <output id="o-fd-x"></output></span><input type="range" id="fd-x" min="0" max="0.1" step="0.005" value="0.02"></label>
+      </div>
+      <div class="readout">
+        <div><small>Line current</small><b id="r-fd-i"></b></div>
+        <div><small>Sending V<sub>LL</sub></small><b id="r-fd-vs"></b></div>
+        <div><small>Regulation</small><b id="r-fd-vr"></b></div>
+        <div><small>Line loss 3I²R</small><b id="r-fd-l"></b></div>
+        <div><small>Sending-end PF</small><b id="r-fd-pf"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> defaults are 2025 Q3(c), banks off: 541 A, 448.9 V, 43.9 kW loss. Raise the PF to 0.95 (what the capacitors do) and watch current, loss and sending voltage all drop. Real power delivered never changed.</div>
+    </div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">2025 MT1 Q3(b): compensated weekday feeder</span></div>
+    <div class="prob">Bus B held at 400 V. Load 300 kW, corrected to 0.95 lagging at Bus B. Line \(0.05 + j0.02\ \Omega\)/phase. Find line current, Bus A voltage and losses.</div>
+    <ol class="steps">
+      <li><div>Net Q at B: \(300\tan(\cos^{-1}0.95) = 300\times0.3287 = 98.61\) kvar. So \(\mathbf S = 300 + j98.61\) kVA.</div></li>
+      <li><div>\(\mathbf V_B = 400/\sqrt3 = 230.94\angle0^\circ\) V.</div></li>
+      <li><div>\(\mathbf I = \dfrac{300\,000 - j98\,610}{3\times230.94} = 433.01 - j142.32\) A, \(|I| = \) <span class="ans">455.8 A</span>.</div></li>
+      <li><div>\(Z\mathbf I = (0.05 + j0.02)(433.01 - j142.32) = 24.50 + j1.54\) V, so \(\mathbf V_A = 255.44 + j1.54\) V.</div></li>
+      <li><div>\(|\mathbf V_A| = 255.44\) V phase → \(\sqrt3\times255.44 = \) <span class="ans">442.4 V</span> line-to-line.</div></li>
+      <li><div>Losses \(3\times455.8^2\times0.05 = \) <span class="ans">31.16 kW</span>. Without the capacitors (part c): 541.3 A, 448.9 V, 43.95 kW.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <h2><span class="no">10.3</span>Several buses and generators</h2>
+  <p>When generators inject power along the way, walk from the bus whose voltage you know:</p>
+  <ol>
+    <li>Current toward the known bus from its load: \(\mathbf I = (\mathbf S/3\mathbf V)^*\).</li>
+    <li>Next voltage upstream: \(\mathbf V_{\text{next}} = \mathbf V + Z\mathbf I\).</li>
+    <li>Generator at that bus injects \(\mathbf I_g = (\mathbf S_g/3\mathbf V_{\text{next}})^*\). KCL: the line further upstream carries \(\mathbf I - \mathbf I_g\).</li>
+    <li>Repeat. The last generator's output is \(3\mathbf V\mathbf I^*\) at its terminals.</li>
+  </ol>
+  <p>Sign care: a generator at <b>leading</b> PF absorbs reactive power, so its injected \(\mathbf S_g = P - jQ\). The official Sample Q2 in Practice is exactly this.</p>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">In a per-phase calculation for a 400 V system, which voltage goes into \(\mathbf V_s = \mathbf V_r + Z\mathbf I\)?</p>
+    <div class="opts">
+      <button>400∠0° V</button>
+      <button data-ok>230.94∠0° V</button>
+      <button>400∠30° V</button>
+      <button>565.7 V, the peak</button>
+    </div>
+    <div class="c-exp" hidden>The per-phase circuit is line-to-neutral, so \(V_r = 400/\sqrt3 = 230.94\) V. Multiply the resulting \(|V_s|\) by √3 at the end.</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Putting line-to-line voltage into the per-phase KVL.</li>
+    <li>Losses as \(|I|^2R\) instead of \(3|I|^2R\) for all three phases.</li>
+    <li>Using load Q instead of net Q after compensation.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Per phase: \(V = V_{LL}/\sqrt3\), \(\mathbf I = (\mathbf S/3\mathbf V)^*\), \(\mathbf V_s = \mathbf V_r + Z\mathbf I\).</li>
+    <li>Back to 3φ: voltages × √3, powers × 3.</li>
+    <li>Check: source S = receiving S + line \(3|I|^2Z\).</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q3">2025 Q3(b),(c)</a><a class="chip" href="#practice" data-q="q5">Sample Q2</a><a class="chip" href="#practice" data-q="q7">2022 Q1(c)–(e)</a></div>
+  <p class="src">Sen B.5 eq. B.62–B.63, Fig. B.9 (p.600). 2025 MT1 Q3; Chapter-1 sample Q2.</p>
+</section>
+
+<!-- ================= L11 ================= -->
+<section class="page" data-page="l11" data-title="Power factor correction in three-phase systems" data-group="Three-phase AC systems" data-sum="Parallel loads, capacitor and reactor banks, Y vs Δ sizing">
+  <div class="crumb">Three-phase AC · Lesson 11</div>
+  <h1>Power factor correction in three-phase systems</h1>
+  <p class="lede">Real plants have many loads, some lagging, some leading. Add them correctly, decide what compensation is needed and where, and size the actual capacitors or reactors.</p>
+  <div class="objectives"><h4>After this lesson you can</h4><ul>
+    <li>Add parallel loads with signed reactive power and find the overall PF.</li>
+    <li>Compute the compensation needed and decide between capacitors and reactors.</li>
+    <li>Size per-branch C or L for Y and Δ banks, respecting component voltage ratings.</li>
+  </ul></div>
+
+  <h2><span class="no">11.1</span>Parallel loads add as complex powers</h2>
+  <div class="mathblock">\[ \mathbf S_{\text{tot}} = \sum_k (P_k + jQ_k), \qquad \text{PF}_{\text{tot}} = \frac{P_{\text{tot}}}{|\mathbf S_{\text{tot}}|} . \]</div>
+  <p>Never average PFs or add |S| values. Leading loads (Q &lt; 0) cancel lagging ones, sometimes enough that no compensation is needed at all.</p>
+
+  <h2><span class="no">11.2</span>How much compensation</h2>
+  <div class="mathblock">\[ Q_{\text{target}} = \pm P\tan(\cos^{-1}\text{PF}_{\text{target}}), \qquad Q_{\text{comp}} = Q_{\text{target}} - Q_{\text{old}} . \]</div>
+  <p>\(Q_{\text{comp}}&lt;0\): add <b>capacitors</b> (they supply Q). \(Q_{\text{comp}}&gt;0\): add <b>reactors</b> (a leading load is over-supplying Q). Compensate only to the limit; more is wasted money.</p>
+
+  <h2><span class="no">11.3</span>Sizing the bank</h2>
+  <p>A capacitor of C on branch voltage \(V_b\) supplies \(\omega CV_b^2\); a reactor absorbs \(V_b^2/(\omega L)\). The bank rating Q is the total for three branches:</p>
+  <div class="tbl"><table>
+    <tr><th>Bank</th><th>Branch voltage</th><th>Per-branch element</th></tr>
+    <tr><td>Y capacitors</td><td>\(V_{LL}/\sqrt3\)</td><td>\(C_Y = \dfrac{Q_C}{\omega V_{LL}^2}\)</td></tr>
+    <tr><td>Δ capacitors</td><td>\(V_{LL}\)</td><td>\(C_\Delta = \dfrac{Q_C}{3\omega V_{LL}^2} = \dfrac{C_Y}{3}\)</td></tr>
+    <tr><td>Y reactors</td><td>\(V_{LL}/\sqrt3\)</td><td>\(L_Y = \dfrac{V_{LL}^2}{\omega Q_R}\)</td></tr>
+    <tr><td>Δ reactors</td><td>\(V_{LL}\)</td><td>\(L_\Delta = \dfrac{3V_{LL}^2}{\omega Q_R}\)</td></tr>
+  </table></div>
+  <div class="idea"><b>Y or Δ?</b> Δ needs one third of the capacitance (cheaper), but each capacitor sees the full line voltage. If the capacitors' rated voltage is below \(V_{LL}\), you must use Y. 2022 Q1(f) tests exactly this.</div>
+
+  <div class="widget" data-w="comp">
+    <div class="w-head"><span class="tag">Explore</span><span class="t">Correct a three-phase load</span></div>
+    <div class="w-body">
+      <div class="w-grid"><canvas id="cv-comp" data-h="250"></canvas><div>
+        <div class="ctrls" style="margin-top:0;grid-template-columns:1fr">
+          <label class="ctrl"><span class="row">Load P <output id="o-cp-p"></output></span><input type="range" id="cp-p" min="20" max="500" step="10" value="300"></label>
+          <label class="ctrl"><span class="row">Load PF (lagging) <output id="o-cp-pf"></output></span><input type="range" id="cp-pf" min="0.5" max="0.99" step="0.01" value="0.8"></label>
+          <label class="ctrl"><span class="row">Target PF (lagging) <output id="o-cp-t"></output></span><input type="range" id="cp-t" min="0.8" max="1" step="0.01" value="0.95"></label>
+          <div class="btnrow" style="margin-top:0"><div class="seg" id="cp-v"><button data-v="400" class="on">400 V</button><button data-v="10400">10.4 kV</button><button data-v="17320">17.32 kV</button></div></div>
+        </div>
+      </div></div>
+      <div class="readout">
+        <div><small>Bank rating Q<sub>C</sub></small><b id="r-cp-q"></b></div>
+        <div><small>C per branch, Y</small><b id="r-cp-cy"></b></div>
+        <div><small>C per branch, Δ</small><b id="r-cp-cd"></b></div>
+        <div><small>Line current before → after</small><b id="r-cp-i"></b></div>
+        <div><small>|S| before → after</small><b id="r-cp-s"></b></div>
+      </div>
+      <div class="notice"><b>What to notice:</b> P (horizontal) never moves; the capacitor only shortens the vertical Q side. The last few hundredths of PF cost the most kvar per amp saved: compare 0.90→0.95 with 0.95→1.00.</div>
+    </div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">2025 MT1 Q3(a): two identical Δ banks</span></div>
+    <div class="prob">400 V, 50 Hz. Load 300 kW weekdays, 150 kW weekends, both 0.8 lag. C1 always on, identical C2 on weekdays only. Size them for 0.95 lagging at Bus B.</div>
+    <ol class="steps">
+      <li><div>\(\tan(\cos^{-1}0.95) = 0.3287\), \(\tan(\cos^{-1}0.8) = 0.75\).</div></li>
+      <li><div>Weekend, C1 alone: \(Q_{\text{old}} = 112.5\), \(Q_{\text{target}} = 49.30\) kvar → C1 = <span class="ans">63.20 kvar</span>.</div></li>
+      <li><div>Weekday, C1 + C2: \(225 - 98.61 = 126.39 = 2\times63.20\) ✓ identical banks work.</div></li>
+      <li><div>Δ, per branch: \(C = \dfrac{63\,197}{3\times314.16\times400^2} = \) <span class="ans">419.1 µF</span>.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="worked" data-worked>
+    <div class="w-head"><span class="tag">Worked example</span><span class="t">Official Chapter-1 Sample Q1: four loads, mixed lead and lag</span></div>
+    <div class="prob">400 V PCC. L1: 150 kVA 0.8 lag. L2: 60 kW, 10 kvar drawn. L3: 40 kW, injects 20 kvar. L4: 100 kVA 0.8 lead. Limit 0.95 (lag for inductive, lead for capacitive). Separate compensation, then central.</div>
+    <ol class="steps">
+      <li><div>Signed powers (kW, kvar): L1 120 + j90, L2 60 + j10, L3 40 − j20, L4 80 − j60. Total <span class="ans">300 + j20</span>, PF 0.998 lag.</div></li>
+      <li><div>L1 (0.8 lag): target +39.44 → capacitors 50.56 kvar, \(C_Y = 50\,558/(314.16\times400^2) = \) <span class="ans">1005.8 µF</span>.</div></li>
+      <li><div>L2: PF 0.986 ≥ 0.95, <span class="ans">nothing</span>.</div></li>
+      <li><div>L3 (0.894 lead): target −13.15 → reactors +6.85 kvar, \(L_Y = 400^2/(314.16\times6853) = \) <span class="ans">74.3 mH</span>.</div></li>
+      <li><div>L4 (0.8 lead): target −26.29 → reactors +33.71 kvar, <span class="ans">15.11 mH</span>.</div></li>
+      <li><div>Central: the aggregate is already 0.998 lag → <span class="ans">no central compensator needed</span>. The leading and lagging loads cancel at the PCC.</div></li>
+    </ol>
+    <div class="ctl"><button class="btn next">Show next step</button><button class="btn ghost all">Show all</button><small class="cnt"></small></div>
+  </div>
+
+  <div class="check">
+    <div class="c-tag">Check yourself</div>
+    <p class="q">A plant has a 100 kW, 0.8 leading load. To bring it to 0.95 leading, what do you install?</p>
+    <div class="opts">
+      <button>Capacitors of 42 kvar</button>
+      <button data-ok>Reactors of about 42 kvar</button>
+      <button>Capacitors of 75 kvar</button>
+      <button>Nothing; leading loads never need correction</button>
+    </div>
+    <div class="c-exp" hidden>Q old = −75 kvar, target = −100×0.3287 = −32.9 kvar. \(Q_{\text{comp}} = -32.9 - (-75) = +42.1\) kvar: positive, so reactors absorb it.</div>
+  </div>
+  <div class="mistakes"><h4>Common mistakes</h4><ul>
+    <li>Reporting the total bank kvar where the question asks C per branch, or the reverse.</li>
+    <li>Using the line voltage for a Y bank's element (or the phase voltage for Δ).</li>
+    <li>Adding capacitors to a leading load.</li>
+    <li>Forgetting the target bus: source PF also includes the line's own Q.</li>
+  </ul></div>
+  <div class="takeaways"><h4>Key takeaways</h4><ul>
+    <li>Sum P and signed Q; compensation \(Q_{\text{comp}} = Q_{\text{target}} - Q_{\text{old}}\).</li>
+    <li>\(C_Y = Q_C/(\omega V_{LL}^2)\), \(C_\Delta = C_Y/3\); check the voltage rating.</li>
+    <li>Compensation reduces current, loss, voltage drop and required kVA; it never changes P.</li>
+  </ul></div>
+  <div class="practice-links">Practice: <a class="chip" href="#practice" data-q="q4">Sample Q1</a><a class="chip" href="#practice" data-q="q3">2025 Q3(a),(e)</a><a class="chip" href="#practice" data-q="q6">2021 Q1</a><a class="chip" href="#practice" data-q="q7">2022 Q1(f)</a></div>
+  <p class="src">Syllabus week 3 "Power Factor Correction". 2025 MT1 Q3; official Chapter-1 problems and solutions v2.</p>
+</section>
+
+<!-- ================= PRACTICE ================= -->
+<section class="page" data-page="practice" data-title="Past exam questions" data-group="Practice" data-sum="Type your answer, get it checked, open the solution">
+  <div class="crumb">Practice</div>
+  <h1>Past exam questions</h1>
+  <p class="lede">Seven questions from the 2025, 2022 and 2021 midterms and the official Chapter-1 problems. Type a number and press Check (within 1 %). Open the solution only after trying. Every solution links to the lesson it uses.</p>
+  <div class="idea"><b>Suggested order.</b> Q2 (Y/Δ), Sample Q1 (compensation), Q3 (feeder + banks), Q1 (single phase), Sample Q2 (two generators). 2021 and 2022 are extra practice.</div>
+
+  <!-- Q1 -->
+  <article class="qcard" id="q1">
+    <div class="qh"><h3>2025 MT1 Q1 · single-phase motor through a cable</h3><div class="meta">20 pts · Lessons 2, 5, 6 · sources/exams/2025/questions/Midterm_1_2025_v2.pdf pp.2–3</div></div>
+    <div class="given">A single-phase 4 kW motor, PF 0.8 lagging, runs daily 08:00–18:00. Cable loop impedance \(0.4 + j0.1\ \Omega\). Motor terminal voltage held at 200 V.</div>
+    <div class="part" data-ans="25" data-tol="0.01"><div class="pq"><b>(a)</b>Cable current magnitude.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1a" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(I = P/(V\,\text{PF}) = 4000/(200\times0.8) = 25\) A. <a class="chip" href="#l5">Lesson 5</a></p></div></details></div>
+    <div class="part"><div class="note">The paper then says "assume cable current is 20 A". That cannot hold with 200 V, 4 kW and PF 0.8 at once. The official key uses <b>250 V</b> for the remaining parts (250 × 20 × 0.8 = 4000 W). Use \(\mathbf V_L = 250\angle0^\circ\), \(\mathbf I = 16 - j12\) A.</div></div>
+    <div class="part" data-ans="1.6" data-tol="0.01"><div class="pq"><b>(b)</b>Energy lost in the cable per day.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1b" aria-label="answer"><span class="unit">kWh</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(P_c = I^2R = 20^2\times0.4 = 160\) W. \(E = 0.16\ \text{kW}\times10\ \text{h} = 1.6\) kWh. <a class="chip" href="#l2">Lesson 2</a></p></div></details></div>
+    <div class="part" data-ans="4.16" data-tol="0.01"><div class="pq"><b>(c)</b>Active power from the utility (reactive power in the solution).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1c" aria-label="answer"><span class="unit">kW</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf S_c = |I|^2Z_c = 160 + j40\) VA, \(\mathbf S_L = 4000 + j3000\) VA. \(\mathbf S_s = 4160 + j3040\) VA: P = 4.16 kW, Q = 3.04 kvar (41.6 kWh and 30.4 kvarh over the day). <a class="chip" href="#l6">Lesson 6</a></p></div></details></div>
+    <div class="part" data-ans="0.807" data-tol="0.01"><div class="pq"><b>(d)</b>Grid-side power factor (and lag/lead).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1d" aria-label="answer"><span class="unit"></span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(|S_s| = \sqrt{4160^2+3040^2} = 5152.4\) VA. PF = 4160/5152.4 = 0.807, <b>lagging</b> because Q &gt; 0. <a class="chip" href="#l5">Lesson 5</a></p></div></details></div>
+    <div class="part" data-ans="257.62" data-tol="0.005"><div class="pq"><b>(e)</b>Grid voltage magnitude.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1e" aria-label="answer"><span class="unit">V</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf IZ_c = (16 - j12)(0.4 + j0.1) = 7.6 - j3.2\) V. \(\mathbf V_s = 257.6 - j3.2\), \(|\mathbf V_s| = 257.62\) V. Check \(|S_s|/|I| = 257.62\) ✓ <a class="chip" href="#l6">Lesson 6</a></p></div></details></div>
+    <div class="part" data-ans="3.05" data-tol="0.02"><div class="pq"><b>(f)</b>Voltage regulation.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q1f" aria-label="answer"><span class="unit">%</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\((257.62 - 250)/250\times100 = 3.05\) %. <a class="chip" href="#l6">Lesson 6</a></p></div></details></div>
+  </article>
+
+  <!-- Q2 -->
+  <article class="qcard" id="q2">
+    <div class="qh"><h3>2025 MT1 Q2 · the same loads in Y, then Δ</h3><div class="meta">15 pts · Lessons 8, 9 · Midterm_1_2025_v2.pdf pp.4–5</div></div>
+    <div class="given">Three identical single-phase loads, each 5 kVA at unity PF, form a balanced load on a 400 V three-phase system. The key keeps 5 kVA per load in both connections.</div>
+    <div class="part" data-ans="230.94" data-tol="0.005"><div class="pq"><b>(a)</b>Y: phase voltage (line voltage is 400 V).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q2a" aria-label="answer"><span class="unit">V</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(400/\sqrt3 = 230.94\) V. <a class="chip" href="#l8">Lesson 8</a></p></div></details></div>
+    <div class="part" data-ans="21.65" data-tol="0.01"><div class="pq"><b>(b)</b>Y: phase and line current.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q2b" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(5000/230.94 = 21.65\) A, and in Y the line current is the same. <a class="chip" href="#l8">Lesson 8</a></p></div></details></div>
+    <div class="part" data-ans="15" data-tol="0.01"><div class="pq"><b>(c)</b>Y: total apparent power (and active power).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q2c" aria-label="answer"><span class="unit">kVA</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>15 kVA and 15 kW (unity PF). Check \(\sqrt3\times400\times21.65 = 15\,000\) ✓ <a class="chip" href="#l9">Lesson 9</a></p></div></details></div>
+    <div class="part"><div class="pq"><b>(d)</b>Y phasor diagram, line vs phase voltages.</div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Phase: 230.9∠0°, ∠−120°, ∠120°. Line: 400∠30°, ∠−90°, ∠150°. Draw it with the <a href="#l8">Lesson 8 builder</a> in Y mode.</p></div></details></div>
+    <div class="part" data-ans="12.5" data-tol="0.01"><div class="pq"><b>(e, f)</b>Δ: phase voltage is 400 V. Phase current? (line current in the solution)</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q2f" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(I_{ph} = 5000/400 = 12.5\) A, \(I_L = \sqrt3\times12.5 = 21.65\) A. Power (g) still 15 kVA, 15 kW. <a class="chip" href="#l8">Lesson 8</a></p></div></details></div>
+    <div class="part"><div class="pq"><b>(h)</b>Δ phasor diagram, line vs phase currents.</div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>With \(\mathbf V_{ab}\) at 0°: \(\mathbf I_{ab} = 12.5\angle0^\circ\), \(\mathbf I_{bc}\angle{-120^\circ}\), \(\mathbf I_{ca}\angle120^\circ\); \(\mathbf I_a = 21.65\angle{-30^\circ}\), \(\mathbf I_b\angle{-150^\circ}\), \(\mathbf I_c\angle90^\circ\). Show \(\mathbf I_a = \mathbf I_{ab} - \mathbf I_{ca}\). <a href="#l8">Lesson 8 builder</a>, Δ mode.</p>
+      <p class="note">If the same fixed impedances were reconnected instead, Δ would take 3 × 15 = 45 kW. The key does not use that reading (Lesson 9.3).</p></div></details></div>
+  </article>
+
+  <!-- Q3 -->
+  <article class="qcard" id="q3">
+    <div class="qh"><h3>2025 MT1 Q3 · capacitor banks, feeder and PV</h3><div class="meta">35 pts · Lessons 10, 11 · Midterm_1_2025_v2.pdf pp.6–8</div></div>
+    <div class="given">Industrial load on 400 V, 50 Hz grid through a cable \(0.05 + j0.02\ \Omega\)/phase (Bus A → Bus B). 300 kW weekdays, 150 kW weekends, PF 0.8 lag. Two identical Δ capacitor banks: C1 always on, C2 weekdays only. Bus B held at 400 V.</div>
+    <div class="part" data-ans="419.1" data-tol="0.01"><div class="pq"><b>(a)</b>Capacitance per branch of each bank for 0.95 lagging at Bus B.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q3a" aria-label="answer"><span class="unit">µF</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Weekend (C1 only): 112.5 − 49.30 = 63.20 kvar. Weekday: 225 − 98.61 = 126.39 = 2 × 63.20 ✓. Δ: \(C = 63\,197/(3\times314.16\times400^2) = 419.1\) µF. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part" data-ans="455.8" data-tol="0.01"><div class="pq"><b>(b)</b>Weekday, banks on: line current (Bus A voltage and losses in the solution).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q3b" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf I = (300\,000 - j98\,605)/(3\times230.94) = 433.01 - j142.32\) A → 455.8 A. \(\mathbf V_A = 255.44 + j1.54\) V → 442.4 V line. Loss \(3\times455.8^2\times0.05 = 31.16\) kW. <a class="chip" href="#l10">Lesson 10</a></p></div></details></div>
+    <div class="part" data-ans="43.95" data-tol="0.01"><div class="pq"><b>(c)</b>Both banks off: total line loss (current and voltage in the solution).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q3c" aria-label="answer"><span class="unit">kW</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>S = 300 + j225 kVA → I = 433.01 − j324.76 A, 541.3 A. \(|V_A|\) = 448.9 V line. Loss 43.95 kW. <a class="chip" href="#l10">Lesson 10</a></p></div></details></div>
+    <div class="part"><div class="pq"><b>(d)</b>Benefits of compensation.</div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Current −16 % (541 → 456 A), line loss −12.8 kW (−29 %), sending voltage needed 449 → 442 V, grid kVA 421 → 349 for the same 300 kW. Load P unchanged. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part" data-ans="73.06" data-tol="0.01"><div class="pq"><b>(e)</b>PV at Bus B (unity PF, 0–180 kW). Minimum C1 and C2 so PF at B stays between 0.95 lag and unity. Enter C2 in kvar.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q3e" aria-label="answer"><span class="unit">kvar</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(P_{net} = P_{load} - P_{PV}\), \(Q_{net} = Q_{load} - Q_C\); need \(0 \le Q_{net} \le 0.3287\,P_{net}\).</p><p>Weekend: \(P_{net}\) goes from 150 to −30 kW and crosses zero, so \(Q_{net}\) must be 0: C1 = 112.5 kvar.</p><p>Weekday: \(P_{net}\) is 120–300 kW, tightest at 120: \(Q_{net} \le 39.44\) → C1 + C2 ≥ 185.56 → C2 = 73.06 kvar. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part"><div class="pq"><b>(f)</b>Effect of PV on line losses.</div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>PV supplies part of the load locally, so less current on the cable and lower \(3|I|^2R\). At large export the current grows again in reverse, so losses are not monotonic.</p></div></details></div>
+  </article>
+
+  <!-- Q4 -->
+  <article class="qcard" id="q4">
+    <div class="qh"><h3>Chapter-1 Sample Q1 · four loads, separate vs central compensation</h3><div class="meta">Official ODTUClass problem · Lesson 11</div></div>
+    <div class="given">400 V PCC. L1: 150 kVA, 0.8 lag. L2: 60 kW, draws 10 kvar. L3: 40 kW, injects 20 kvar. L4: 100 kVA, 0.8 lead. Limits: 0.95 lag for inductive, 0.95 lead for capacitive, none needed if already ≥ 0.95. Assume 50 Hz, Y elements.</div>
+    <div class="part" data-ans="1005.8" data-tol="0.01"><div class="pq"><b>(i)</b>Load 1 capacitor per phase.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q4a" aria-label="answer"><span class="unit">µF</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>P = 120, Q = 90. Target 39.44 → 50.56 kvar. \(C_Y = 50\,558/(314.16\times400^2) = 1005.8\) µF (key: 1005.7, rounding). <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part" data-ans="74.3" data-tol="0.01"><div class="pq"><b>(i)</b>Load 3 reactor per phase.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q4b" aria-label="answer"><span class="unit">mH</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>PF = 40/44.72 = 0.894 lead. Target −13.15 → reactor +6.85 kvar. \(L_Y = 400^2/(314.16\times6853) = 74.3\) mH. Load 2 needs nothing (0.986). Load 4: reactor 33.71 kvar, 15.11 mH. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part" data-ans="0.9994" data-tol="0.0005"><div class="pq"><b>(i)</b>Overall PF at the PCC after separate compensation.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q4c" aria-label="answer"><span class="unit"></span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Q = 39.44 + 10 − 13.15 − 26.29 = 10 kvar → 300/300.17 = 0.9994 lagging.</p></div></details></div>
+    <div class="part"><div class="pq"><b>(ii)</b>One central compensator?</div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Uncompensated total 300 + j20 kVA, PF 0.998 lag ≥ 0.95. <b>None needed.</b> The leading and lagging loads cancel at the PCC. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+  </article>
+
+  <!-- Q5 -->
+  <article class="qcard" id="q5">
+    <div class="qh"><h3>Chapter-1 Sample Q2 · two generators, one load</h3><div class="meta">Official ODTUClass problem · Lessons 4, 5, 10</div></div>
+    <div class="given">Bus A: load 20 kW, 0.707 lag, 400 V line-to-line. Line A–B \(0.2 + j0.3\ \Omega\)/phase. Bus B: G2 gives 10 kW at 0.8 leading. Line B–C \(0.2 + j0.4\ \Omega\)/phase. Bus C: G1.</div>
+    <div class="part" data-ans="425.0" data-tol="0.005"><div class="pq"><b>(a)</b>Terminal voltage of G2 (line-to-line).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q5a" aria-label="answer"><span class="unit">V</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf S_{load} = 20 + j20\) kVA (0.707 ≈ 1/√2). \(\mathbf V_A = 230.94\angle0^\circ\). \(\mathbf I_{AB} = (\mathbf S/3\mathbf V_A)^* = 28.87 - j28.87\) A. \(\mathbf V_B = \mathbf V_A + (0.2 + j0.3)\mathbf I_{AB} = 245.37 + j2.89\) V → \(\sqrt3\times245.39 = 425.0\) V. <a class="chip" href="#l10">Lesson 10</a></p></div></details></div>
+    <div class="part" data-ans="457.5" data-tol="0.005"><div class="pq"><b>(a)</b>Terminal voltage of G1 (line-to-line).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q5b" aria-label="answer"><span class="unit">V</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>G2 leading absorbs Q: \(\mathbf S_{G2} = 10 - j7.5\) kVA injected. \(\mathbf I_{G2} = (\mathbf S_{G2}/3\mathbf V_B)^* = 13.46 + j10.35\) A. KCL: \(\mathbf I_{BC} = \mathbf I_{AB} - \mathbf I_{G2} = 15.40 - j39.21\) A. \(\mathbf V_C = \mathbf V_B + (0.2 + j0.4)\mathbf I_{BC} = 264.14 + j1.21\) V → 457.5 V. <a class="chip" href="#l10">Lesson 10</a></p></div></details></div>
+    <div class="part" data-ans="0.361" data-tol="0.01"><div class="pq"><b>(b)</b>G1 power factor (P and Q in the solution).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q5c" aria-label="answer"><span class="unit"></span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf S_{G1} = 3\mathbf V_C\mathbf I_{BC}^* = 12.07 + j31.13\) kVA. PF = 0.361 lagging. Check: 12.07 + 10 = 20 kW load + 2.07 kW line losses ✓ <a class="chip" href="#l5">Lesson 5</a></p></div></details></div>
+  </article>
+
+  <!-- Q6 -->
+  <article class="qcard" id="q6">
+    <div class="qh"><h3>2021 MT1 Q1 · three loads and a Y capacitor bank</h3><div class="meta">Extra practice · Lessons 5, 9, 11 · archive/MT/2021_Midterm_Q2_solution.pdf pp.3–4</div></div>
+    <div class="given">17.32 kV, 50 Hz Y supply. L1: inductive, 60 kW and 660 kvar. L2: capacitive, 240 kW at 0.8. L3: resistive 60 kW.</div>
+    <div class="part" data-ans="0.6" data-tol="0.01"><div class="pq"><b>(a–c)</b>Phase voltage 10 kV. Total S and overall PF?</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q6a" aria-label="answer"><span class="unit">PF</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>S = (60 + j660) + (240 − j180) + 60 = 360 + j480 kVA, |S| = 600 → PF 0.6 lagging. <a class="chip" href="#l11">Lesson 11</a></p></div></details></div>
+    <div class="part" data-ans="20" data-tol="0.01"><div class="pq"><b>(d)</b>Supply current.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q6b" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(\mathbf I = (\mathbf S/3V_p)^* = (360\,000 - j480\,000)/30\,000 = 12 - j16 = 20\angle{-53.1^\circ}\) A.</p></div></details></div>
+    <div class="part" data-ans="2.23" data-tol="0.01"><div class="pq"><b>(e)</b>Y bank for 0.8 lagging: capacitance per phase.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q6c" aria-label="answer"><span class="unit">µF</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Q target = 360 × 0.75 = 270 → Q<sub>C</sub> = 210 kvar. \(C = 210\,000/(3\times10\,000^2\times314.16) = 2.23\) µF.</p><p class="note">The answer sheet prints 2.86 µF. That is what you get by plugging 270 kvar instead of 210. Use 2.23 µF.</p></div></details></div>
+    <div class="part" data-ans="15" data-tol="0.01"><div class="pq"><b>(f)</b>Supply current after compensation.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q6d" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>S = 360 + j270 → I = 12 − j9 = 15∠−36.9° A. Same P, 25 % less current.</p></div></details></div>
+  </article>
+
+  <!-- Q7 -->
+  <article class="qcard" id="q7">
+    <div class="qh"><h3>2022 MT1 Q1 · 10 km line, Δ inductors, rated capacitors</h3><div class="meta">Extra practice · Lessons 8, 10, 11 · archive/20221/ee361Midterm_Q1_Solution 2022f.pdf (cover the handwritten answers)</div></div>
+    <div class="given">50 Hz generator, 10 km line with 0.3 Ω/km and 9.6 mH/km. Load 1: Δ, purely inductive, 180 kVA. Load 2: 270 kvar at 0.8 lag. Load-side voltage 10.4 kV.</div>
+    <div class="part" data-ans="5.77" data-tol="0.01"><div class="pq"><b>(a)</b>Current in each Load 1 inductor (voltage in the solution).</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q7a" aria-label="answer"><span class="unit">A</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Δ: each inductor sees 10.4 kV. 60 kvar per branch → I = 60 000/10 400 = 5.77 A. <a class="chip" href="#l8">Lesson 8</a></p></div></details></div>
+    <div class="part" data-ans="0.625" data-tol="0.01"><div class="pq"><b>(b)</b>Overall PF of the loads.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q7b" aria-label="answer"><span class="unit"></span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Load 2: |S| = 270/0.6 = 450, P = 360. Total 360 + j450 kVA, |S| = 576.3 → PF 0.625 lagging.</p></div></details></div>
+    <div class="part" data-ans="11.84" data-tol="0.01"><div class="pq"><b>(c, d)</b>Line impedance per phase, then the generator line-to-line voltage.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q7c" aria-label="answer"><span class="unit">kV</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(Z = 10(0.3 + j2\pi50\times0.0096) = 3 + j30.16\ \Omega\). \(V_r = 6004.4\) V, \(\mathbf I = 19.99 - j24.98\) A (32.0 A). \(\mathbf V_s = 6817.8 + j527.8\) V → 6.84 kV phase, 11.84 kV line. <a class="chip" href="#l10">Lesson 10</a></p></div></details></div>
+    <div class="part" data-ans="9.21" data-tol="0.01"><div class="pq"><b>(e)</b>Total line loss.</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q7d" aria-label="answer"><span class="unit">kW</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>\(3\times31.99^2\times3 = 9.21\) kW.</p></div></details></div>
+    <div class="part" data-ans="13.24" data-tol="0.01"><div class="pq"><b>(f)</b>Capacitors for unity PF, largest rating 9 kV. Capacitance per phase?</div>
+      <div class="ansrow"><input type="text" inputmode="decimal" id="a-q7e" aria-label="answer"><span class="unit">µF</span><button class="btn sm chk">Check</button><span class="fb"></span></div>
+      <details class="sol"><summary>Solution</summary><div class="solbody"><p>Cancel all 450 kvar. In Δ each capacitor sees 10.4 kV &gt; 9 kV, so use <b>Y</b> (6.0 kV each). \(C = 450\,000/(314.16\times10\,400^2) = 13.24\) µF. <a class="chip" href="#l11">Lesson 11</a></p><p class="note">Recomputed here; compare with the handwritten key in the PDF.</p></div></details></div>
+  </article>
+</section>
+
+<!-- ================= FORMULAS ================= -->
+<section class="page" data-page="formulas" data-title="Formula sheet" data-group="Practice" data-sum="Every formula with when it applies">
+  <div class="crumb">Reference</div>
+  <h1>Formula sheet</h1>
+  <p class="lede">Each formula with the condition it needs. If you cannot say when a formula applies, go back to its lesson.</p>
+  <div class="sheet">
+    <div><h4>Energy</h4><p class="when">Any system · <a href="#l2">L2</a></p>\[ W = \int p\,dt,\quad 1\,\text{kWh} = 3.6\,\text{MJ} \]\[ P_{loss} = P^2R/V^2 \]</div>
+    <div><h4>RMS</h4><p class="when">Pure sinusoid only · <a href="#l3">L3</a></p>\[ V_{rms} = V_m/\sqrt2,\quad P_R = I_{rms}^2R \]\[ \Delta t = (\varphi/360^\circ)\,T \]</div>
+    <div><h4>Phasors &amp; impedance</h4><p class="when">One frequency, RMS phasors · <a href="#l4">L4</a></p>\[ Z_L = j\omega L,\quad Z_C = -j/(\omega C) \]\[ \mathbf V = Z\mathbf I \]</div>
+    <div><h4>Complex power</h4><p class="when">Load convention, lag Q&gt;0 · <a href="#l5">L5</a></p>\[ \mathbf S = \mathbf V\mathbf I^* = P + jQ \]\[ \text{PF} = P/|S| = \cos\varphi \]</div>
+    <div><h4>Single-phase line</h4><p class="when">Series cable, loop Z · <a href="#l6">L6</a></p>\[ \mathbf S_c = |I|^2Z_c,\ \ \mathbf S_s = \mathbf S_L + \mathbf S_c \]\[ \mathbf V_s = \mathbf V_L + \mathbf IZ_c \]</div>
+    <div><h4>Y and Δ</h4><p class="when">Balanced, abc sequence · <a href="#l8">L8</a></p>\[ Y:\ V_{LL} = \sqrt3V_p\angle30^\circ,\ I_L = I_p \]\[ \Delta:\ V_{LL} = V_p,\ I_L = \sqrt3I_p\angle{-30^\circ} \]</div>
+    <div><h4>Three-phase power</h4><p class="when">Balanced, φ = branch angle · <a href="#l9">L9</a></p>\[ |S| = 3V_pI_p = \sqrt3V_{LL}I_L \]\[ Z_Y = Z_\Delta/3 \]</div>
+    <div><h4>Per-phase feeder</h4><p class="when">Z given per phase · <a href="#l10">L10</a></p>\[ \mathbf I = (\mathbf S_{3\phi}/3\mathbf V_p)^* \]\[ \mathbf V_s = \mathbf V_r + Z\mathbf I,\ \ P_{loss} = 3|I|^2R \]</div>
+    <div><h4>Compensation</h4><p class="when">Total 3φ rating Q · <a href="#l11">L11</a></p>\[ Q_C = P(\tan\varphi_1 - \tan\varphi_2) \]\[ C_Y = \frac{Q_C}{\omega V_{LL}^2},\ \ C_\Delta = \frac{C_Y}{3} \]</div>
+    <div><h4>Handy numbers</h4><p class="when">Memorise</p>\[ \tan(\cos^{-1}0.8) = 0.75,\ \ \tan(\cos^{-1}0.95) = 0.3287 \]\[ 400/\sqrt3 = 230.94,\ \ \omega_{50} = 314.16 \]</div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id)};
+var pages=[].slice.call(document.querySelectorAll('.page'));
+var lessonIds=pages.filter(function(p){return /^l\d+$/.test(p.dataset.page)}).map(function(p){return p.dataset.page});
+var current=null, KEY='ee361-ch1-learned';
+
+/* ---------- progress storage ---------- */
+var done={};
+try{var raw=localStorage.getItem(KEY); if(raw) JSON.parse(raw).forEach(function(k){done[k]=1});}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(Object.keys(done)))}catch(e){}}
+
+/* ---------- navigation ---------- */
+var railnav=$('railnav'), topsel=$('topsel'), lastGroup=null;
+pages.forEach(function(p){
+  var id=p.dataset.page, g=p.dataset.group;
+  if(g!==lastGroup){var d=document.createElement('div');d.className='grp';d.textContent=g;railnav.appendChild(d);
+    var og=document.createElement('optgroup');og.label=g;topsel.appendChild(og);lastGroup=g;}
+  var a=document.createElement('a');a.className='nav';a.href='#'+id;a.dataset.id=id;
+  var num=/^l(\d+)$/.exec(id);
+  a.innerHTML='<span class="dot">'+(num?num[1]:(id==='home'?'●':id==='practice'?'✎':'Σ'))+'</span><span></span>';
+  a.lastChild.textContent=p.dataset.title; railnav.appendChild(a);
+  var o=document.createElement('option');o.value=id;o.textContent=(num?num[1]+'. ':'')+p.dataset.title;topsel.lastChild.appendChild(o);
+});
+topsel.addEventListener('change',function(){go(topsel.value)});
+
+/* home grid */
+var hg=$('homegrid');
+pages.forEach(function(p){if(!p.dataset.sum)return;var id=p.dataset.page,n=/^l(\d+)$/.exec(id);
+  var a=document.createElement('a');a.href='#'+id;
+  a.innerHTML='<span class="k"></span><b></b><small></small>';
+  a.children[0].textContent=n?'Lesson '+n[1]:p.dataset.group;a.children[1].textContent=p.dataset.title;a.children[2].textContent=p.dataset.sum;hg.appendChild(a);});
+
+/* pagers */
+pages.forEach(function(p,i){
+  var pg=document.createElement('div');pg.className='pager';
+  var prev=pages[i-1],next=pages[i+1],isL=/^l\d+$/.test(p.dataset.page);
+  var h='';
+  h+=prev?'<a class="pv" href="#'+prev.dataset.page+'"><small>Previous</small><span></span></a>':'<span></span>';
+  h+=isL?'<button class="btn mk" data-id="'+p.dataset.page+'"></button>':'<span></span>';
+  h+=next?'<a class="nx" href="#'+next.dataset.page+'"><small>Next</small><span></span></a>':'<span></span>';
+  pg.innerHTML=h;
+  if(prev)pg.querySelector('.pv span').textContent=prev.dataset.title;
+  if(next)pg.querySelector('.nx span').textContent=next.dataset.title;
+  p.appendChild(pg);
+});
+function refreshProgress(){
+  var n=lessonIds.filter(function(k){return done[k]}).length;
+  $('pbar').style.width=(100*n/lessonIds.length)+'%';
+  $('ptext').textContent=n+' of '+lessonIds.length+' lessons learned';
+  $('toppct').textContent=n+'/'+lessonIds.length;
+  [].forEach.call(railnav.querySelectorAll('a.nav'),function(a){a.classList.toggle('done',!!done[a.dataset.id]);a.classList.toggle('on',a.dataset.id===current)});
+  [].forEach.call(document.querySelectorAll('.pager .mk'),function(b){var d=!!done[b.dataset.id];b.textContent=d?'✓ Learned':'Mark as learned';b.classList.toggle('ghost',d)});
+}
+document.addEventListener('click',function(e){
+  var mk=e.target.closest('.pager .mk');
+  if(mk){var id=mk.dataset.id;if(done[id])delete done[id];else done[id]=1;save();refreshProgress();return;}
+  var a=e.target.closest('a[href^="#"]');
+  if(a){var id=a.getAttribute('href').slice(1);
+    if(/^q\d+$/.test(id)){e.preventDefault();go('practice',id);return;}
+    if(document.querySelector('.page[data-page="'+id+'"]')){e.preventDefault();go(id,a.dataset.q);}
+  }
+});
+function go(id,anchor){
+  var target=document.querySelector('.page[data-page="'+id+'"]')||pages[0];
+  id=target.dataset.page;
+  pages.forEach(function(p){p.hidden=p!==target});
+  current=id; topsel.value=id; refreshProgress();
+  try{if(location.hash.slice(1)!==id)history.replaceState(null,'','#'+id)}catch(e){}
+  if(anchor){var el=$(anchor);if(el){setTimeout(function(){el.scrollIntoView({block:'start'})},30)}}
+  else window.scrollTo(0,0);
+  initWidgets(target);
+}
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(h&&h!==current){if(/^q\d+$/.test(h))go('practice',h);else go(h)}});
+
+/* ---------- worked examples ---------- */
+[].forEach.call(document.querySelectorAll('[data-worked]'),function(w){
+  var steps=[].slice.call(w.querySelectorAll('ol.steps>li')),shown=0,nx=w.querySelector('.next'),al=w.querySelector('.all'),cnt=w.querySelector('.cnt');
+  function upd(){steps.forEach(function(s,i){s.hidden=i>=shown});
+    nx.disabled=al.disabled=shown>=steps.length;
+    nx.textContent=shown===0?'Show step 1':(shown>=steps.length?'All steps shown':'Show step '+(shown+1));
+    cnt.textContent=shown+' / '+steps.length+(shown===0?' · try it yourself first':'');}
+  nx.addEventListener('click',function(){shown++;upd()});
+  al.addEventListener('click',function(){shown=steps.length;upd()});
+  upd();
+});
+
+/* ---------- self checks ---------- */
+[].forEach.call(document.querySelectorAll('.check'),function(c){
+  var bs=[].slice.call(c.querySelectorAll('.opts button')),exp=c.querySelector('.c-exp');
+  var head=document.createElement('b');exp.insertBefore(head,exp.firstChild);exp.insertBefore(document.createTextNode(' '),head.nextSibling);
+  bs.forEach(function(b){b.addEventListener('click',function(){
+    var ok=b.hasAttribute('data-ok');
+    bs.forEach(function(x){x.disabled=true;if(x.hasAttribute('data-ok'))x.classList.add('right')});
+    if(!ok)b.classList.add('wrong');
+    head.className=ok?'ok':'no';head.textContent=ok?'Correct.':'Not quite.';
+    exp.hidden=false;
+    var retry=c.querySelector('.retry');
+    if(!retry){retry=document.createElement('button');retry.className='btn sm ghost retry';retry.textContent='Try again';retry.style.marginTop='.7rem';
+      retry.addEventListener('click',function(){bs.forEach(function(x){x.disabled=false;x.classList.remove('right','wrong')});exp.hidden=true;retry.remove()});
+      c.appendChild(retry);}
+  })});
+});
+
+/* ---------- practice answers ---------- */
+[].forEach.call(document.querySelectorAll('.part[data-ans]'),function(p){
+  var inp=p.querySelector('input'),btn=p.querySelector('.chk'),fb=p.querySelector('.fb');
+  var ans=parseFloat(p.dataset.ans),tol=parseFloat(p.dataset.tol||'0.01');
+  function check(){var v=parseFloat(String(inp.value).replace(',','.').replace(/[^0-9eE.+-]/g,''));
+    if(isNaN(v)){fb.className='fb bad';fb.textContent='Type a number first.';return}
+    var ok=Math.abs(v-ans)<=Math.abs(ans)*tol+1e-9;
+    fb.className='fb '+(ok?'good':'bad');
+    fb.textContent=ok?'✓ Correct':'✗ Not yet. Check units and the formula, then try again.';}
+  btn.addEventListener('click',check);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')check()});
+});
+
+/* ---------- canvas helpers ---------- */
+function col(n){return getComputedStyle(document.documentElement).getPropertyValue('--'+n).trim()||'#888'}
+var C={};function loadColors(){['ink','ink2','mut','line','soft','panel','bg','accent','accent-soft','pa','pb','pc','good','bad','warn'].forEach(function(k){C[k]=col(k)})}
+loadColors();
+function ctx(id){
+  var c=$(id),h=+c.dataset.h||220,w=c.clientWidth||600,d=window.devicePixelRatio||1;
+  if(c._w!==w||c._d!==d){c.width=Math.round(w*d);c.height=Math.round(h*d);c.style.height=h+'px';c._w=w;c._d=d}
+  var x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);x.lineCap='round';x.lineJoin='round';
+  return {x:x,w:w,h:h};
+}
+var FONT='"Lexend",-apple-system,"Segoe UI",sans-serif';
+function ln(x,a,b,c2,d2,color,wd,dash){x.save();x.strokeStyle=color;x.lineWidth=wd||1.5;x.setLineDash(dash||[]);x.beginPath();x.moveTo(a,b);x.lineTo(c2,d2);x.stroke();x.restore()}
+function arrow(x,a,b,c2,d2,color,wd,dash){
+  var L=Math.hypot(c2-a,d2-b);if(L<1)return;var ang=Math.atan2(d2-b,c2-a),hd=Math.min(10,L*0.35);
+  x.save();x.strokeStyle=color;x.fillStyle=color;x.lineWidth=wd||2.2;x.setLineDash(dash||[]);
+  x.beginPath();x.moveTo(a,b);x.lineTo(c2-hd*0.6*Math.cos(ang),d2-hd*0.6*Math.sin(ang));x.stroke();x.setLineDash([]);
+  x.beginPath();x.moveTo(c2,d2);x.lineTo(c2-hd*Math.cos(ang-0.42),d2-hd*Math.sin(ang-0.42));x.lineTo(c2-hd*Math.cos(ang+0.42),d2-hd*Math.sin(ang+0.42));x.closePath();x.fill();x.restore();
+}
+function tx(x,s,a,b,color,align,size,weight,base){x.save();x.fillStyle=color;x.font=(weight||400)+' '+(size||12)+'px '+FONT;x.textAlign=align||'left';x.textBaseline=base||'middle';x.fillText(s,a,b);x.restore()}
+function txb(x,s,a,b,color,align,size,weight){x.save();x.font=(weight||400)+' '+(size||12)+'px '+FONT;var tw=x.measureText(s).width,al=align||'left',x0=al==='right'?a-tw:al==='center'?a-tw/2:a;x.fillStyle=C.bg;x.globalAlpha=0.9;x.fillRect(x0-4,b-9,tw+8,18);x.restore();tx(x,s,a,b,color,align,size,weight)}
+function circ(x,a,b,r,color,fill){x.save();x.beginPath();x.arc(a,b,r,0,2*Math.PI);if(fill){x.fillStyle=color;x.fill()}else{x.strokeStyle=color;x.lineWidth=1;x.stroke()}x.restore()}
+function f(n,d){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function deg(r){return r*180/Math.PI} function rad(d){return d*Math.PI/180}
+function cx(re,im){return {re:re,im:im}}
+function cmul(a,b){return cx(a.re*b.re-a.im*b.im,a.re*b.im+a.im*b.re)}
+function cadd(a,b){return cx(a.re+b.re,a.im+b.im)}
+function cabs(a){return Math.hypot(a.re,a.im)} function carg(a){return Math.atan2(a.im,a.re)}
+function polar(m,a){return cx(m*Math.cos(a),m*Math.sin(a))}
+function seg(id,cb){var s=$(id);[].forEach.call(s.querySelectorAll('button'),function(b){b.addEventListener('click',function(){[].forEach.call(s.querySelectorAll('button'),function(o){o.classList.toggle('on',o===b)});cb(b.dataset.v)})})}
+function segVal(id){var b=$(id).querySelector('button.on');return b?b.dataset.v:null}
+function v(id){return parseFloat($(id).value)}
+function out(id,s){var o=$(id);if(o)o.textContent=s}
+function bind(ids,fn){ids.forEach(function(id){$(id).addEventListener('input',fn)})}
+function axes(x,x0,y0,x1,y1){ln(x,x0,y0,x1,y0,C.line,1);}
+
+/* ---------- widgets ---------- */
+var W={};
+
+W.trans={init:function(){bind(['trans-v'],W.trans.draw)},draw:function(){
+  var lv=[11,34.5,66,154,220,400],V=lv[v('trans-v')]*1e3,P=100e6,R=5,I=P/(Math.sqrt(3)*V),L=3*I*I*R,pct=L/P*100;
+  out('o-trans-v',lv[v('trans-v')]+' kV');
+  $('r-trans-i').textContent=f(I,0)+' A';$('r-trans-l').textContent=(L>=1e6?f(L/1e6,2)+' MW':f(L/1e3,0)+' kW');$('r-trans-p').textContent=f(pct,pct<1?2:1)+' %';
+  var s=$('s-trans');
+  if(L>P){s.className='status bad';s.textContent='Impossible in practice: the line would burn more than it delivers.'}
+  else if(pct>5){s.className='status warn';s.textContent='Works, but wastes too much. Utilities aim for a few percent.'}
+  else{s.className='status good';s.textContent='Practical transmission level.'}
+  var g=ctx('cv-trans'),x=g.x,w=g.w,h=g.h,max=550e6,x0=20,bw=w-40,sc=bw/max,y=56,bh=40;
+  tx(x,'Power the generator must send',x0,22,C.mut,'left',12);
+  x.fillStyle=C.soft;x.fillRect(x0,y,bw,bh);
+  x.fillStyle=C.accent;x.fillRect(x0,y,P*sc,bh);
+  var lw=Math.min(L,max-P)*sc;x.fillStyle=C.pa;x.fillRect(x0+P*sc,y,lw,bh);
+  tx(x,'100 MW delivered',x0+8,y+bh/2,C.panel,'left',12,500);
+  if(lw>70)tx(x,f(L/1e6,1)+' MW heat',x0+P*sc+8,y+bh/2,C.panel,'left',12,500);
+  else tx(x,'+ '+(L>=1e6?f(L/1e6,2)+' MW':f(L/1e3,0)+' kW')+' heat',x0+P*sc+lw+8,y+bh/2,C.pa,'left',12,500);
+  if(L>max-P){tx(x,'off scale →',w-22,y-10,C.pa,'right',11)}
+  [0,100,200,300,400,500].forEach(function(m){var px=x0+m*1e6*sc;ln(x,px,y+bh+4,px,y+bh+9,C.mut,1);tx(x,m+' MW',px,y+bh+20,C.mut,'center',11)});
+  var thick=Math.max(2,Math.min(14,I/300));
+  tx(x,'Current in each conductor: '+f(I,0)+' A  (line thickness)',x0,h-38,C.ink2,'left',12);
+  ln(x,x0,h-10,w-20,h-10,C.mut,thick);
+}};
+
+W.energy={init:function(){bind(['e0','e1','e2','e3'],W.energy.draw)},draw:function(){
+  var p=[v('e0'),v('e1'),v('e2'),v('e3')];p.forEach(function(q,i){out('o-e'+i,f(q,1)+' kW')});
+  var E=p.reduce(function(a,b){return a+b*6},0),avg=E/24,pk=Math.max.apply(null,p);
+  $('r-e-tot').textContent=f(E,1)+' kWh';$('r-e-mj').textContent=f(E*3.6,1)+' MJ';$('r-e-avg').textContent=f(avg,2)+' kW';$('r-e-pk').textContent=f(pk,1)+' kW';
+  var g=ctx('cv-energy'),x=g.x,w=g.w,h=g.h,l=46,r=w-14,t=16,b=h-30,sx=(r-l)/24,sy=(b-t)/3;
+  [0,1,2,3].forEach(function(k){var yy=b-k*sy;ln(x,l,yy,r,yy,C.line,1);tx(x,k+' kW',l-6,yy,C.mut,'right',11)});
+  [0,6,12,18,24].forEach(function(k){tx(x,k+' h',l+k*sx,b+16,C.mut,'center',11)});
+  p.forEach(function(q,i){var x0=l+i*6*sx;x.fillStyle=C['accent-soft'];x.fillRect(x0,b-q*sy,6*sx,q*sy);
+    var lab=f(q*6,1)+' kWh';if(q*sy>28)tx(x,lab,x0+3*sx,b-q*sy/2,C.accent,'center',12,500);else tx(x,lab,x0+3*sx,b-q*sy-10,C.accent,'center',12,500)});
+  x.save();x.strokeStyle=C.accent;x.lineWidth=2.5;x.beginPath();x.moveTo(l,b);p.forEach(function(q,i){x.lineTo(l+i*6*sx,b-q*sy);x.lineTo(l+(i+1)*6*sx,b-q*sy)});x.lineTo(r,b);x.stroke();x.restore();
+  ln(x,l,b-avg*sy,r,b-avg*sy,C.ink,1.5,[6,4]);txb(x,'average '+f(avg,2)+' kW',r-4,b-avg*sy-9,C.ink,'right',11,500);
+}};
+
+W.rms={init:function(){seg('rms-shape',W.rms.draw);bind(['rms-a'],W.rms.draw)},draw:function(){
+  var A=v('rms-a'),sh=segVal('rms-shape');out('o-rms-a',A+' V');
+  function wave(th){var u=((th%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+    if(sh==='sq')return u<Math.PI?A:-A;
+    if(sh==='tri'){var q=u/(2*Math.PI);return A*(q<0.25?4*q:q<0.75?2-4*q:4*q-4)}
+    return A*Math.sin(u)}
+  var rms=sh==='sq'?A:sh==='tri'?A/Math.sqrt(3):A/Math.SQRT2;
+  $('r-rms-mean').textContent='0 V';$('r-rms-ms').textContent=f(rms*rms,0)+' V²';$('r-rms-rms').textContent=f(rms,1)+' V';$('r-rms-ratio').textContent=f(rms/A,3);
+  var g=ctx('cv-rms'),x=g.x,w=g.w,h=g.h,l=50,r=w-12,m1=h*0.27,a1=h*0.2,b2=h-18,a2=h*0.36,N=300;
+  ln(x,l,m1,r,m1,C.line,1);tx(x,'v(t)',l-8,m1-a1,C.pa,'right',12,500);tx(x,'0',l-8,m1,C.mut,'right',11);
+  ln(x,l,m1-a1*rms/A,r,m1-a1*rms/A,C.accent,1.2,[5,4]);ln(x,l,m1+a1*rms/A,r,m1+a1*rms/A,C.accent,1.2,[5,4]);
+  tx(x,'±RMS',r,m1-a1*rms/A-8,C.accent,'right',11,500);
+  x.save();x.strokeStyle=C.pa;x.lineWidth=2.4;x.beginPath();for(var i=0;i<=N;i++){var th=4*Math.PI*i/N,px=l+(r-l)*i/N,py=m1-a1*wave(th)/A;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.restore();
+  ln(x,l,b2,r,b2,C.line,1);tx(x,'v²(t)',l-8,b2-a2,C.pb,'right',12,500);tx(x,'0',l-8,b2,C.mut,'right',11);
+  x.save();x.fillStyle=C['accent-soft'];x.beginPath();x.moveTo(l,b2);for(i=0;i<=N;i++){th=4*Math.PI*i/N;var vv=wave(th);x.lineTo(l+(r-l)*i/N,b2-a2*vv*vv/(A*A))}x.lineTo(r,b2);x.closePath();x.fill();
+  x.strokeStyle=C.pb;x.lineWidth=2.2;x.beginPath();for(i=0;i<=N;i++){th=4*Math.PI*i/N;vv=wave(th);var py2=b2-a2*vv*vv/(A*A);i?x.lineTo(l+(r-l)*i/N,py2):x.moveTo(l,py2)}x.stroke();x.restore();
+  var ym=b2-a2*rms*rms/(A*A);ln(x,l,ym,r,ym,C.ink,1.8,[6,4]);txb(x,'mean of v² = '+f(rms*rms,0)+' V²   →   RMS = √ = '+f(rms,1)+' V',r-4,ym-12,C.ink,'right',11,500);
+}};
+
+/* rotating phasor */
+var anim={phasor:{play:true,t0:0},tph:{play:true}};
+W.phasor={anim:true,init:function(){bind(['ph-phi','ph-i'],function(){W.phasor.draw()});
+  $('ph-play').addEventListener('click',function(){anim.phasor.play=!anim.phasor.play;this.textContent=anim.phasor.play?'Pause':'Play'})},
+ draw:function(T){
+  if(T===undefined)T=W.phasor._T||0;W.phasor._T=T;
+  var phi=v('ph-phi'),mi=v('ph-i');out('o-ph-phi',phi===0?'in phase':(phi>0?phi+'° lag':(-phi)+'° lead'));out('o-ph-i',f(mi,2));
+  $('ph-txt').textContent=phi===0?'I in phase with V':(phi>0?'I lags V by '+phi+'° (peaks '+f(phi/360*20,2)+' ms later at 50 Hz)':'I leads V by '+(-phi)+'° (peaks '+f(-phi/360*20,2)+' ms earlier)');
+  var g=ctx('cv-phasor'),x=g.x,w=g.w,h=g.h,R=Math.min(h*0.4,w*0.18),ox=R+24,oy=h/2,th=T;
+  circ(x,ox,oy,R,C.line);ln(x,ox-R-8,oy,ox+R+8,oy,C.line,1);ln(x,ox,oy-R-8,ox,oy+R+8,C.line,1);
+  var thv=th,thi=th-rad(phi);
+  var vx=ox+R*Math.cos(thv),vy=oy-R*Math.sin(thv),ix=ox+R*mi*Math.cos(thi),iy=oy-R*mi*Math.sin(thi);
+  var l=ox+R+40,r=w-12;ln(x,l,oy,r,oy,C.line,1);
+  function curve(amp,off,color){x.save();x.strokeStyle=color;x.lineWidth=2.2;x.beginPath();for(var i=0;i<=240;i++){var u=2*Math.PI*i/240,px=l+(r-l)*i/240,py=oy-R*amp*Math.sin(u-off);i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.restore()}
+  curve(1,0,C.pa);curve(mi,rad(phi),C.pc);
+  var u=((thv%(2*Math.PI))+2*Math.PI)%(2*Math.PI),cxp=l+(r-l)*u/(2*Math.PI);
+  ln(x,cxp,oy-R-6,cxp,oy+R+6,C.mut,1,[3,3]);
+  ln(x,vx,vy,cxp,vy,C.pa,1,[3,4]);ln(x,ix,iy,cxp,iy,C.pc,1,[3,4]);
+  circ(x,cxp,vy,4,C.pa,true);circ(x,cxp,iy,4,C.pc,true);
+  arrow(x,ox,oy,vx,vy,C.pa,2.8);arrow(x,ox,oy,ix,iy,C.pc,2.8);
+  tx(x,'V',vx+8*Math.cos(thv),vy-8*Math.sin(thv),C.pa,'center',13,600);tx(x,'I',ix+10*Math.cos(thi),iy-10*Math.sin(thi),C.pc,'center',13,600);
+  tx(x,'one cycle →',r,oy+R+16,C.mut,'right',11);tx(x,'v(t)',l+4,oy-R-6,C.pa,'left',11,500);tx(x,'i(t)',l+40,oy-R-6,C.pc,'left',11,500);
+}};
+
+W.imp={init:function(){bind(['imp-r','imp-x'],W.imp.draw)},draw:function(){
+  var R=v('imp-r'),X=v('imp-x'),Z=Math.hypot(R,X),th=Math.atan2(X,R);out('o-imp-r',f(R,1)+' Ω');out('o-imp-x',(X>0?'+':'')+f(X,1)+' Ω');
+  var g=ctx('cv-imp'),x=g.x,w=g.w,h=g.h,half=w/2;
+  if(Z<0.05){$('r-imp-z').textContent='0 Ω';$('r-imp-i').textContent='∞';$('r-imp-k').textContent='Short circuit';tx(x,'Short circuit: no impedance',w/2,h/2,C.bad,'center',13,500);return}
+  var I=230/Z;$('r-imp-z').textContent=f(Z,2)+' ∠ '+f(deg(th),1)+'° Ω';$('r-imp-i').textContent=f(I,2)+' ∠ '+f(-deg(th),1)+'° A';
+  $('r-imp-k').textContent=Math.abs(X)<0.01?'Resistive, in phase':(X>0?'Inductive, I lags '+f(deg(th),1)+'°':'Capacitive, I leads '+f(-deg(th),1)+'°');
+  var s=(Math.min(half,h)-60)/20,ox=40,oy=h/2;
+  ln(x,ox-10,oy,half-14,oy,C.line,1);ln(x,ox,oy-h/2+12,ox,oy+h/2-12,C.line,1);
+  tx(x,'R',half-18,oy+12,C.mut,'right',11);tx(x,'+jX',ox+6,14,C.mut,'left',11);tx(x,'−jX',ox+6,h-12,C.mut,'left',11);
+  x.save();x.fillStyle=C['accent-soft'];x.beginPath();x.moveTo(ox,oy);x.lineTo(ox+R*s,oy);x.lineTo(ox+R*s,oy-X*s);x.closePath();x.fill();x.restore();
+  ln(x,ox,oy,ox+R*s,oy,C.ink,2.5);ln(x,ox+R*s,oy,ox+R*s,oy-X*s,C.pb,2.5);arrow(x,ox,oy,ox+R*s,oy-X*s,C.accent,2.8);
+  tx(x,'Z = '+f(Z,1)+' Ω',ox+R*s/2-6,oy-X*s/2+(X>=0?-12:12),C.accent,'right',12,500);
+  if(R>0.5)tx(x,'R',ox+R*s/2,oy+(X>=0?14:-14),C.ink,'center',12);
+  if(Math.abs(X)>0.5)tx(x,'X',ox+R*s+8,oy-X*s/2,C.pb,'left',12);
+  tx(x,'Impedance plane',ox,h-12,C.mut,'left',11);
+  var px=half+30,py=h/2,L=half-60;ln(x,half+14,py,w-10,py,C.line,1);ln(x,px,14,px,h-14,C.line,1);
+  arrow(x,px,py,px+L,py,C.pa,2.8);tx(x,'V = 230∠0°',px+L,py+16,C.pa,'right',12,500);
+  var il=Math.min(1,I/46)*L*0.85+L*0.15*(I>0?1:0);il=Math.max(30,Math.min(L,il));
+  arrow(x,px,py,px+il*Math.cos(-th),py-il*Math.sin(-th),C.pc,2.8);
+  tx(x,'I',px+(il+12)*Math.cos(-th),py-(il+12)*Math.sin(-th),C.pc,'center',13,600);
+  if(Math.abs(th)>0.02){x.save();x.strokeStyle=C.mut;x.lineWidth=1;x.beginPath();x.arc(px,py,36,0,th,th<0);x.stroke();x.restore()}
+  tx(x,'Phasors (I not to V scale)',px,h-12,C.mut,'left',11);
+}};
+
+W.power={init:function(){bind(['pw-phi'],W.power.draw)},draw:function(){
+  var phi=v('pw-phi'),V=230,I=10,P=V*I*Math.cos(rad(phi)),Q=V*I*Math.sin(rad(phi));
+  out('o-pw-phi',phi===0?'0° (unity)':(phi>0?phi+'° lag':(-phi)+'° lead'));
+  $('r-pw-p').textContent=f(P,0)+' W';$('r-pw-q').textContent=(Q>=0?'+':'')+f(Q,0)+' var';$('r-pw-s').textContent=f(V*I,0)+' VA';
+  $('r-pw-pf').textContent=f(Math.cos(rad(phi)),3)+(phi===0?'':(phi>0?' lag':' lead'));
+  var g=ctx('cv-power'),x=g.x,w=g.w,h=g.h,l=12,r=w-10,m1=h*0.22,a1=h*0.16,m2=h*0.7,a2=h*0.13,N=240;
+  ln(x,l,m1,r,m1,C.line,1);
+  function draw(fn,m,a,color,wd){x.save();x.strokeStyle=color;x.lineWidth=wd;x.beginPath();for(var i=0;i<=N;i++){var u=3*Math.PI*i/N,px=l+(r-l)*i/N,py=m-a*fn(u);i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.restore()}
+  var c=rad(phi);
+  draw(function(u){return Math.cos(u)},m1,a1,C.pa,2.2);draw(function(u){return 0.75*Math.cos(u-c)},m1,a1,C.pc,2.2);
+  tx(x,'— v(t)',l+2,10,C.pa,'left',11,600);tx(x,'— i(t)',l+56,10,C.pc,'left',11,600);
+  ln(x,l,m2,r,m2,C.mut,1);
+  for(var i=0;i<N;i++){var u=3*Math.PI*(i+0.5)/N,p=Math.cos(c)+Math.cos(2*u-c);x.fillStyle=p<0?C.bad:C['accent-soft'];x.globalAlpha=p<0?0.35:1;var px=l+(r-l)*i/N;x.fillRect(px,m2,(r-l)/N+0.5,-a2*p)}
+  x.globalAlpha=1;
+  draw(function(u){return Math.cos(c)+Math.cos(2*u-c)},m2,a2,C.accent,2.2);
+  ln(x,l,m2-a2*Math.cos(c),r,m2-a2*Math.cos(c),C.ink,1.6,[6,4]);
+  tx(x,'p(t) = v·i',l+2,m2-2.2*a2,C.accent,'left',11,600);txb(x,'average = P',r-4,m2-a2*Math.cos(c)-12,C.ink,'right',11,500);
+  var g2=ctx('cv-ptri'),y=g2.x,W2=g2.w,H2=g2.h,S=Math.min(W2-80,H2-60),ox=30,oy=phi>=0?H2-30:30,px2=ox+S*Math.cos(c),qy=oy-S*Math.sin(c);
+  ln(y,ox,oy,W2-10,oy,C.line,1);
+  y.save();y.fillStyle=C['accent-soft'];y.beginPath();y.moveTo(ox,oy);y.lineTo(px2,oy);y.lineTo(px2,qy);y.closePath();y.fill();y.restore();
+  ln(y,ox,oy,px2,oy,C.ink,3);ln(y,px2,oy,px2,qy,C.pb,3);arrow(y,ox,oy,px2,qy,C.accent,2.8);
+  tx(y,'P',ox+(px2-ox)/2,oy+(phi>=0?14:-14),C.ink,'center',13,600);
+  if(Math.abs(phi)>3)tx(y,(Q>0?'+Q':'−Q'),px2+8,(oy+qy)/2,C.pb,'left',13,600);
+  tx(y,'|S|',ox+(px2-ox)/2-8,(oy+qy)/2+(phi>=0?-10:10),C.accent,'right',13,600);
+  tx(y,phi>0?'lagging: Q > 0 (absorbs)':phi<0?'leading: Q < 0 (supplies)':'unity: Q = 0',ox,phi>=0?14:H2-14,C.mut,'left',11);
+}};
+
+/* phasor KVL (cable & feeder) */
+function kvl(id,Vr,I,Z,lbl){
+  var g=ctx(id),x=g.x,w=g.w,h=g.h,d=cmul(I,Z),Vs=cadd(cx(Vr,0),d),dm=cabs(d)||1e-6;
+  var k=Math.min(0.40*w/dm,0.36*h/dm),Tx=w*0.5,Ty=h*0.5;
+  if(Tx+Math.max(0,d.re)*k>w-24)Tx=w-24-d.re*k;
+  if(Tx+Math.min(0,d.re)*k<w*0.3)Tx=w*0.3-Math.min(0,d.re)*k;
+  var Ox=Tx-Vr*k,Oy=Ty,IR=cmul(I,cx(Z.re,0)),Ax=Tx+IR.re*k,Ay=Ty-IR.im*k,Px=Tx+d.re*k,Py=Ty-d.im*k;
+  x.save();x.strokeStyle=C.mut;x.lineWidth=1;x.setLineDash([3,4]);x.beginPath();var a0=Math.asin(Math.min(1,(h*0.42)/(Vr*k)));x.arc(Ox,Oy,Vr*k,-a0,a0);x.stroke();x.restore();
+  tx(x,'radius |'+lbl.vr+'|',Tx+5,16,C.mut,'left',10);
+  ln(x,16,Ty,Tx-6,Ty,C.pa,3);arrow(x,Tx-40,Ty,Tx,Ty,C.pa,3);
+  tx(x,lbl.vr+' →',18,Ty-12,C.pa,'left',13,600);tx(x,'(starts at the origin, far off-screen left)',18,Ty+14,C.mut,'left',10);
+  var x1=Tx-w*0.22,y1=Oy+(Py-Oy)*(x1-Ox)/(Px-Ox);
+  ln(x,x1,y1,Px,Py,C.ink,2,[7,5]);arrow(x,x1+(Px-x1)*0.75,y1+(Py-y1)*0.75,Px,Py,C.ink,2.4);
+  if(Z.re>0)arrow(x,Tx,Ty,Ax,Ay,C.accent,2.8);
+  if(Z.im>0)arrow(x,Ax,Ay,Px,Py,C.pb,2.8);
+  if(Z.re>0&&cabs(IR)*k>22)tx(x,'I·R',(Tx+Ax)/2+(Ay>Ty?8:-8),(Ty+Ay)/2+(Ay>Ty?10:-10),C.accent,Ay>Ty?'left':'right',12,600);
+  if(Z.im>0)tx(x,'jI·X',(Ax+Px)/2+8,(Ay+Py)/2,C.pb,'left',12,600);
+  tx(x,lbl.vs,Px+10,Py+(Py<=Ty?-12:12),C.ink,'left',13,700);
+  var dV=cabs(Vs)-Vr,by=h-22;
+  ln(x,Tx,by-6,Tx,by+6,C.ink2,1);ln(x,Tx+dV*k,by-6,Tx+dV*k,by+6,C.ink2,1);ln(x,Tx,by,Tx+dV*k,by,C.ink2,1.4);
+  tx(x,'|'+lbl.vs+'| − |'+lbl.vr+'| = '+f(dV,2)+' V',Tx+(dV>=0?dV*k+8:8),by,C.ink2,'left',11,500);
+  var cxr=46,cyr=h-46,rr=26;circ(x,cxr,cyr,rr,C.line);arrow(x,cxr,cyr,cxr+rr,cyr,C.pa,2);var ia=carg(I);arrow(x,cxr,cyr,cxr+rr*Math.cos(ia),cyr-rr*Math.sin(ia),C.pc,2);
+  tx(x,'I vs '+lbl.vr,cxr,cyr-rr-9,C.pc,'center',10,500);
+  tx(x,'zoomed ×'+f(k,1)+' px/V near the tip',w-10,16,C.mut,'right',10);
+  return Vs;
+}
+W.cable={init:function(){seg('cb-type',W.cable.draw);bind(['cb-p','cb-pf','cb-r','cb-x'],W.cable.draw)},draw:function(){
+  var P=v('cb-p')*1e3,pf=v('cb-pf'),R=v('cb-r'),X=v('cb-x'),lead=segVal('cb-type')==='lead',V=230;
+  out('o-cb-p',f(P/1e3,1)+' kW');out('o-cb-pf',f(pf,2));out('o-cb-r',f(R,2)+' Ω');out('o-cb-x',f(X,2)+' Ω');
+  var Im=P/(V*pf),I=polar(Im,(lead?1:-1)*Math.acos(pf)),Z=cx(R,X);
+  var Vs=kvl('cv-cable',V,I,Z,{vr:'V\u2097',vs:'V\u209b'}),vs=cabs(Vs),Sc=cx(Im*Im*R,Im*Im*X),Ss=cadd(cx(P,(lead?-1:1)*P*Math.tan(Math.acos(pf))),Sc),spf=Ss.re/cabs(Ss);
+  $('r-cb-i').textContent=f(Im,1)+' A';$('r-cb-vs').textContent=f(vs,1)+' V';$('r-cb-vr').textContent=f((vs-V)/V*100,2)+' %';
+  $('r-cb-l').textContent=f(Sc.re,0)+' W';$('r-cb-pf').textContent=f(spf,3)+(Math.abs(Ss.im)<1?'':(Ss.im>0?' lag':' lead'));
+}};
+W.feeder={init:function(){seg('fd-type',W.feeder.draw);bind(['fd-p','fd-pf','fd-r','fd-x'],W.feeder.draw)},draw:function(){
+  var P=v('fd-p'),pf=v('fd-pf'),R=v('fd-r'),X=v('fd-x'),lead=segVal('fd-type')==='lead',Vr=400/Math.sqrt(3);
+  out('o-fd-p',f(P,0)+' kW');out('o-fd-pf',f(pf,2));out('o-fd-r',f(R,3)+' Ω');out('o-fd-x',f(X,3)+' Ω');
+  var Q=(lead?-1:1)*P*Math.tan(Math.acos(pf)),I=cx(P*1e3/(3*Vr),-Q*1e3/(3*Vr)),Z=cx(R,X),Im=cabs(I);
+  var Vs=kvl('cv-feeder',Vr,I,Z,{vr:'V\u1d63',vs:'V\u209b'}),vsll=Math.sqrt(3)*cabs(Vs);
+  var Ss={re:3*(Vs.re*I.re+Vs.im*I.im),im:3*(Vs.im*I.re-Vs.re*I.im)},spf=Ss.re/cabs(Ss);
+  $('r-fd-i').textContent=f(Im,1)+' A';$('r-fd-vs').textContent=f(vsll,1)+' V';$('r-fd-vr').textContent=f((vsll-400)/4,2)+' %';
+  $('r-fd-l').textContent=f(3*Im*Im*R/1e3,2)+' kW';$('r-fd-pf').textContent=f(spf,3)+(Math.abs(Ss.im)<1?'':(Ss.im>0?' lag':' lead'));
+}};
+
+/* three-phase */
+W.tph={anim:true,init:function(){bind(['tph-c','tph-phi'],function(){W.tph.draw()});
+  $('tph-play').addEventListener('click',function(){anim.tph.play=!anim.tph.play;this.textContent=anim.tph.play?'Pause':'Play'})},
+ draw:function(T){
+  if(T===undefined)T=W.tph._T||0;W.tph._T=T;
+  var mc=v('tph-c'),phi=rad(v('tph-phi'));out('o-tph-c',f(mc,2));out('o-tph-phi',v('tph-phi')+'°');
+  var off=[0,-2*Math.PI/3,2*Math.PI/3],m=[1,1,mc],cols=[C.pa,C.pb,C.pc],names=['a','b','c'];
+  var g=ctx('cv-tph-a'),x=g.x,w=g.w,h=g.h,R=Math.min(w,h)*0.3,ox=w/2,oy=h/2;
+  circ(x,ox,oy,R,C.line);ln(x,ox-R-10,oy,ox+R+10,oy,C.line,1);ln(x,ox,oy-R-10,ox,oy+R+10,C.line,1);
+  var sx=ox,sy=oy;
+  for(var k=0;k<3;k++){var a=T+off[k];var ex=ox+R*m[k]*Math.cos(a),ey=oy-R*m[k]*Math.sin(a);arrow(x,ox,oy,ex,ey,cols[k],2.8);tx(x,'I'+names[k],ox+(R*m[k]+14)*Math.cos(a),oy-(R*m[k]+14)*Math.sin(a),cols[k],'center',12,600);}
+  for(k=0;k<3;k++){a=T+off[k];var nx=sx+R*m[k]*Math.cos(a),ny=sy-R*m[k]*Math.sin(a);if(k>0)arrow(x,sx,sy,nx,ny,cols[k],1.6,[4,3]);sx=nx;sy=ny;}
+  var In=Math.hypot(sx-ox,sy-oy)/R;
+  if(In>0.02){arrow(x,ox,oy,sx,sy,C.ink,3);tx(x,'In',sx+10,sy-10,C.ink,'left',12,700)}else circ(x,ox,oy,5,C.ink,true);
+  tx(x,In>0.02?'chain does not close: neutral current':'tip-to-tail chain closes: Ia+Ib+Ic = 0',ox,h-12,In>0.02?C.bad:C.good,'center',11,500);
+  var g2=ctx('cv-tph-b'),y=g2.x,W2=g2.w,H2=g2.h,l=8,r=W2-8,m1=H2*0.25,a1=H2*0.15,m2=H2*0.82,N=200;
+  ln(y,l,m1,r,m1,C.line,1);
+  for(k=0;k<3;k++){y.save();y.strokeStyle=cols[k];y.lineWidth=1.8;y.beginPath();for(var i=0;i<=N;i++){var u=2*Math.PI*i/N,py=m1-a1*m[k]*Math.sin(u+off[k]-phi);i?y.lineTo(l+(r-l)*i/N,py):y.moveTo(l,py)}y.stroke();y.restore()}
+  y.save();y.strokeStyle=C.ink;y.lineWidth=2;y.setLineDash([5,4]);y.beginPath();for(i=0;i<=N;i++){u=2*Math.PI*i/N;var s=0;for(k=0;k<3;k++)s+=m[k]*Math.sin(u+off[k]-phi);py=m1-a1*s;i?y.lineTo(l+(r-l)*i/N,py):y.moveTo(l,py)}y.stroke();y.restore();
+  tx(y,'currents and their sum (dashed)',l,12,C.mut,'left',11);
+  var pt=[],mx=0,mn=1e9;for(i=0;i<=N;i++){u=2*Math.PI*i/N;var tot=0,pk=[];for(k=0;k<3;k++){var p=2*Math.sin(u+off[k])*m[k]*Math.sin(u+off[k]-phi);pk.push(p);tot+=p}pt.push([pk,tot]);mx=Math.max(mx,tot,pk[0],pk[1],pk[2]);mn=Math.min(mn,tot,pk[0],pk[1],pk[2])}
+  var a2=(m2-H2*0.53)/Math.max(mx,0.5);
+  ln(y,l,m2,r,m2,C.line,1);
+  for(k=0;k<3;k++){y.save();y.strokeStyle=cols[k];y.lineWidth=1.2;y.globalAlpha=0.8;y.beginPath();for(i=0;i<=N;i++){py=m2-a2*pt[i][0][k];i?y.lineTo(l+(r-l)*i/N,py):y.moveTo(l,py)}y.stroke();y.restore()}
+  y.save();y.strokeStyle=C.ink;y.lineWidth=3;y.beginPath();for(i=0;i<=N;i++){py=m2-a2*pt[i][1];i?y.lineTo(l+(r-l)*i/N,py):y.moveTo(l,py)}y.stroke();y.restore();
+  tx(y,'phase powers and total (black)',l,H2*0.47,C.mut,'left',11);
+  var uu=((T%(2*Math.PI))+2*Math.PI)%(2*Math.PI),cxp=l+(r-l)*uu/(2*Math.PI);ln(y,cxp,8,cxp,H2-6,C.mut,1,[3,3]);
+  var tots=pt.map(function(q){return q[1]}),tmax=Math.max.apply(null,tots),tmin=Math.min.apply(null,tots),tav=tots.reduce(function(a,b){return a+b},0)/tots.length;
+  $('r-tph-n').textContent=f(In,2);$('r-tph-r').textContent=Math.abs(tav)<1e-6?'—':f((tmax-tmin)/tav*100,1)+' %';
+}};
+
+/* Y / Delta builder */
+var yd={mode:'y',step:0};
+W.yd={init:function(){seg('yd-mode',function(m){yd.mode=m;yd.step=0;W.yd.draw()});
+  $('yd-step').addEventListener('click',function(){yd.step=Math.min(2,yd.step+1);W.yd.draw()});
+  $('yd-reset').addEventListener('click',function(){yd.step=0;W.yd.draw()})},
+ draw:function(){
+  var g=ctx('cv-yd'),x=g.x,w=g.w,h=g.h,R=Math.min(w,h)*0.24,ox=w/2,oy=h/2,cols=[C.pa,C.pb,C.pc];
+  ln(x,ox-R*1.9,oy,ox+R*1.9,oy,C.line,1);ln(x,ox,oy-R*1.9,ox,oy+R*1.9,C.line,1);
+  function P(m,a){return [ox+m*R*Math.cos(rad(a)),oy-m*R*Math.sin(rad(a))]}
+  var Y=yd.mode==='y',ph=Y?[0,-120,120]:[0,-120,120],pn=Y?['Van','Vbn','Vcn']:['Iab','Ibc','Ica'],ln2=Y?['Vab','Vbc','Vca']:['Ia','Ib','Ic'];
+  var lineAng=Y?[30,-90,150]:[-30,-150,90];
+  for(var k=0;k<3;k++){var p=P(1,ph[k]);arrow(x,ox,oy,p[0],p[1],cols[k],2.8);var q=P(1.18,ph[k]);tx(x,pn[k],q[0],q[1],cols[k],'center',12,600)}
+  var txt;
+  if(yd.step===0)txt=Y?'Three phase voltages, equal length, 120° apart. Press Next step to build V_ab = V_an − V_bn.':'Three branch currents I_ab, I_bc, I_ca (unity PF, so in phase with V_ab, V_bc, V_ca). Press Next step to build I_a = I_ab − I_ca.';
+  if(yd.step>=1){
+    var A=P(1,ph[0]),neg=Y?ph[1]+180:ph[2]+180,B=[A[0]+R*Math.cos(rad(neg)),A[1]-R*Math.sin(rad(neg))];
+    arrow(x,A[0],A[1],B[0],B[1],Y?C.pb:C.pc,2.2,[6,4]);tx(x,Y?'−Vbn':'−Ica',(A[0]+B[0])/2+12,(A[1]+B[1])/2,Y?C.pb:C.pc,'left',12,600);
+    arrow(x,ox,oy,B[0],B[1],C.pa,3.4);var lb=P(1.95,lineAng[0]);tx(x,ln2[0],lb[0],lb[1],C.pa,'center',13,700);
+    x.save();x.strokeStyle=C.ink;x.lineWidth=1.2;x.beginPath();x.arc(ox,oy,R*0.45,0,-rad(lineAng[0]),lineAng[0]>0);x.stroke();x.restore();
+    var am=P(0.58,lineAng[0]/2);tx(x,(Y?'+':'−')+'30°',am[0]+(Y?6:6),am[1],C.ink,'left',12,600);
+    txt=Y?'V_ab = V_an − V_bn: add −V_bn to the tip of V_an. Result: √3 longer (400 vs 230.9 V) and 30° ahead.':'KCL at node a: I_a = I_ab − I_ca. Result: √3 longer (21.65 vs 12.5 A) and 30° behind.';
+  }
+  if(yd.step>=2){for(k=1;k<3;k++){var e=P(Math.sqrt(3),lineAng[k]);arrow(x,ox,oy,e[0],e[1],cols[k],3.4);var l2=P(1.95,lineAng[k]);tx(x,ln2[k],l2[0],l2[1],cols[k],'center',13,700)}
+    txt=Y?'All three line voltages: a second balanced set, √3 longer, rotated +30°.':'All three line currents: a second balanced set, √3 longer, rotated −30°.';}
+  if(yd.step>=1){var e0=P(Math.sqrt(3),lineAng[0]);}
+  $('yd-txt').textContent=txt;$('yd-txt').className='status';
+  $('yd-step').disabled=yd.step>=2;
+}};
+
+W.recon={init:function(){bind(['rc-z','rc-a'],W.recon.draw)},draw:function(){
+  var Z=v('rc-z'),a=rad(v('rc-a')),V=400;out('o-rc-z',f(Z,1)+' Ω');out('o-rc-a',v('rc-a')+'°');
+  var vy=V/Math.sqrt(3),iy=vy/Z,Sy=3*vy*iy,id=V/Z,Sd=3*V*id;
+  var rows=[['Branch voltage',f(vy,1)+' V',f(V,1)+' V'],['Branch current',f(iy,2)+' A',f(id,2)+' A'],['Line current',f(iy,2)+' A',f(Math.sqrt(3)*id,2)+' A'],
+    ['P total',f(Sy*Math.cos(a)/1e3,2)+' kW',f(Sd*Math.cos(a)/1e3,2)+' kW'],['Q total',f(Sy*Math.sin(a)/1e3,2)+' kvar',f(Sd*Math.sin(a)/1e3,2)+' kvar'],['|S| total',f(Sy/1e3,2)+' kVA',f(Sd/1e3,2)+' kVA']];
+  $('rc-tbl').innerHTML='<tr><th></th><th class="n">Y</th><th class="n">Δ</th></tr>'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td><td class="n">'+r[2]+'</td></tr>'}).join('');
+  var g=ctx('cv-recon'),x=g.x,w=g.w,h=g.h,l=90,r=w-20,sc=(r-l)/(Sd*Math.cos(a)||1),P1=Sy*Math.cos(a),P2=Sd*Math.cos(a);
+  tx(x,'Total P',10,22,C.mut,'left',11);
+  x.fillStyle=C.accent;x.fillRect(l,40,Math.max(2,P1*sc),36);x.fillStyle=C.pa;x.fillRect(l,96,Math.max(2,P2*sc),36);
+  tx(x,'Y',l-12,58,C.ink,'right',13,600);tx(x,'Δ',l-12,114,C.ink,'right',13,600);
+  tx(x,f(P1/1e3,2)+' kW',l+P1*sc+8,58,C.accent,'left',12,500);
+  tx(x,f(P2/1e3,2)+' kW = 3 × Y',Math.min(l+P2*sc-8,r-8),114,C.panel,'right',12,500);
+  tx(x,'Δ of Z behaves like a Y of Z/3 = '+f(Z/3,2)+' Ω',l,h-18,C.mut,'left',11);
+}};
+
+W.comp={init:function(){seg('cp-v',W.comp.draw);bind(['cp-p','cp-pf','cp-t'],W.comp.draw)},draw:function(){
+  var P=v('cp-p'),pf=v('cp-pf'),tg=v('cp-t'),V=parseFloat(segVal('cp-v')),w0=2*Math.PI*50;
+  out('o-cp-p',P+' kW');out('o-cp-pf',f(pf,2));out('o-cp-t',f(tg,2));
+  var Q=P*Math.tan(Math.acos(pf)),t=Math.max(tg,pf),Qt=P*Math.tan(Math.acos(t)),Qc=Q-Qt,S=Math.hypot(P,Q),St=Math.hypot(P,Qt);
+  var CY=Qc*1e3/(w0*V*V)*1e6,I=S*1e3/(Math.sqrt(3)*V),It=St*1e3/(Math.sqrt(3)*V);
+  function cap(u){return u>=1000?f(u/1000,2)+' mF':u>=10?f(u,1)+' µF':f(u,2)+' µF'}
+  $('r-cp-q').textContent=Qc>0.05?f(Qc,1)+' kvar':'none needed';$('r-cp-cy').textContent=Qc>0.05?cap(CY):'—';$('r-cp-cd').textContent=Qc>0.05?cap(CY/3):'—';
+  $('r-cp-i').textContent=f(I,I<100?1:0)+' → '+f(It,It<100?1:0)+' A';$('r-cp-s').textContent=f(S,0)+' → '+f(St,0)+' kVA';
+  var g=ctx('cv-comp'),x=g.x,w=g.w,h=g.h,m=Math.max(P,Q),k=Math.min((w-130)/m,(h-60)/m),ox=26,oy=h-30,xp=ox+P*k,yq=oy-Q*k,yt=oy-Qt*k;
+  x.save();x.fillStyle=C['accent-soft'];x.beginPath();x.moveTo(ox,oy);x.lineTo(xp,oy);x.lineTo(xp,yt);x.closePath();x.fill();x.restore();
+  ln(x,xp,oy,xp,yq,C.mut,1.8,[5,4]);ln(x,ox,oy,xp,yq,C.mut,1.8,[5,4]);
+  ln(x,ox,oy,xp,oy,C.ink,3);ln(x,xp,oy,xp,yt,C.pb,3);arrow(x,ox,oy,xp,yt,C.accent,2.8);
+  if(Qc>0.05)arrow(x,xp+16,yq,xp+16,yt,C.pc,3);
+  tx(x,'P = '+P+' kW',ox+(xp-ox)/2,oy+16,C.ink,'center',12,500);
+  if(Qc>0.05)tx(x,'−'+f(Qc,1)+' kvar',xp+24,(yq+yt)/2,C.pc,'left',12,600);
+  tx(x,'dashed: before · solid: after',ox,14,C.mut,'left',11);
+}};
+
+/* ---------- widget lifecycle ---------- */
+function initWidgets(page){
+  [].forEach.call(page.querySelectorAll('.widget[data-w]'),function(el){var k=el.dataset.w,wd=W[k];if(!wd)return;
+    try{if(!wd._init){wd._init=1;wd.init()}wd.draw()}catch(e){console.error(k,e)}});
+}
+function redrawVisible(){loadColors();var p=document.querySelector('.page:not([hidden])');if(!p)return;
+  [].forEach.call(p.querySelectorAll('.widget[data-w]'),function(el){var wd=W[el.dataset.w];if(wd&&wd._init)try{wd.draw()}catch(e){}})}
+var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(redrawVisible,80)});
+try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawVisible)}catch(e){}
+new MutationObserver(redrawVisible).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.fonts&&document.fonts.ready&&document.fonts.ready.then(redrawVisible);
+
+var last=performance.now(),TP=0,TT=0;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduce){anim.phasor.play=false;anim.tph.play=false;$('ph-play').textContent='Play';$('tph-play').textContent='Play'}
+function loop(now){var dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(current==='l4'&&W.phasor._init&&anim.phasor.play){TP+=dt*2*Math.PI/4;W.phasor.draw(TP)}
+  if(current==='l7'&&W.tph._init&&anim.tph.play){TT+=dt*2*Math.PI/4;W.tph.draw(TT)}
+  requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+
+/* ---------- start ---------- */
+var h0=location.hash.slice(1);
+if(/^q\d+$/.test(h0))go('practice',h0);else go(h0||'home');
+})();
+</script>
+
+</body>
+</html>
