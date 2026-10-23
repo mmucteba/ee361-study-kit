@@ -1,16 +1,37 @@
 # EE361 Chapter I Study Kit
 
-Interactive lecture notes for METU EE361 Chapter I, Introduction to Power Systems.
+Interactive lecture notes for METU EE361 Electromechanical Energy Conversion I, Chapter I: Introduction to Power Systems.
 
-Open the live site: https://mmucteba.github.io/ee361-study-kit/
+**Open the site:** https://mmucteba.github.io/ee361-study-kit/
 
-## What is inside
+## Lessons (2026 syllabus order)
 
-- 11 lessons in syllabus order: power and energy, sinusoids and RMS, phasors, complex power and power factor, single-phase lines, balanced three-phase, Y and Δ, three-phase power, per-phase feeders, three-phase power factor correction
-- An interactive visual in every lesson, step-by-step worked examples and a self-check question
-- 7 past exam questions (2021, 2022, 2025 midterms and the official Chapter-1 problems) with answer checking and linked solutions
-- A formula sheet that says when each formula applies
+1. Power systems and electromechanical conversion (grid structure, why AC, rated vs nominal)
+2. Power and energy in DC systems
+3. Sinusoids and RMS values
+4. Phasors and phasor diagrams
+5. Complex power and power factor
+6. Power factor correction (single-phase)
+7. Single-phase line model and voltage regulation
+8. Electrical safety
+9. Balanced three-phase systems
+10. Y and Δ sources and loads
+11. Three-phase power calculations (incl. two-wattmeter method)
+12. Per-phase equivalent and line model
+13. Power factor correction in three-phase systems
 
-Everything is one file, `index.html`. Progress is saved only in your own browser.
+Every lesson has derivations, an interactive diagram, step-by-step worked examples and self-check questions.
 
-Numerical answers were recomputed in Python. Where a printed key disagrees, the solution says why.
+## Question bank
+
+Every Chapter I question from the course archive, reproduced as printed with the original figures, an answer checker for every part and a full solution:
+
+- Quiz 1, Fall 2026 (10 multiple choice + Q2)
+- Midterm 1, Fall 2025 (Q1–Q3)
+- Chapter 1 sample problems, Fall 2026
+- Midterm 1, Fall 2022 (Q1) and Fall 2021 (Q1)
+- Sen, Appendix B Examples B.1 and B.2
+
+Plus a formula sheet and the course's English–Turkish glossary.
+
+All numbers were recomputed in Python. Where a printed key disagrees, the solution explains why. Exam questions and figures belong to the METU EE361 instructors and are included for study.
