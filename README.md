@@ -1,37 +1,24 @@
-# EE361 Chapter I Study Kit
+# EE361 Study Kit — the whole course, connected
 
-Interactive lecture notes for METU EE361 Electromechanical Energy Conversion I, Chapter I: Introduction to Power Systems.
+Study site for METU EE361 Electromechanical Energy Conversion I (2026 syllabus), all five chapters as one connected course.
 
 **Open the site:** https://mmucteba.github.io/ee361-study-kit/
 
-## Lessons (2026 syllabus order)
+| Page | Contents |
+| --- | --- |
+| `index.html` | Course home: all chapters with progress, "continue" link, printable PDFs |
+| `ch1.html` | Chapter I · Introduction to Power Systems — 13 interactive lessons, question bank, formula sheet, glossary |
+| `ch2.html` | Chapter II · Magnetic Circuits — Lessons 10–16 |
+| `ch3.html` | Chapter III · Transformers — Lessons 17–21 + solved archive problems (Ch. II–III) |
+| `ch4.html` | Chapter IV · Electromechanical Conversion and DC Machines — Lessons 22–26 + DC-machine archive problems |
+| `ch5.html` | Chapter V · Power Electronics — Lessons 27–31 |
+| `tools.html` | Interactive tools: magnetic circuit with air gap, transformer loading, force and torque, DC machine and starter, buck/boost converters, diode rectifiers |
+| `questions.html` | Every solved exam and textbook question of the course, with links |
+| `reference.html` | Formula summaries and one English–Turkish glossary for the whole course |
+| `pdf/` | Printable PDFs of Chapters II–V |
 
-1. Power systems and electromechanical conversion (grid structure, why AC, rated vs nominal)
-2. Power and energy in DC systems
-3. Sinusoids and RMS values
-4. Phasors and phasor diagrams
-5. Complex power and power factor
-6. Power factor correction (single-phase)
-7. Single-phase line model and voltage regulation
-8. Electrical safety
-9. Balanced three-phase systems
-10. Y and Δ sources and loads
-11. Three-phase power calculations (incl. two-wattmeter method)
-12. Per-phase equivalent and line model
-13. Power factor correction in three-phase systems
+Every page has the same course menu (all chapters and their lessons), one progress bar for all 35 lessons, and previous/next links that run from Chapter I through Chapter V. Older links such as `index.html#l5` now open `ch1.html#l5`. Progress is stored only in your browser.
 
-Every lesson has derivations, an interactive diagram, step-by-step worked examples and self-check questions.
+Lessons for Chapters II–V give goals, derivations, figures, common mistakes, worked examples from simple to exam level, practice with hidden solutions, a summary, EN–TR vocabulary and source pages. Chapter V has no teacher lecture notes in the supplied material and follows the syllabus and Sen, *Principles of Electric Machines and Power Electronics* (3rd ed.), Ch. 10.
 
-## Question bank
-
-Every Chapter I question from the course archive, reproduced as printed with the original figures, an answer checker for every part and a full solution:
-
-- Quiz 1, Fall 2026 (10 multiple choice + Q2)
-- Midterm 1, Fall 2025 (Q1–Q3)
-- Chapter 1 sample problems, Fall 2026
-- Midterm 1, Fall 2022 (Q1) and Fall 2021 (Q1)
-- Sen, Appendix B Examples B.1 and B.2
-
-Plus a formula sheet and the course's English–Turkish glossary.
-
-All numbers were recomputed in Python. Where a printed key disagrees, the solution explains why. Exam questions and figures belong to the METU EE361 instructors and are included for study.
+All numbers were checked with executable scripts; where a printed key disagrees, the solution explains why. Exam questions and figures belong to the METU EE361 instructors and are included for study. Textbook PDFs are not included. This site is generated from Markdown lessons maintained in a private course repository; the site was browser-tested at desktop and phone widths before publishing.
