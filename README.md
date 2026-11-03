@@ -4,6 +4,25 @@ Study site for METU EE361 Electromechanical Energy Conversion I (2026 syllabus),
 
 **Open the site:** https://mmucteba.github.io/ee361-study-kit/
 
+## Reading experience
+
+Open **Aa · Appearance** in the top bar to choose Paper, Cloud, Sage, Dusk or Night, or follow your device setting. Text size (16–24 px), sans/serif type, line spacing and reading width are adjustable. Preferences are saved separately from the two existing learning-progress keys. Resetting appearance never clears lesson marks.
+
+The shared UI adds course/lesson navigation, lesson search (`⌘/Ctrl K`), a phone course menu, focus mode (`F`), an outline for the generated lessons on wide screens, and a reading-position indicator. Native dialogs support keyboard navigation and Escape. Motion is suppressed when the device requests reduced motion. Scientific diagrams keep their original colors and white image backgrounds; long equations and tables scroll within their containers.
+
+`assets/studio.js` applies saved colors before first paint and adds the presentation controls after the original readers initialize. `assets/studio.css` supplies the shared visual layer. HTML integration changes head assets only; educational markup, original routers/calculators, anchors and progress handlers remain in place. A normal static server and GitHub Pages both work; no application backend or new framework is required.
+
+After exporting fresh course HTML into this repository, retain the Studio assets and run:
+
+```sh
+python3 scripts/apply-studio.py
+python3 scripts/verify-studio.py
+```
+
+The first script is idempotent and fingerprints both asset URLs so updates do not keep using an older CSS/JS file. The second checks palette text contrast, local links/assets/anchors and preservation of all nine published course bodies against the pre-UI commit. It does not claim a complete accessibility or scientific-content audit. Palette checks use the [WCAG text-contrast calculation](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html); flexible text controls follow the intent of [user-adjustable text spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html). Theme choices support reading comfort and personal preference, without medical claims.
+
+This public repository is the current connected-site source. The older private course checkout's `site/` folder must not be copied over it wholesale; its Chapter I entry-point/navigation structure predates the connected-site export.
+
 | Page | Contents |
 | --- | --- |
 | `index.html` | Course home: all chapters with progress, "continue" link, printable PDFs |
