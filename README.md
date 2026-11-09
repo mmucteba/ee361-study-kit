@@ -23,6 +23,19 @@ The first script is idempotent and fingerprints both asset URLs so updates do no
 
 This public repository is the current connected-site source. The older private course checkout's `site/` folder must not be copied over it wholesale; its Chapter I entry-point/navigation structure predates the connected-site export.
 
+## Past exams archive
+
+`archive.html` lists every question from the three supplied EE361 archives (MT1, MT2, Final 2014–2024, homework, recitation and solved sets) plus this term's Quiz 1 and last year's MT1: 118 entries. Filter by chapter, lesson, paper, solved/review status or "worked in the kit"; open a question to see the original pages, the supplied solution pages (folded, so you can try first) and links to the kit's own worked solution where one exists. Every lesson now ends with a "Past exam practice" box listing its archive questions, and each chapter page links to its part of the archive. Solved/review marks and "my set" are kept in the browser (`ee361-archive-status-v1`, `ee361-archive-set-v1`), separate from lesson progress.
+
+The data comes from the private catalog (`EE361/assistant/question-bank/past-exams-2026`) and `archive/lesson-map.json` (question → lessons, kit solutions, suggested order per chapter). After editing either, run:
+
+```sh
+python3 scripts/build-archive.py --catalog ../EE361/assistant/question-bank/past-exams-2026
+python3 scripts/verify-studio.py
+```
+
+The builder copies only the page images it uses into `archive/`, regenerates `archive.html` from `questions.html` so the menus match, and adds one head block to each page. Lesson bodies are not edited; the practice boxes and menu entry are added by `assets/archive-links.js`. Supplied keys are shown as printed and were not re-checked.
+
 | Page | Contents |
 | --- | --- |
 | `index.html` | Course home: all chapters with progress, "continue" link, printable PDFs |
@@ -33,6 +46,7 @@ This public repository is the current connected-site source. The older private c
 | `ch5.html` | Chapter V · Power Electronics — Lessons 27–31 |
 | `tools.html` | Interactive tools: magnetic circuit with air gap, transformer loading, force and torque, DC machine and starter, buck/boost converters, diode rectifiers |
 | `questions.html` | Every solved exam and textbook question of the course, with links |
+| `archive.html` | All 118 past exam questions by chapter and lesson, with original pages and supplied solutions |
 | `reference.html` | Formula summaries and one English–Turkish glossary for the whole course |
 | `pdf/` | Printable PDFs of Chapters II–V |
 

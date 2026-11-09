@@ -67,7 +67,8 @@ files = {p.name: Document(p.read_text()) for p in ROOT.glob('*.html')}
 checked_refs, preserved = 0, []
 for name, document in files.items():
     text = (ROOT / name).read_text()
-    if 'class="shell"' in text or "class='shell'" in text:
+    is_new = subprocess.run(['git', 'cat-file', '-e', BASE + ':' + name], cwd=ROOT, capture_output=True).returncode != 0
+    if ('class="shell"' in text or "class='shell'" in text) and not is_new:
         original = subprocess.check_output(['git', 'show', BASE + ':' + name], cwd=ROOT, text=True)
         # Head-only integration must not rewrite any lesson, equation or script.
         assert text.split('</head>', 1)[1] == original.split('</head>', 1)[1], name
