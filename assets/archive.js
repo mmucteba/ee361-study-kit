@@ -37,7 +37,7 @@
   }
 
   // layout
-  var groups = [['All', 'All'], ['Quiz', 'Quiz'], ['MT1', 'MT1'], ['MT2', 'MT2'], ['Final', 'Final'], ['Practice', 'Homework & solved sets']];
+  var groups = [['All', 'All'], ['Quiz', 'Quiz'], ['MT1', 'MT1'], ['MT2', 'MT2'], ['Final', 'Final'], ['Problems', 'Chapter problems (ODTUClass)'], ['Practice', 'Homework & solved sets']];
   app.innerHTML =
     '<div class="ax-controls" role="search">' +
       '<div class="ax-row"><span class="ax-lab">Chapter</span><span id="ax-ch" class="ax-row"></span></div>' +
@@ -81,7 +81,8 @@
     if (st.ch && q.chapters.indexOf(st.ch) < 0) return false;
     if (st.lesson && q.lessons.indexOf(st.lesson) < 0) return false;
     if (st.group !== 'All') {
-      if (st.group === 'Practice') { if (!isPractice(q)) return false; }
+      if (st.group === 'Practice') { if (!isPractice(q) || q.group === 'Problems') return false; }
+      else if (st.group === 'Problems') { if (q.group !== 'Problems') return false; }
       else if (isPractice(q) || q.group !== st.group) return false;
     }
     var s = status[q.id] || '';
@@ -96,7 +97,7 @@
     return true;
   }
   function sortKey(a, b) {
-    return (isPractice(a) - isPractice(b)) || ((b.year || 0) - (a.year || 0)) || a.label.localeCompare(b.label);
+    return ((b.year || 0) - (a.year || 0)) || (isPractice(a) - isPractice(b)) || a.label.localeCompare(b.label);
   }
 
   function tags(q) {
@@ -104,8 +105,9 @@
     var ls = q.lessons.filter(function (k) { return !st.ch || L[k].chapter === st.ch; });
     if (ls.length) t.push('<span class="ax-tag">' + ls.map(lessonShort).join(' · ') + '</span>');
     if (hasKit(q)) t.push('<span class="ax-tag kit">Worked in the kit</span>');
+    if (q.sol_md) t.push('<span class="ax-tag kit">Solution here</span>');
     if (q.solutions.length || q.answers_on_page) t.push('<span class="ax-tag key">' + (q.solutions.length ? 'Supplied solution' : 'Answers on the pages') + '</span>');
-    if (!hasKit(q) && !q.solutions.length && !q.answers_on_page) t.push('<span class="ax-tag none">No solution supplied</span>');
+    if (!hasKit(q) && !q.sol_md && !q.solutions.length && !q.answers_on_page) t.push('<span class="ax-tag none">No solution supplied</span>');
     if (q.missing_prompt) t.push('<span class="ax-tag none">Prompt missing</span>');
     if (mySet.indexOf(q.id) >= 0) t.push('<span class="ax-tag set">In my set</span>');
     return t.join('');
@@ -152,7 +154,7 @@
     $('ax-prog').textContent = '✓ ' + solved + ' solved · ↻ ' + review + ' to review';
 
     var route = st.ch && !st.lesson && !st.set && !st.query && D.routes[st.ch];
-    $('ax-route').innerHTML = route ? '<div class="ax-route"><h3>Where to start in Chapter ' + roman[st.ch] + '</h3><p>A short path from the basics to recent papers. The first ones are worked in the kit, so you can check yourself; the later ones are recent exams with supplied keys.</p><ol>' +
+    $('ax-route').innerHTML = route ? '<div class="ax-route"><h3>Where to start in Chapter ' + roman[st.ch] + '</h3><p>A short path: this term’s own problems first, then papers worked in the kit so you can check yourself, then recent exams with supplied keys.</p><ol>' +
       route.map(function (id) { var q = byId[id]; return '<li><button type="button" data-open="' + id + '" class="' + (status[id] === 'solved' ? 'is-solved' : '') + '">' + esc(q.label) + '</button></li>'; }).join('') + '</ol></div>' : '';
     lessonOptions();
     syncUrl();
@@ -195,27 +197,33 @@
       if (q.answers_on_page && !q.missing_prompt) h += '<div class="ax-box warn">These pages come from a solution file, so the supplied answer is written on or after the question. Cover it if you want to try first.</div>';
       h += figures(q.pages);
     }
+    if (q.link) h += '<p class="ax-note"><a href="' + q.link.href + '" target="_blank" rel="noopener">' + esc(q.link.label) + ' ↗</a></p>';
+    if (q.sol_md) h += '<details><summary>Official solution, numbers recomputed</summary><div class="ax-inner ax-prompt" id="ax-sol"><p class="ax-note">Loading…</p></div></details>';
     if (q.kit.length) h += '<div class="ax-box kit"><h3>Worked solution in the kit</h3><ul>' + q.kit.map(function (k) { return '<li><a href="' + k.href + '">' + esc(k.label) + '</a>' + (k.title ? ' — ' + esc(k.title) : '') + '</li>'; }).join('') + '</ul></div>';
     q.solutions.forEach(function (s) { h += '<details><summary>' + (/alternative/i.test(s.role) ? 'Alternative supplied solution' : 'Supplied solution') + ' · ' + esc(s.file) + ' (' + s.pages.length + ' page' + (s.pages.length > 1 ? 's' : '') + ')</summary><div class="ax-inner">' + (/alternative/i.test(s.role) ? '<p class="ax-note">' + esc(s.role) + '.</p>' : '') + figures(s.pages) + '</div></details>'; });
     q.others.forEach(function (s) { h += '<details><summary>Other copy · ' + esc(s.role) + '</summary><div class="ax-inner">' + figures(s.pages) + '</div></details>'; });
     if (q.note) h += '<div class="ax-box"><h3>Source note</h3><p class="ax-note">' + esc(q.note) + '</p></div>';
-    if (!q.kit.length && !q.solutions.length && !q.answers_on_page) h += '<div class="ax-box"><h3>No solution supplied</h3><p class="ax-note">The archive has no key for this one. Use the lessons above, then check your numbers with a classmate or the TA.</p></div>';
+    if (!q.kit.length && !q.sol_md && !q.solutions.length && !q.answers_on_page) h += '<div class="ax-box"><h3>No solution supplied</h3><p class="ax-note">The archive has no key for this one. Use the lessons above, then check your numbers with a classmate or the TA.</p></div>';
     h += '<div class="ax-rnav"><button class="ax-btn" id="ax-prev">← Previous</button><button class="ax-btn" id="ax-next">Next →</button></div>';
     return h;
   }
 
   var libs = null;
   function loadScript(src) { return new Promise(function (ok, fail) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s); }); }
+  function mdToHtml(md) {
+    var math = [], plain = md.replace(/\$\$([\s\S]*?)\$\$|\$([^$\n]+?)\$/g, function (_, block, inline) {
+      var n = math.length;
+      try { math.push(katex.renderToString(block != null ? block : inline, { displayMode: block != null, throwOnError: false, strict: 'ignore' })); } catch (err) { math.push(esc(block || inline)); }
+      return 'AXMATH' + n + 'END';
+    });
+    return marked.parse(plain, { gfm: true }).replace(/AXMATH(\d+)END/g, function (_, n) { return math[+n]; });
+  }
   function renderPrompt(q) {
     if (!libs) libs = Promise.all([loadScript('assets/katex/katex.min.js'), loadScript('assets/vendor/marked.min.js')]);
     libs.then(function () {
       if (current !== q) return;
-      var math = [], plain = q.md.replace(/\$\$([\s\S]*?)\$\$|\$([^$\n]+?)\$/g, function (_, block, inline) {
-        var n = math.length;
-        try { math.push(katex.renderToString(block != null ? block : inline, { displayMode: block != null, throwOnError: false, strict: 'ignore' })); } catch (err) { math.push(esc(block || inline)); }
-        return 'AXMATH' + n + 'END';
-      });
-      $('ax-prompt').innerHTML = marked.parse(plain, { gfm: true }).replace(/AXMATH(\d+)END/g, function (_, n) { return math[+n]; });
+      $('ax-prompt').innerHTML = mdToHtml(q.md);
+      if (q.sol_md && $('ax-sol')) $('ax-sol').innerHTML = mdToHtml(q.sol_md);
     }).catch(function () { if ($('ax-prompt')) $('ax-prompt').innerHTML = '<p class="ax-note">The typed version could not load. Use the original pages below.</p>'; });
   }
 

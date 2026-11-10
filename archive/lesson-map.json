@@ -8,7 +8,6 @@
     "m1-23-1": ["ch1:l10", "ch1:l12", "ch1:l13"],
     "m1-22-1": ["ch1:l10", "ch1:l11", "ch1:l12", "ch1:l13"],
     "m1-21-1": ["ch1:l9", "ch1:l11", "ch1:l13"],
-
     "m1-24-3": ["ch2:l11", "ch2:l12", "ch2:l13", "ch2:l14"],
     "m1-23-2": ["ch2:l12", "ch2:l13", "ch2:l14", "ch3:l17"],
     "f-22-3a": ["ch2:l13", "ch2:l16"],
@@ -34,7 +33,6 @@
     "mag-solved-q2": ["ch2:l15", "ch2:l16", "ch3:l17"],
     "mag-solved-q4": ["ch2:l13", "ch2:l14"],
     "mag-solved-q5": ["ch2:l13", "ch2:l14"],
-
     "m2-24-1": ["ch3:l18", "ch3:l19"],
     "m2-24-2": ["ch3:l20", "ch3:l21"],
     "f-23-1": ["ch1:l12", "ch1:l13", "ch3:l20", "ch3:l21"],
@@ -68,7 +66,6 @@
     "rec-transformer-10kva": ["ch3:l20"],
     "rec-transformer-10mva": ["ch3:l20"],
     "transformers-two-banks": ["ch3:l21"],
-
     "f-24-2": ["ch4:l26"],
     "m2-24-3": ["ch2:l12", "ch2:l14", "ch4:l23"],
     "f-23-2": ["ch2:l11", "ch2:l14", "ch4:l22", "ch4:l24"],
@@ -116,66 +113,372 @@
     "dc-solved-speed": ["ch4:l26"],
     "dc-solved-vehicle": ["ch4:l26"],
     "m2-16-2": ["ch2:l13", "ch4:l22", "ch4:l23"],
-
     "f-24-3": ["ch4:l26", "ch5:l28"],
     "f-21-4": ["ch4:l26", "ch5:l28", "ch5:l29"]
   },
   "kit": {
-    "m1-22-1": [{"href": "ch1.html#x-mt22", "label": "Chapter I question bank · MT1 Fall 2022 Q1"}],
-    "m1-21-1": [{"href": "ch1.html#x-mt21", "label": "Chapter I question bank · MT1 Fall 2021 Q1"}],
-    "m1-14-1": [{"page": "ch2.html", "find": "Example 12.7 —"}, {"page": "ch2.html", "find": "Example 14.6 —"}],
-    "m1-21-2": [{"page": "ch2.html", "find": "Example 12.9 —"}, {"page": "ch2.html", "find": "Example 14.4 —"}],
-    "m1-15-1": [{"page": "ch2.html", "find": "Example 13.4 —"}],
-    "m1-16-1": [{"page": "ch2.html", "find": "Example 13.5 —"}, {"page": "ch4.html", "find": "Example 23.3 —"}],
-    "m1-17-1": [{"page": "ch2.html", "find": "Example 13.6 —"}, {"page": "ch2.html", "find": "Example 14.5 —"}],
-    "m1-22-2": [{"page": "ch2.html", "find": "Example 15.5 —"}],
-    "m1-19-2": [{"page": "ch2.html", "find": "Example 15.7 —"}, {"page": "ch3.html", "find": "3. MT I Fall 2019 Q2(e)"}, {"page": "ch3.html", "find": "Example 18.4 —"}],
-    "m1-21-3": [{"page": "ch3.html", "find": "Example 18.2 —"}],
-    "m1-18-2": [{"page": "ch3.html", "find": "Example 18.3 —"}],
-    "m1-22-3": [{"page": "ch3.html", "find": "Example 18.4 —"}, {"page": "ch3.html", "find": "Example 20.9 —"}],
-    "f-21-1": [{"page": "ch3.html", "find": "Example 19.3 —"}, {"page": "ch3.html", "find": "Example 21.7 —"}],
-    "m1-15-3": [{"page": "ch3.html", "find": "2. MT I Fall 2015 Q3"}, {"page": "ch3.html", "find": "Example 19.4 —"}],
-    "m1-16-3": [{"page": "ch3.html", "find": "Example 19.5 —"}, {"page": "ch3.html", "find": "Example 20.6 —"}],
-    "m1-17-3": [{"page": "ch3.html", "find": "Example 20.7 —"}],
-    "m1-18-3": [{"page": "ch3.html", "find": "Example 20.8 —"}],
-    "f-14-1": [{"page": "ch3.html", "find": "Example 21.5 —"}],
-    "f-17-1": [{"page": "ch3.html", "find": "Example 21.6 —"}],
-    "f-22-1": [{"page": "ch3.html", "find": "Example 21.8 —"}],
-    "m1-15-2": [{"page": "ch3.html", "find": "1. MT I Fall 2015 Q2"}],
-    "m1-19-3": [{"page": "ch3.html", "find": "4. MT I Fall 2019 Q3"}],
-    "f-16-1": [{"page": "ch3.html", "find": "5. Final Fall 2016 Q1"}],
-    "f-17-2a": [{"page": "ch3.html", "find": "6. Final Fall 2017 Q2 Part I"}],
-    "rec-core-vf": [{"page": "ch3.html", "find": "7.1 V/f-constant excitation"}],
-    "rec-transformer-10kva": [{"page": "ch3.html", "find": "7.2 10 kVA"}],
-    "rec-transformer-10mva": [{"page": "ch3.html", "find": "7.3 10 MVA"}],
-    "hw-14-magnetic-1": [{"page": "ch3.html", "find": "7.4 Homework 1"}],
-    "f-21-2": [{"page": "ch4.html", "find": "Example 23.6 —"}],
-    "f-14-2": [{"page": "ch4.html", "find": "Example 24.3 —"}],
-    "f-18-1": [{"page": "ch4.html", "find": "Example 24.4 —"}],
-    "f-15-2": [{"page": "ch4.html", "find": "Example 24.5 —"}],
-    "f-21-3": [{"page": "ch4.html", "find": "Example 25.4 —"}, {"page": "ch4.html", "find": "11. Jan 2022 Final Q3 Part II"}],
-    "f-14-3": [{"page": "ch4.html", "find": "Example 26.2 —"}],
-    "f-18-2": [{"page": "ch4.html", "find": "Example 26.5 —"}],
-    "f-14-4": [{"page": "ch4.html", "find": "Example 26.6 —"}],
-    "f-15-4": [{"page": "ch4.html", "find": "Example 26.7 —"}],
-    "f-15-3": [{"page": "ch4.html", "find": "Example 26.8 —"}],
-    "f-17-2b": [{"page": "ch4.html", "find": "1. Final Fall 2017 Q2 Part II"}],
-    "f-17-3": [{"page": "ch4.html", "find": "2. Final Fall 2017 Q3"}],
-    "f-17-4": [{"page": "ch4.html", "find": "3. Final Fall 2017 Q4"}],
-    "f-16-4": [{"page": "ch4.html", "find": "4. Final Fall 2016 Q4"}],
-    "f-18-3": [{"page": "ch4.html", "find": "5. Final Fall 2018 Q3"}],
-    "f-16-3": [{"page": "ch4.html", "find": "6. Final Fall 2016 Q3"}],
-    "f-18-4": [{"page": "ch4.html", "find": "7. Final Fall 2018 Q4"}],
-    "f-22-2": [{"page": "ch4.html", "find": "8. Jan 2023 Final Q2"}],
-    "f-22-3a": [{"page": "ch4.html", "find": "9. Jan 2023 Final Q3"}],
-    "f-22-3b": [{"page": "ch4.html", "find": "9. Jan 2023 Final Q3"}],
-    "f-22-4": [{"page": "ch4.html", "find": "10. Jan 2023 Final Q4"}, {"page": "ch5.html", "find": "Example 28.5 —"}],
-    "f-19-4": [{"page": "ch5.html", "find": "Example 28.4 —"}],
-    "f-21-4": [{"page": "ch5.html", "find": "Example 28.6 —"}, {"page": "ch5.html", "find": "Example 29.3 —"}]
+    "m1-22-1": [
+      {
+        "href": "ch1.html#x-mt22",
+        "label": "Chapter I question bank · MT1 Fall 2022 Q1"
+      }
+    ],
+    "m1-21-1": [
+      {
+        "href": "ch1.html#x-mt21",
+        "label": "Chapter I question bank · MT1 Fall 2021 Q1"
+      }
+    ],
+    "m1-14-1": [
+      {
+        "page": "ch2.html",
+        "find": "Example 12.7 —"
+      },
+      {
+        "page": "ch2.html",
+        "find": "Example 14.6 —"
+      }
+    ],
+    "m1-21-2": [
+      {
+        "page": "ch2.html",
+        "find": "Example 12.9 —"
+      },
+      {
+        "page": "ch2.html",
+        "find": "Example 14.4 —"
+      }
+    ],
+    "m1-15-1": [
+      {
+        "page": "ch2.html",
+        "find": "Example 13.4 —"
+      }
+    ],
+    "m1-16-1": [
+      {
+        "page": "ch2.html",
+        "find": "Example 13.5 —"
+      },
+      {
+        "page": "ch4.html",
+        "find": "Example 23.3 —"
+      }
+    ],
+    "m1-17-1": [
+      {
+        "page": "ch2.html",
+        "find": "Example 13.6 —"
+      },
+      {
+        "page": "ch2.html",
+        "find": "Example 14.5 —"
+      }
+    ],
+    "m1-22-2": [
+      {
+        "page": "ch2.html",
+        "find": "Example 15.5 —"
+      }
+    ],
+    "m1-19-2": [
+      {
+        "page": "ch2.html",
+        "find": "Example 15.7 —"
+      },
+      {
+        "page": "ch3.html",
+        "find": "3. MT I Fall 2019 Q2(e)"
+      },
+      {
+        "page": "ch3.html",
+        "find": "Example 18.4 —"
+      }
+    ],
+    "m1-21-3": [
+      {
+        "page": "ch3.html",
+        "find": "Example 18.2 —"
+      }
+    ],
+    "m1-18-2": [
+      {
+        "page": "ch3.html",
+        "find": "Example 18.3 —"
+      }
+    ],
+    "m1-22-3": [
+      {
+        "page": "ch3.html",
+        "find": "Example 18.4 —"
+      },
+      {
+        "page": "ch3.html",
+        "find": "Example 20.9 —"
+      }
+    ],
+    "f-21-1": [
+      {
+        "page": "ch3.html",
+        "find": "Example 19.3 —"
+      },
+      {
+        "page": "ch3.html",
+        "find": "Example 21.7 —"
+      }
+    ],
+    "m1-15-3": [
+      {
+        "page": "ch3.html",
+        "find": "2. MT I Fall 2015 Q3"
+      },
+      {
+        "page": "ch3.html",
+        "find": "Example 19.4 —"
+      }
+    ],
+    "m1-16-3": [
+      {
+        "page": "ch3.html",
+        "find": "Example 19.5 —"
+      },
+      {
+        "page": "ch3.html",
+        "find": "Example 20.6 —"
+      }
+    ],
+    "m1-17-3": [
+      {
+        "page": "ch3.html",
+        "find": "Example 20.7 —"
+      }
+    ],
+    "m1-18-3": [
+      {
+        "page": "ch3.html",
+        "find": "Example 20.8 —"
+      }
+    ],
+    "f-14-1": [
+      {
+        "page": "ch3.html",
+        "find": "Example 21.5 —"
+      }
+    ],
+    "f-17-1": [
+      {
+        "page": "ch3.html",
+        "find": "Example 21.6 —"
+      }
+    ],
+    "f-22-1": [
+      {
+        "page": "ch3.html",
+        "find": "Example 21.8 —"
+      }
+    ],
+    "m1-15-2": [
+      {
+        "page": "ch3.html",
+        "find": "1. MT I Fall 2015 Q2"
+      }
+    ],
+    "m1-19-3": [
+      {
+        "page": "ch3.html",
+        "find": "4. MT I Fall 2019 Q3"
+      }
+    ],
+    "f-16-1": [
+      {
+        "page": "ch3.html",
+        "find": "5. Final Fall 2016 Q1"
+      }
+    ],
+    "f-17-2a": [
+      {
+        "page": "ch3.html",
+        "find": "6. Final Fall 2017 Q2 Part I"
+      }
+    ],
+    "rec-core-vf": [
+      {
+        "page": "ch3.html",
+        "find": "7.1 V/f-constant excitation"
+      }
+    ],
+    "rec-transformer-10kva": [
+      {
+        "page": "ch3.html",
+        "find": "7.2 10 kVA"
+      }
+    ],
+    "rec-transformer-10mva": [
+      {
+        "page": "ch3.html",
+        "find": "7.3 10 MVA"
+      }
+    ],
+    "hw-14-magnetic-1": [
+      {
+        "page": "ch3.html",
+        "find": "7.4 Homework 1"
+      }
+    ],
+    "f-21-2": [
+      {
+        "page": "ch4.html",
+        "find": "Example 23.6 —"
+      }
+    ],
+    "f-14-2": [
+      {
+        "page": "ch4.html",
+        "find": "Example 24.3 —"
+      }
+    ],
+    "f-18-1": [
+      {
+        "page": "ch4.html",
+        "find": "Example 24.4 —"
+      }
+    ],
+    "f-15-2": [
+      {
+        "page": "ch4.html",
+        "find": "Example 24.5 —"
+      }
+    ],
+    "f-21-3": [
+      {
+        "page": "ch4.html",
+        "find": "Example 25.4 —"
+      },
+      {
+        "page": "ch4.html",
+        "find": "11. Jan 2022 Final Q3 Part II"
+      }
+    ],
+    "f-14-3": [
+      {
+        "page": "ch4.html",
+        "find": "Example 26.2 —"
+      }
+    ],
+    "f-18-2": [
+      {
+        "page": "ch4.html",
+        "find": "Example 26.5 —"
+      }
+    ],
+    "f-14-4": [
+      {
+        "page": "ch4.html",
+        "find": "Example 26.6 —"
+      }
+    ],
+    "f-15-4": [
+      {
+        "page": "ch4.html",
+        "find": "Example 26.7 —"
+      }
+    ],
+    "f-15-3": [
+      {
+        "page": "ch4.html",
+        "find": "Example 26.8 —"
+      }
+    ],
+    "f-17-2b": [
+      {
+        "page": "ch4.html",
+        "find": "1. Final Fall 2017 Q2 Part II"
+      }
+    ],
+    "f-17-3": [
+      {
+        "page": "ch4.html",
+        "find": "2. Final Fall 2017 Q3"
+      }
+    ],
+    "f-17-4": [
+      {
+        "page": "ch4.html",
+        "find": "3. Final Fall 2017 Q4"
+      }
+    ],
+    "f-16-4": [
+      {
+        "page": "ch4.html",
+        "find": "4. Final Fall 2016 Q4"
+      }
+    ],
+    "f-18-3": [
+      {
+        "page": "ch4.html",
+        "find": "5. Final Fall 2018 Q3"
+      }
+    ],
+    "f-16-3": [
+      {
+        "page": "ch4.html",
+        "find": "6. Final Fall 2016 Q3"
+      }
+    ],
+    "f-18-4": [
+      {
+        "page": "ch4.html",
+        "find": "7. Final Fall 2018 Q4"
+      }
+    ],
+    "f-22-2": [
+      {
+        "page": "ch4.html",
+        "find": "8. Jan 2023 Final Q2"
+      }
+    ],
+    "f-22-3a": [
+      {
+        "page": "ch4.html",
+        "find": "9. Jan 2023 Final Q3"
+      }
+    ],
+    "f-22-3b": [
+      {
+        "page": "ch4.html",
+        "find": "9. Jan 2023 Final Q3"
+      }
+    ],
+    "f-22-4": [
+      {
+        "page": "ch4.html",
+        "find": "10. Jan 2023 Final Q4"
+      },
+      {
+        "page": "ch5.html",
+        "find": "Example 28.5 —"
+      }
+    ],
+    "f-19-4": [
+      {
+        "page": "ch5.html",
+        "find": "Example 28.4 —"
+      }
+    ],
+    "f-21-4": [
+      {
+        "page": "ch5.html",
+        "find": "Example 28.6 —"
+      },
+      {
+        "page": "ch5.html",
+        "find": "Example 29.3 —"
+      }
+    ]
   },
   "routes": {
-    "ch1": ["m1-21-1", "m1-22-1", "m1-23-1", "m1-24-2", "m1-24-1", "f-24-1"],
-    "ch2": ["m1-15-1", "m1-17-1", "m1-14-1", "m1-24-3", "m1-23-2", "m1-22-2", "m1-19-2", "m1-15-2"],
+    "ch1": ["kit-ch1-samples", "m1-21-1", "m1-22-1", "m1-23-1", "m1-24-2", "m1-24-1", "f-24-1"],
+    "ch2": ["ch2-ex1", "ch2-ex2", "ch2-ex3", "m1-15-1", "m1-17-1", "m1-14-1", "m1-24-3", "m1-23-2", "m1-22-2", "m1-19-2", "m1-15-2"],
     "ch3": ["m1-21-3", "f-21-1", "m1-16-3", "m1-23-3", "m2-24-1", "m2-23-2", "m2-24-2", "f-23-1"],
     "ch4": ["m1-16-1", "m2-23-3", "m2-24-3", "f-14-2", "m2-19-3", "f-21-3", "f-17-3", "f-14-4", "f-24-2"],
     "ch5": ["f-21-4", "f-22-4", "f-19-4", "f-24-3", "f-23-3"]
@@ -191,7 +494,12 @@
       "reason": "This term's own Quiz 1 (23 Oct 2026), solved in the kit with the official key.",
       "chapters": ["ch1"],
       "lessons": ["ch1:l1", "ch1:l3", "ch1:l4", "ch1:l5", "ch1:l6", "ch1:l10", "ch1:l11", "ch1:l12", "ch1:l13"],
-      "kit": [{"href": "ch1.html#x-quiz26", "label": "Chapter I question bank · Quiz 1 Fall 2026"}]
+      "kit": [
+        {
+          "href": "ch1.html#x-quiz26",
+          "label": "Chapter I question bank · Quiz 1 Fall 2026"
+        }
+      ]
     },
     {
       "id": "kit-mt1-2025-q1-q3",
@@ -203,7 +511,12 @@
       "reason": "Last year's Midterm 1 power-systems questions, printed as on the paper and solved in the kit.",
       "chapters": ["ch1"],
       "lessons": ["ch1:l2", "ch1:l5", "ch1:l7", "ch1:l10", "ch1:l11", "ch1:l12", "ch1:l13"],
-      "kit": [{"href": "ch1.html#x-mt25", "label": "Chapter I question bank · MT1 Fall 2025 Q1–Q3"}]
+      "kit": [
+        {
+          "href": "ch1.html#x-mt25",
+          "label": "Chapter I question bank · MT1 Fall 2025 Q1–Q3"
+        }
+      ]
     },
     {
       "id": "kit-mt1-2025-q4",
@@ -216,25 +529,102 @@
       "chapters": ["ch2", "ch3"],
       "lessons": ["ch2:l12", "ch2:l14", "ch2:l15", "ch2:l16", "ch3:l17"],
       "kit": [
-        {"page": "ch2.html", "find": "Example 12.8 —"},
-        {"page": "ch2.html", "find": "Example 14.2 —"},
-        {"page": "ch2.html", "find": "Example 15.3 —"},
-        {"page": "ch2.html", "find": "Example 15.4 —"},
-        {"page": "ch2.html", "find": "Example 16.7 —"},
-        {"page": "ch3.html", "find": "Example 17.7 —"}
+        {
+          "page": "ch2.html",
+          "find": "Example 12.8 —"
+        },
+        {
+          "page": "ch2.html",
+          "find": "Example 14.2 —"
+        },
+        {
+          "page": "ch2.html",
+          "find": "Example 15.3 —"
+        },
+        {
+          "page": "ch2.html",
+          "find": "Example 15.4 —"
+        },
+        {
+          "page": "ch2.html",
+          "find": "Example 16.7 —"
+        },
+        {
+          "page": "ch3.html",
+          "find": "Example 17.7 —"
+        }
       ]
     },
     {
       "id": "kit-ch1-samples",
-      "group": "Practice",
-      "kind": "Supplementary",
+      "group": "Problems",
+      "kind": "Problem set",
       "year": 2026,
-      "source_label": "Chapter 1 sample problems · Fall 2026",
+      "source_label": "Chapter 1 problems · Fall 2026",
       "title": "Reactive-power limits at a PCC and two generators",
       "reason": "The two Chapter 1 problems posted on ODTUClass this term, with the official solutions recomputed.",
       "chapters": ["ch1"],
       "lessons": ["ch1:l5", "ch1:l12", "ch1:l13"],
-      "kit": [{"href": "ch1.html#x-ch1", "label": "Chapter I question bank · Chapter 1 sample problems"}]
+      "kit": [
+        {
+          "href": "ch1.html#x-ch1",
+          "label": "Chapter I question bank · Chapter 1 sample problems"
+        }
+      ]
+    },
+    {
+      "id": "ch2-ex1",
+      "group": "Problems",
+      "kind": "Problem set",
+      "year": 2026,
+      "source_label": "Chapter 2 problems · Example 1",
+      "title": "Three coils and an air gap on a nonlinear core",
+      "reason": "This term's own Chapter 2 problem: MMF law with aiding and opposing coils, a piecewise B–H curve and a gap.",
+      "chapters": ["ch2"],
+      "lessons": ["ch2:l11", "ch2:l12", "ch2:l13"],
+      "kit": [],
+      "md_file": "archive/sets/ch2-ex1.md",
+      "note": "From “Chapter 2 Problems and Solutions v2” (EE362_Examples_Chapter2_v2.pdf) on ODTUClass. The figure is only in the PDF; the data it carries are written out under the question.",
+      "link": {
+        "href": "https://odtuclass2026f.metu.edu.tr/course/view.php?id=5003",
+        "label": "Open the PDF on ODTUClass (Course Material)"
+      }
+    },
+    {
+      "id": "ch2-ex2",
+      "group": "Problems",
+      "kind": "Problem set",
+      "year": 2026,
+      "source_label": "Chapter 2 problems · Example 2",
+      "title": "Three parallel gaps: how a series voltage splits between two coils",
+      "reason": "This term's own Chapter 2 problem: parallel reluctances, flux linkage and Faraday's law with coils in series.",
+      "chapters": ["ch2"],
+      "lessons": ["ch2:l13", "ch2:l14", "ch2:l15"],
+      "kit": [],
+      "md_file": "archive/sets/ch2-ex2.md",
+      "note": "From “Chapter 2 Problems and Solutions v2” (EE362_Examples_Chapter2_v2.pdf) on ODTUClass. The figure is only in the PDF; the data it carries are written out under the question.",
+      "link": {
+        "href": "https://odtuclass2026f.metu.edu.tr/course/view.php?id=5003",
+        "label": "Open the PDF on ODTUClass (Course Material)"
+      }
+    },
+    {
+      "id": "ch2-ex3",
+      "group": "Problems",
+      "kind": "Problem set",
+      "year": 2026,
+      "source_label": "Chapter 2 problems · Example 3",
+      "title": "Three parallel gaps: flux densities, L11, L22 and a negative M",
+      "reason": "This term's own Chapter 2 problem: the full coupled-coil version of Example 2, with self and mutual inductance.",
+      "chapters": ["ch2"],
+      "lessons": ["ch2:l12", "ch2:l13", "ch2:l14", "ch2:l15"],
+      "kit": [],
+      "md_file": "archive/sets/ch2-ex3.md",
+      "note": "From “Chapter 2 Problems and Solutions v2” (EE362_Examples_Chapter2_v2.pdf) on ODTUClass. The figure is only in the PDF; the data it carries are written out under the question.",
+      "link": {
+        "href": "https://odtuclass2026f.metu.edu.tr/course/view.php?id=5003",
+        "label": "Open the PDF on ODTUClass (Course Material)"
+      }
     }
   ]
 }
