@@ -19,11 +19,20 @@
     a.innerHTML = '<span class="dot">✎</span><span>Past exams archive</span>';
     if (after) after.after(a); else nav.appendChild(a);
   });
+  // mt1 practice entry, right after the archive
+  document.querySelectorAll('.coursenav').forEach(function (nav) {
+    if (nav.querySelector('a[href="mt1.html"]')) return;
+    var after = nav.querySelector('a[href="archive.html"]');
+    var a = document.createElement('a'); a.className = 'cnav'; a.href = 'mt1.html';
+    a.innerHTML = '<span class="dot">M</span><span>MT1 practice</span>';
+    if (after) after.after(a); else nav.appendChild(a);
+  });
   var sel = document.getElementById('topsel');
-  if (sel && !sel.querySelector('option[value="url:archive.html"]')) {
-    var o = document.createElement('option'); o.value = 'url:archive.html'; o.textContent = '→ Past exams archive';
+  [['archive.html', 'Past exams archive'], ['mt1.html', 'MT1 practice']].forEach(function (p) {
+    if (!sel || sel.querySelector('option[value="url:' + p[0] + '"]')) return;
+    var o = document.createElement('option'); o.value = 'url:' + p[0]; o.textContent = '→ ' + p[1];
     var og = sel.querySelector('optgroup[label="Whole course"]'); (og || sel).appendChild(o);
-  }
+  });
 
   function item(q) {
     return '<li class="' + (status[q[0]] === 'solved' ? 'done' : '') + '"><a href="archive.html?q=' + encodeURIComponent(q[0]) + '"><span class="s">' + esc(q[1]) + '</span><span>' + esc(q[2]) + '</span>' + (q[3] ? '<span class="k">worked in kit</span>' : '') + '</a></li>';
@@ -72,6 +81,19 @@
       var a = document.createElement('a'); a.href = 'archive.html';
       a.innerHTML = '<span class="k">Past exams</span><b>Past exams archive</b><small>All ' + X.total + ' archive questions (2014–2026) sorted by chapter and lesson, with original pages, supplied solutions and solved / review marks.</small>';
       var q = g.querySelector('a[href="questions.html"]'); if (q) q.after(a); else g.appendChild(a);
+    }
+    if (g && !g.querySelector('a[href="mt1.html"]')) {
+      var m = document.createElement('a'); m.href = 'mt1.html';
+      m.innerHTML = '<span class="k">Exam prep</span><b>MT1 practice</b><small>13 past exam questions on AC power, magnetic circuits and single-phase transformers, each with a full solution.</small>';
+      var ar = g.querySelector('a[href="archive.html"]'); if (ar) ar.after(m); else g.appendChild(m);
+    }
+  }
+  if (file === 'archive.html') {
+    var ap = document.querySelector('.page[data-page="home"]'), al = ap && ap.querySelector('.lede');
+    if (al) {
+      var mb = document.createElement('div'); mb.className = 'ax-banner';
+      mb.innerHTML = '<span><b>MT1 on Monday 23 November:</b> 13 chosen questions in its scope, with full solutions.</span><a href="mt1.html">MT1 practice →</a>';
+      al.after(mb);
     }
   }
   if (file === 'questions.html') {

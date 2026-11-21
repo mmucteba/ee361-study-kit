@@ -36,6 +36,19 @@ python3 scripts/verify-studio.py
 
 The builder copies only the page images it uses into `archive/`, regenerates `archive.html` from `questions.html` so the menus match, and adds one head block to each page. Lesson bodies are not edited; the practice boxes and menu entry are added by `assets/archive-links.js`. Supplied keys are shown as printed and were not re-checked.
 
+## MT1 practice
+
+`mt1.html` is a practice set for Midterm 1 (Chapter I, Chapter II and single-phase transformers): 13 questions in three parts that match the three exam questions, each with its full worked solution folded underneath. The questions and solutions are plain markdown in `mt1/questions.md` and `mt1/solutions.md`, with figures in `mt1/img/`. After editing them, run:
+
+```
+python3 scripts/build-mt1.py
+python3 scripts/build-archive.py --catalog ../EE361/assistant/question-bank/past-exams-2026
+```
+
+The first command renders the page to static HTML with the kit's own marked and KaTeX (`scripts/render-md.js`, needs node and Pillow); the second refreshes the head blocks. The menu entry, the home card and the archive banner come from `assets/archive-links.js`.
+
+## Pages
+
 | Page | Contents |
 | --- | --- |
 | `index.html` | Course home: all chapters with progress, "continue" link, printable PDFs |
@@ -47,6 +60,7 @@ The builder copies only the page images it uses into `archive/`, regenerates `ar
 | `tools.html` | Interactive tools: magnetic circuit with air gap, transformer loading, force and torque, DC machine and starter, buck/boost converters, diode rectifiers |
 | `questions.html` | Every solved exam and textbook question of the course, with links |
 | `archive.html` | All 118 past exam questions by chapter and lesson, with original pages and supplied solutions |
+| `mt1.html` | MT1 practice: 13 questions in the exam's scope with full solutions |
 | `reference.html` | Formula summaries and one English–Turkish glossary for the whole course |
 | `pdf/` | Printable PDFs of Chapters II–V |
 
